@@ -13,6 +13,7 @@ class ErrorController extends Zend_Controller_Action {
 		
 		$errors = $this->_getParam('error_handler');
 		
+	        
 		switch ($errors->type) {
 			 
 			case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_CONTROLLER:
@@ -31,12 +32,11 @@ class ErrorController extends Zend_Controller_Action {
 				break;
 				
 		}
-		
-        $this->view->env = APPLICATION_ENV;
+	
+		$this->view->env = APPLICATION_ENV;
 		$this->view->exception = $errors->exception;
 		$this->view->request   = $errors->request;
-		$this->view->title = 'Objevila se chyba';
-		$this->view->showDetails = ini_get('display_errors');
+		$this->view->assign('title', 'Objevila se chyba');
 		
 		$this->_helper->layout->setLayout('error');
 		

@@ -1,0 +1,12 @@
+
+    <div class="jumbotron">
+        <h1><?php echo $this->escape($this->title); ?></h1>
+    </div>
+
+<div class="product">
+	
+	<p>cena: <span class="price"><?php echo $this->escape($this->product->printPrice()); ?></span></p>
+	
+	<p><?php echo $this->escape($this->product->getDescription()); ?></p>
+
+</div>

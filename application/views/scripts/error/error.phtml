@@ -1,18 +1,9 @@
 
-<?php
-
-/**
-// nastaveni layouty chyby
-$this->layout()->setLayout('error');
-*/
-
-?>
-
 <h1><?php echo $this->escape($this->title); ?></h1>
 
-<h2><?php echo $this->message ?></h2> 
+<h2><?php echo $this->escape($this->message); ?></h2> 
 
-<?php if ($this->showDetails): ?> 
+<?php if ('development' == $this->env): ?> 
 <h3>Informace o výjimce:</h3> 
 <p>
 	<b>Zpráva:</b> <?php echo $this->exception->getMessage(); ?> 

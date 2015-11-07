@@ -25,3 +25,4 @@ $application = new Zend_Application(
 $application->bootstrap();
 $application->run();
 
+?>
