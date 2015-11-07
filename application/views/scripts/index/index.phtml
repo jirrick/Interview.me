@@ -1,0 +1,15 @@
+
+<div class="jumbotron">
+  <h1><?php echo $this->escape($this->title); ?></h1>
+</div>
+
+<?php if (count($this->names) > 0) { ?>
+    <div class="names">
+    	<h3>Členové týmu</h3>
+    	<?php foreach ($this->names as $name) { ?>
+            <?php echo $this->escape($name->getName()); ?><br>
+    	<?php } ?>
+    </div>
+<?php } else { ?>
+    <p>Žádný řádek v testovací tabulce.</p>
+<?php } ?>
