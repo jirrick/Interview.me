@@ -7,7 +7,7 @@
     </h1>
     <ol class="breadcrumb">
       <li><a href="index.php"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="candidate">Kandidáti</a></li>
+      <li><a href="index.php">Kandidáti</a></li>
       <li class="active"><?php echo $this->escape($this->title); ?></li>
     </ol>
   </section>
@@ -55,7 +55,15 @@
 
                   <div class="form-group">
                     <label>Technológie</label>
-                    <input type="text" class="form-control" placeholder="Enter ...">
+                    <select multiple class="form-control">
+                      <option>.NET</option>
+                      <option>PHP</option>
+                      <option>Delphi</option>
+                      <option>Git</option>
+                      <option>Office</option>
+                      <option>HTML</option>
+                      <option>CSS</option>
+                    </select>
                   </div>
 
                   <div class="form-group">

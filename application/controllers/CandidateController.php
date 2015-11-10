@@ -6,12 +6,6 @@ class CandidateController extends Zend_Controller_Action {
 		
 	}
 
-	public function indexAction() {
-		
-		$this->view->title = 'Seznam kandidatů';
-
-	}
-
 	public function editAction() {
 		
 		$this->view->title = 'Editace kandidáta';
