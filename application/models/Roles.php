@@ -1,24 +1,24 @@
 <?php
 
 /**
- * Trida reprezentujici seznam vyrobcu produktu
+ * Trida reprezentujici seznam roli uzivatelu
  *
  */
-class Names extends My_Db_Table  {
+class Roles extends My_Db_Table  {
 
 	/**
      * Nazev databazove tabulky
      *
      * @var string
      */
-    protected $_name = 'names';
+    protected $_name = 'role';
     
     /**
      * Nazev tridy predstavujici jeden zaznam
      *
      * @var string
      */
-    protected $_rowClass = 'Name';	
+    protected $_rowClass = 'Role';	
 
 
 }
