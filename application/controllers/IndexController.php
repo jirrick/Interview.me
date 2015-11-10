@@ -8,7 +8,7 @@ class IndexController extends Zend_Controller_Action {
 
 	public function indexAction() {
 		
-		$this->view->title = 'Seznam testů';
+		$this->view->title = 'Seznam kandidatů';
 
 	}
 
