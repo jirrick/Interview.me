@@ -12,12 +12,6 @@ class IndexController extends Zend_Controller_Action {
 
 	}
 
-	public function aboutAction() {
-		
-		$this->view->title = 'About';
-
-	}
-	
 }
 
 ?>

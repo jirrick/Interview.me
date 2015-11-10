@@ -1,4 +1,4 @@
-Content Wrapper. Contains page content -->
+<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
@@ -8,7 +8,7 @@ Content Wrapper. Contains page content -->
     </h1>
     <ol class="breadcrumb">
       <li><a href="index.php"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="test">Testy</a></li>
+      <li><a href="question">Otázky</a></li>
       <li class="active"><?php echo $this->escape($this->title); ?></li>
     </ol>
   </section>
@@ -30,34 +30,23 @@ Content Wrapper. Contains page content -->
             <div class="row">
               <div class="col-xs-6">
                  <div class="form-group">
-                  <label>Název</label>
+                  <label>Otázka</label>
                   <input type="text" class="form-control" placeholder="Enter ...">
                 </div>
                 <div class="form-group">
-                  <label>Kategorie</label>
+                  <label>Typ</label>
                   <select class="form-control">
-                    <option>Programování</option>
-                    <option>Administrativa</option>
-                    <option>Fyzika</option>
-                  </select><br/>
-                  <input type="text" class="form-control" placeholder="Nová ...">
+                    <option>Checkbox - ABC</option>
+                    <option>Text - Jednoslovní/Věta</option>
+                    <option>Textarea - Více textu</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Správna odpověd (podle odpovědi)</label>
+                  <input type="text" class="form-control" placeholder="Enter ...">
                 </div>
               </div>
-            </div>   
-          </div><!-- /.box-body -->
-
-          <div class="box-header with-border">
-            <h3 class="box-title">Otázky</h3>
-          </div><!-- /.box-header -->
-
-          <div class="box-body">
-            <!-- text input -->
-            <div class="row">
-              <div class="col-xs-6">
-                
-                
-
-              </div>
+              <button type="submit" class="btn btn-success btn-md">Uložit</button>
             </div>   
           </div><!-- /.box-body -->
 
@@ -67,4 +56,4 @@ Content Wrapper. Contains page content -->
     </div><!-- /.row (main row) -->
 
   </section><!-- /.content -->
-</div><!-- /.content-wrapper
+</div><!-- /.content-wrapper -->

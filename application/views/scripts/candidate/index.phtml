@@ -20,8 +20,7 @@
       <div class="col-xs-12">
         <div class="box">
           <div class="box-header">
-            <button type="submit" class="btn btn-warning">Vygenerovat test vybraným kandidátům</button>
-            <button type="submit" class="btn btn-success">Přidat nového kandidáta</button>
+            <a href="candidate-edit"><button type="submit" class="btn btn-success">Přidat nového kandidáta</button></a>
             <div class="box-tools">
               <div class="input-group" style="width: 150px;">
                 <input type="text" name="table_search" class="form-control input-sm pull-right" placeholder="Hledat">
@@ -34,54 +33,60 @@
           <div class="box-body table-responsive no-padding">
             <table class="table table-hover">
               <tr>
-                <th>#</th>
                 <th>ID</th>
-                <th>Meno</th>
-                <th>E-mail</th>
-                <th>Pozice</th>
+                <th>Jméno</th>
+                <th>Příjmení</th>
+                <th>Dátum pohovoru</th>
+                <th>Technológie</th>
+                <th>Výsledek testu</th>
                 <th>Akce</th>
               </tr>
               <tr>
-                <td><input type="checkbox"></td>
                 <td>28</td>
-                <td>Juraj Kostráb</td>
-                <td>juraj.kostrab@seznam.cz</td>
-                <td>Programátor</td>
+                <td>Juraj</td>
+                <td>Kostráb</td>
+                <td>12-9-2014</td>
+                <td>-</td>
+                <td>-</td>
                 <td>
-                  <button type="submit" class="btn btn-success btn-sm">Upravit</button>
+                  <a href="candidate-detail"><button type="button" class="btn btn-success btn-sm">Detail</button></a>
+                  <button type="submit" class="btn btn-danger btn-sm">Smazat</button>
+
+                </td>
+              </tr>
+              <tr>
+                <td>32</td>
+                <td>Alena</td>
+                <td>Farakašová</td>
+                <td>12-9-2014</td>
+                <td>-</td>
+                <td>-</td>
+                <td>
+                  <button type="submit" class="btn btn-success btn-sm">Detail</button>
                   <button type="submit" class="btn btn-danger btn-sm">Smazat</button>
                 </td>
               </tr>
               <tr>
-                <td><input type="checkbox"></td>
-                <td>8</td>
-                <td>Alena Farakašová</td>
-                <td>ale.fare@gmail.com</td>
-                <td>Administrativa</td>
+                <td>38</td>
+                <td>Zuzana</td>
+                <td>Kollárová</td>
+                <td>12-9-2014</td>
+                <td>-</td>
+                <td>-</td>
                 <td>
-                  <button type="submit" class="btn btn-success btn-sm">Upravit</button>
+                  <button type="submit" class="btn btn-success btn-sm">Detail</button>
                   <button type="submit" class="btn btn-danger btn-sm">Smazat</button>
                 </td>
               </tr>
               <tr>
-                <td><input type="checkbox"></td>
-                <td>54</td>
-                <td>Zuzana Kollárová</td>
-                <td>z.kollarova@gmail.com</td>
-                <td>Administrativa</td>
+                <td>38</td>
+                <td>Milan</td>
+                <td>Nový</td>
+                <td>12-9-2014</td>
+                <td>-</td>
+                <td>-</td>
                 <td>
-                  <button type="submit" class="btn btn-success btn-sm">Upravit</button>
-                  <button type="submit" class="btn btn-danger btn-sm">Smazat</button>
-                </td>
-              </tr>
-              <tr>
-                <td><input type="checkbox"></td>
-                <td>11</td>
-                <td>Milan Nový</td>
-                <td>novymilan@zoznam.sk</td>
-                <td>Programátor</td>
-                <td>
-                  <button type="submit" class="btn btn-success btn-sm">Upravit</button>
+                  <button type="submit" class="btn btn-success btn-sm">Detail</button>
                   <button type="submit" class="btn btn-danger btn-sm">Smazat</button>
                 </td>
               </tr>

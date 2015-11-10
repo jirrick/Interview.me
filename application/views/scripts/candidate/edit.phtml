@@ -30,14 +30,24 @@
               <div class="row">
                 <div class="col-xs-6">
                    <div class="form-group">
-                    <label>Meno</label>
+                    <label>Jméno</label>
+                    <input type="text" class="form-control" placeholder="Enter ...">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Příjmení</label>
                     <input type="text" class="form-control" placeholder="Enter ...">
                   </div>
                   
                   <div class="form-group">
-                    <label>E-mail</label>
-                    <input type="text" class="form-control" placeholder="Enter ...">
-                  </div>
+                    <label>Rok narození</label>
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <input type="text" class="form-control" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask>
+                    </div><!-- /.input group -->
+                  </div><!-- /.form group -->
 
                   <div class="form-group">
                     <label>Pozice</label>
@@ -45,10 +55,25 @@
                   </div>
 
                   <div class="form-group">
+                    <label>Technológie</label>
+                    <input type="text" class="form-control" placeholder="Enter ...">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Seniorita</label>
+                    <select class="form-control select2" data-placeholder="Seniorita...">
+                      <option>Junior</option>
+                      <option>Middle</option>
+                      <option>Senior</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
                     <label>Ďalší informace</label>
                     <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
                   </div>
 
+                  <button type="submit" class="btn btn-success btn-md">Uložit</button>
                 </div>
               </div>   
             </div><!-- /.box-body -->

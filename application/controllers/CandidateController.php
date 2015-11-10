@@ -18,6 +18,13 @@ class CandidateController extends Zend_Controller_Action {
 		// rovnaka akcia pre new aj pre edit, title sa zmeni ak pojde o new, tak ako na cviku
 
 	}
+
+	public function detailAction() {
+		
+		$this->view->title = 'Detail kandidáta';
+		// rovnaka akcia pre new aj pre edit, title sa zmeni ak pojde o new, tak ako na cviku
+
+	}
 	
 }
 

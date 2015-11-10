@@ -121,11 +121,19 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         );
 
         $router->addRoute(
-                'about',
-                new Zend_Controller_Router_Route('about',
-                        array('controller' => 'index',
-                            'action' => 'about'))
+                'candidateDetail',
+                new Zend_Controller_Router_Route('candidate-detail',
+                        array('controller' => 'candidate',
+                            'action' => 'detail'))
         );
+
+        $router->addRoute(
+                'questionEdit',
+                new Zend_Controller_Router_Route('question-edit',
+                        array('controller' => 'question',
+                            'action' => 'edit'))
+        );
+
 
     }
 
