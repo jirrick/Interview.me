@@ -18,3 +18,10 @@ temp/
 # Legacy ZF1
 demos/
 extras/documentation
+
+# Zend Library
+/library/Zend/
+
+# Netbeans project
+/nbproject/private/
+nbproject/
