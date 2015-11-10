@@ -8,7 +8,7 @@ class CandidateController extends Zend_Controller_Action {
 
 	public function indexAction() {
 		
-		$this->view->title = 'Seznam kandidátů';
+		$this->view->title = 'Seznam kandidatů';
 
 	}
 
