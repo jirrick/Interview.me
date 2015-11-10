@@ -100,17 +100,33 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $router = $frontController->getRouter();
 
         $router->addRoute(
-                'aboutUs',
-                new Zend_Controller_Router_Route('o-nas',
+                'testEdit',
+                new Zend_Controller_Router_Route('test-edit',
+                        array('controller' => 'test',
+                            'action' => 'edit'))
+        );
+
+        $router->addRoute(
+                'testResult',
+                new Zend_Controller_Router_Route('test-result',
+                        array('controller' => 'test',
+                            'action' => 'result'))
+        );
+
+        $router->addRoute(
+                'candidateEdit',
+                new Zend_Controller_Router_Route('candidate-edit',
+                        array('controller' => 'candidate',
+                            'action' => 'edit'))
+        );
+
+        $router->addRoute(
+                'about',
+                new Zend_Controller_Router_Route('about',
                         array('controller' => 'index',
                             'action' => 'about'))
         );
 
-        $router->addRoute(
-                'productList',
-                new Zend_Controller_Router_Route('produkty',
-                        array('controller' => 'product'))
-        );
     }
 
     /**

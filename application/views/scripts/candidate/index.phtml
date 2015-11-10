@@ -1,0 +1,95 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      <?php echo $this->escape($this->title); ?>
+      <small>Control panel</small>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="index.php"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a href="candidate">Kandidáti</a></li>
+      <li class="active"><?php echo $this->escape($this->title); ?></li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box">
+          <div class="box-header">
+            <button type="submit" class="btn btn-warning">Vygenerovat test vybraným kandidátům</button>
+            <button type="submit" class="btn btn-success">Přidat nového kandidáta</button>
+            <div class="box-tools">
+              <div class="input-group" style="width: 150px;">
+                <input type="text" name="table_search" class="form-control input-sm pull-right" placeholder="Hledat">
+                <div class="input-group-btn">
+                  <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                </div>
+              </div>
+            </div>
+          </div><!-- /.box-header -->
+          <div class="box-body table-responsive no-padding">
+            <table class="table table-hover">
+              <tr>
+                <th>#</th>
+                <th>ID</th>
+                <th>Meno</th>
+                <th>E-mail</th>
+                <th>Pozice</th>
+                <th>Akce</th>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td>28</td>
+                <td>Juraj Kostráb</td>
+                <td>juraj.kostrab@seznam.cz</td>
+                <td>Programátor</td>
+                <td>
+                  <button type="submit" class="btn btn-success btn-sm">Upravit</button>
+                  <button type="submit" class="btn btn-danger btn-sm">Smazat</button>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td>8</td>
+                <td>Alena Farakašová</td>
+                <td>ale.fare@gmail.com</td>
+                <td>Administrativa</td>
+                <td>
+                  <button type="submit" class="btn btn-success btn-sm">Upravit</button>
+                  <button type="submit" class="btn btn-danger btn-sm">Smazat</button>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td>54</td>
+                <td>Zuzana Kollárová</td>
+                <td>z.kollarova@gmail.com</td>
+                <td>Administrativa</td>
+                <td>
+                  <button type="submit" class="btn btn-success btn-sm">Upravit</button>
+                  <button type="submit" class="btn btn-danger btn-sm">Smazat</button>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td>11</td>
+                <td>Milan Nový</td>
+                <td>novymilan@zoznam.sk</td>
+                <td>Programátor</td>
+                <td>
+                  <button type="submit" class="btn btn-success btn-sm">Upravit</button>
+                  <button type="submit" class="btn btn-danger btn-sm">Smazat</button>
+                </td>
+              </tr>
+            </table>
+          </div><!-- /.box-body -->
+        </div><!-- /.box -->
+      </div>
+    </div><!-- /.row (main row) -->
+
+  </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
