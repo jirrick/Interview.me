@@ -46,6 +46,11 @@ class AdminController extends Zend_Controller_Action {
 					'default',
 					true);
     } 
+
+    public function errorAction(){
+        
+    }
+    
 }
 
 ?>

@@ -49,9 +49,7 @@ class Application_Plugin_Acl extends Zend_Controller_Plugin_Abstract
             $flash = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
             $flash->clearMessages();
 
-
             $flash->addMessage('Access Denied');
-
 
             $redirector = Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector');
             $redirector->gotoSimpleAndExit('login', 'admin');
