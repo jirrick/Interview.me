@@ -6,7 +6,7 @@
       <?php echo $this->escape($this->title); ?>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="index.php"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a href="<?php echo $this->baseUrl() . "/"; ?>"><i class="fa fa-dashboard"></i> Home</a></li>
       <li><a href="candidate">Kandidáti</a></li>
       <li class="active"><?php echo $this->escape($this->title); ?></li>
     </ol>
@@ -29,73 +29,59 @@
               </div>
             </div>
           </div><!-- /.box-header -->
-          <div class="box-body table-responsive no-padding">
+          
+          <!-- Candidate list HEADER START-->
+          <?php if (count($this->candidates) > 0) {?>
+           <div class="box-body table-responsive no-padding">
             <table class="table table-hover">
               <tr>
                 <th>ID</th>
                 <th>Jméno</th>
                 <th>Příjmení</th>
-                <th>Dátum pohovoru</th>
-                <th>Technológie</th>
+                <th>Datum pohovoru</th>
+                <th>Technologie</th>
                 <th>Výsledek testu</th>
                 <th>Stav</th>
                 <th>Akce</th>
               </tr>
+            
+           <!-- Candidate list ITEM -->   
+           <?php foreach ($this->candidates as $candidate) {  ?>    
               <tr>
-                <td>28</td>
-                <td>Juraj</td>
-                <td>Kostráb</td>
-                <td>12-9-2014</td>
-                <td>.NET</td>
-                <td>90%</td>
-                <td>Čeká na odpověd</td>
+                <td><?php echo $candidate->getid_kandidat(); ?></td>
+                <td><?php echo $candidate->getjmeno(); ?></td>
+                <td><?php echo $candidate->getprijmeni(); ?></td>
+                <td><?php $datum = new Zend_Date($candidate->getdatum_pohovoru()); 
+                    echo $datum->get(Zend_Date::DATE_MEDIUM, 'cs_CZ')?></td>
+                <td><?php $technologie = $candidate->getTechnologies();
+                      $tech = array();
+                      foreach ($technologie as $t) {
+                        $tech[] = $t->getnazev();
+                      }
+                      echo implode (', ', $tech)?></td>
+                <td>--%</td>
+                <td><?php echo $candidate->getStatus()->getnazev(); ?></td>
                 <td>
                   <a href="candidate-detail"><button type="button" class="btn btn-success btn-sm">Detail</button></a>
-                  <button type="submit" class="btn btn-danger btn-sm">Smazat</button>
-
-                </td>
-              </tr>
-              <tr>
-                <td>32</td>
-                <td>Alena</td>
-                <td>Farakašová</td>
-                <td>12-9-2014</td>
-                <td>Pohoda, Office</td>
-                <td>Nevyhodnoceno</td>
-                <td>Nevyplňeno</td>
-                <td>
-                  <button type="submit" class="btn btn-success btn-sm">Detail</button>
-                  <button type="submit" class="btn btn-danger btn-sm">Smazat</button>
-                </td>
-              </tr>
-              <tr>
-                <td>38</td>
-                <td>Zuzana</td>
-                <td>Kollárová</td>
-                <td>12-9-2014</td>
-                <td>PHP, HTML</td>
-                <td>80%</td>
-                <td>Čeká na odpověd</td>
-                <td>
-                  <button type="submit" class="btn btn-success btn-sm">Detail</button>
-                  <button type="submit" class="btn btn-danger btn-sm">Smazat</button>
-                </td>
-              </tr>
-              <tr>
-                <td>38</td>
-                <td>Milan</td>
-                <td>Nový</td>
-                <td>12-9-2014</td>
-                <td>C++, Delphi</td>
-                <td>90%</td>
-                <td>Čeká na odpověd</td>
-                <td>
-                  <button type="submit" class="btn btn-success btn-sm">Detail</button>
-                  <button type="submit" class="btn btn-danger btn-sm">Smazat</button>
+                  <button type="submit" class="btn btn-danger btn-sm">Smazat</button>     
+          <?php }  ?> 
+          
+          <!-- Candidate list HEADER END-->
                 </td>
               </tr>
             </table>
-          </div><!-- /.box-body -->
+            </div><!-- /.box-body -->
+            
+          <!-- Candidate list EMPTY -->  
+          <?php } else { ?>
+          <div class="box-body">
+            <div class="callout callout-info">
+                <h4>V databázi nejsou žádní kandidáti.</h4>
+                <p>Přidejte nového kandidáta ať zde není tak prázdno.</p>
+            </div>
+          </div>
+        <?php } ?>
+          
         </div><!-- /.box -->
       </div>
     </div><!-- /.row (main row) -->

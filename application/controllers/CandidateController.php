@@ -3,11 +3,13 @@
 class CandidateController extends Zend_Controller_Action {
 	
 	public function init() {	
-            $candidates = My_Model::get('Candidates')->fetchAll();
+            
 	}
 
-	public function indexAction() {
+	public function indexAction() {		
+		$candidates = My_Model::get('Candidates')->fetchAll();
 		
+		$this->view->candidates = $candidates;
 		$this->view->title = 'Seznam kandidatů';
 
 	}
