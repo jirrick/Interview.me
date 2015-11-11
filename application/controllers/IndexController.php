@@ -8,7 +8,10 @@ class IndexController extends Zend_Controller_Action {
 
 	public function indexAction() {
 		
-		$this->view->title = 'Seznam kandidatů';
+		$this->_helper->redirector->gotoRoute(array('controller' => 'candidate',
+					'action' => 'index'),
+					'default',
+					true);
 
 	}
 
