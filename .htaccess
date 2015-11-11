@@ -1,3 +1,7 @@
 RewriteEngine On
  
-RewriteRule ^(/)?$ www [L]
+RewriteRule ^(/)?$ www
+
+SetEnvIfNoCase Host master APPLICATION_ENV=production
+SetEnvIfNoCase Host devel APPLICATION_ENV=staging
+SetEnvIfNoCase Host localhost APPLICATION_ENV=development

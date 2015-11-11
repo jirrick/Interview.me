@@ -3,7 +3,7 @@
 class CandidateController extends Zend_Controller_Action {
 	
 	public function init() {	
-		
+            $candidates = My_Model::get('Candidates')->fetchAll();
 	}
 
 	public function indexAction() {
