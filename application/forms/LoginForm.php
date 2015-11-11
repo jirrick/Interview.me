@@ -11,18 +11,18 @@ class LoginForm extends Zend_Form
      *
      */
     
-    public function init()
+        public function init()
     {
         $this->setMethod(self::METHOD_POST);
 
-        $user = $this->createElement('text', 'username');
-        $user->setLabel('uživatelské jméno');
-        $user->addFilter('StringTrim');
-        $user->setRequired(true);
-        $this->addElement($user);
+        $login = $this->createElement('text', 'email');
+        $login->setLabel('Email');
+        $login->addFilter('StringTrim');
+        $login->setRequired(true);
+        $this->addElement($login);
 
-        $pass = $this->createElement('password', 'password');
-        $pass->setLabel('heslo');
+        $pass = $this->createElement('password', 'heslo');
+        $pass->setLabel('Heslo');
         $pass->setRequired(true);
         $this->addElement($pass);
 
