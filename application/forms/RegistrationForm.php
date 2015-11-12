@@ -17,40 +17,48 @@ class RegistrationForm extends Zend_Form
 
         //jméno
         $firstName = $this->createElement('text', 'jmeno');
-        $firstName->setLabel('Jméno');
         $firstName->addFilter('StringTrim');
         $firstName->setRequired(true);
+        $firstName->setAttrib('class', 'form-control'); 
+        $firstName->setAttrib('placeholder', 'Firstname');
         $this->addElement($firstName);
+
         
         //příjmení$firstName
         $surName = $this->createElement('text', 'prijmeni');
-        $surName->setLabel('Příjmení');
         $surName->addFilter('StringTrim');
         $surName->setRequired(true);
+        $surName->setAttrib('class', 'form-control'); 
+        $surName->setAttrib('placeholder', 'Surename');
         $this->addElement($surName);
 
         //email (login)
         $email = $this->createElement('text', 'email');
-        $email->setLabel('Email');
         $email->addFilter('StringTrim');
         $email->setRequired(true);
+        $email->setAttrib('class', 'form-control');
+        $email->setAttrib('placeholder', 'E-mail');
         $this->addElement($email);
         
         //heslo
         $pass = $this->createElement('password', 'heslo');
-        $pass->setLabel('Heslo');
         $pass->setRequired(true);
+        $pass->setAttrib('class', 'form-control');
+        $pass->setAttrib('placeholder', 'Password');
         $this->addElement($pass);
         
         //opakování hesla
         $passAgain = $this->createElement('password', 'heslo2');
-        $passAgain->setLabel('Heslo znovu');
         $passAgain->setRequired(true);
+        $passAgain->setAttrib('class', 'form-control');
+        $passAgain->setAttrib('placeholder', 'Password Again');
         $this->addElement($passAgain);
         
         $this->addElement('hidden', 'registration', array('value' => 1));
 
-        $this->addElement('submit', 'Registrovat');
+        $button = $this->createElement('submit', 'Register');
+        $button->setAttrib('class', 'btn btn-primary btn-block btn-flat');
+        $this->addElement($button);
     }
 
 }

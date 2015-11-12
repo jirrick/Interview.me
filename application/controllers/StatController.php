@@ -8,7 +8,7 @@ class StatController extends Zend_Controller_Action {
 
 	public function indexAction() {
 		
-		$this->view->title = 'Statistiky';
+		$this->view->title = 'Statistics';
 
 	}
 	

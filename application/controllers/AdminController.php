@@ -2,6 +2,17 @@
 
 class AdminController extends Zend_Controller_Action {
     
+    public function init() {
+        // nastaveni layoutu pro administraci
+        $adminActions = array('login', 'registration');
+        $actionName = $this->getRequest()->getActionName();
+    
+        if ($actionName && in_array($actionName, $adminActions)) {
+            $this->_helper->layout->setLayout('admin');
+        }
+    
+    }
+
     public function registrationAction() {
         $this->view->title = 'Registrace administrátora';
     

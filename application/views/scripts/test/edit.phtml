@@ -6,8 +6,8 @@ Content Wrapper. Contains page content -->
       <?php echo $this->escape($this->title); ?>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="index.php"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="test">Testy</a></li>
+      <li><a href="candidate"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a href="test">Tests</a></li>
       <li class="active"><?php echo $this->escape($this->title); ?></li>
     </ol>
   </section>
@@ -21,7 +21,7 @@ Content Wrapper. Contains page content -->
         <div class="box">
 
           <div class="box-header with-border">
-            <h3 class="box-title">Základné informace</h3>
+            <h3 class="box-title">General Informations</h3>
           </div><!-- /.box-header -->
 
           <div class="box-body">
@@ -29,24 +29,24 @@ Content Wrapper. Contains page content -->
             <div class="row">
               <div class="col-xs-6">
                  <div class="form-group">
-                  <label>Název</label>
+                  <label>Name</label>
                   <input type="text" class="form-control" placeholder="Enter ...">
                 </div>
                 <div class="form-group">
-                  <label>Kategorie</label>
+                  <label>Categories</label>
                   <select class="form-control">
                     <option>Programování</option>
                     <option>Administrativa</option>
                     <option>Fyzika</option>
                   </select><br/>
-                  <input type="text" class="form-control" placeholder="Nová ...">
+                  <input type="text" class="form-control" placeholder="Enter ...">
                 </div>
               </div>
             </div>   
           </div><!-- /.box-body -->
 
           <div class="box-header with-border">
-            <h3 class="box-title">Otázky</h3>
+            <h3 class="box-title">Question</h3>
           </div><!-- /.box-header -->
 
           <div class="box-body">
@@ -58,8 +58,9 @@ Content Wrapper. Contains page content -->
 
               </div>
             </div>   
+            <button type="submit" class="btn btn-success btn-md">Save</button>
           </div><!-- /.box-body -->
-          <button type="submit" class="btn btn-success btn-md">Uložit</button>
+
         </div>
         </form>
       </div>

@@ -6,8 +6,8 @@
       <?php echo $this->escape($this->title); ?>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="index.php"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="question">Otázky</a></li>
+      <li><a href="candidate"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a href="question">Question</a></li>
       <li class="active"><?php echo $this->escape($this->title); ?></li>
     </ol>
   </section>
@@ -21,7 +21,7 @@
         <div class="box">
 
           <div class="box-header with-border">
-            <h3 class="box-title">Základné informace</h3>
+            <h3 class="box-title">General information</h3>
           </div><!-- /.box-header -->
 
           <div class="box-body">
@@ -29,22 +29,22 @@
             <div class="row">
               <div class="col-xs-6">
                  <div class="form-group">
-                  <label>Otázka</label>
+                  <label>Question</label>
                   <input type="text" class="form-control" placeholder="Enter ...">
                 </div>
                 <div class="form-group">
-                  <label>Typ</label>
+                  <label>Type</label>
                   <select class="form-control">
                     <option>Checkbox - ABC</option>
-                    <option>Text - Jednoslovní/Věta</option>
-                    <option>Textarea - Více textu</option>
+                    <option>Text</option>
+                    <option>Long text</option>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label>Správna odpověd (podle odpovědi)</label>
+                  <label>Correct answer (podle odpovědi)</label>
                   <input type="text" class="form-control" placeholder="Enter ...">
                 </div>
-                <button type="submit" class="btn btn-success btn-md">Uložit</button>
+                <button type="submit" class="btn btn-success btn-md">Save</button>
               </div>
             </div>   
           </div><!-- /.box-body -->

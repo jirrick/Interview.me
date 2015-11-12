@@ -8,13 +8,13 @@ class QuestionController extends Zend_Controller_Action {
 
 	public function indexAction() {
 		
-		$this->view->title = 'Seznam otázek';
+		$this->view->title = 'Questions';
 
 	}
 
 	public function editAction() {
 		
-		$this->view->title = 'Editace otázky';
+		$this->view->title = 'Add new Question';
 		// rovnaka akcia pre new aj pre edit, title sa zmeni ak pojde o new, tak ako na cviku
 
 	}

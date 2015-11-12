@@ -6,8 +6,7 @@
       <?php echo $this->escape($this->title); ?>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="index.php"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="test">Testy</a></li>
+      <li><a href="candidate"><i class="fa fa-dashboard"></i> Home</a></li>
       <li class="active"><?php echo $this->escape($this->title); ?></li>
     </ol>
   </section>
@@ -19,24 +18,16 @@
       <div class="col-xs-12">
         <div class="box">
           <div class="box-header">
-            <a href="test-edit"><button type="submit" class="btn btn-success">Přidat nový test</button></a>
-            <div class="box-tools">
-              <div class="input-group" style="width: 150px;">
-                <input type="text" name="table_search" class="form-control input-sm pull-right" placeholder="Hledat">
-                <div class="input-group-btn">
-                  <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
-                </div>
-              </div>
-            </div>
+            <a href="test-edit"><button type="submit" class="btn btn-success">Add new Test</button></a>
           </div><!-- /.box-header -->
           <div class="box-body table-responsive no-padding">
             <table class="table table-hover">
               <tr>
                 <th>ID</th>
-                <th>Název</th>
-                <th>Dátum</th>
-                <th>Kategorie</th>
-                <th>Akce</th>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Categories</th>
+                <th>Action</th>
               </tr>
               <tr>
                 <td>28</td>
@@ -44,9 +35,8 @@
                 <td>12-9-2014</td>
                 <td><span class="label label-success">Programování</span></td>
                 <td>
-                  <button type="submit" class="btn btn-success btn-sm">Upravit</button>
-                  <button type="submit" class="btn btn-info btn-sm">Odeslat</button>
-                  <button type="submit" class="btn btn-danger btn-sm">Smazat</button>
+                  <button type="submit" class="btn btn-success btn-sm">Edit</button>
+                  <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                 </td>
               </tr>
               <tr>
@@ -55,9 +45,8 @@
                 <td>18-1-2014</td>
                 <td><span class="label label-success">Programování</span></td>
                 <td>
-                  <button type="submit" class="btn btn-success btn-sm">Upravit</button>
-                  <button type="submit" class="btn btn-info btn-sm">Odeslat</button>
-                  <button type="submit" class="btn btn-danger btn-sm">Smazat</button>
+                  <button type="submit" class="btn btn-success btn-sm">Edit</button>
+                  <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                 </td>
               </tr>
               <tr>
@@ -66,9 +55,8 @@
                 <td>01-7-2015</td>
                 <td><span class="label label-success">Programování</span></td>
                 <td>
-                  <button type="submit" class="btn btn-success btn-sm">Upravit</button>
-                  <button type="submit" class="btn btn-info btn-sm">Odeslat</button>
-                  <button type="submit" class="btn btn-danger btn-sm">Smazat</button>
+                  <button type="submit" class="btn btn-success btn-sm">Edit</button>
+                  <button type="submit" class="btn btn-danger btn-sm">Dekete</button>
                 </td>
               </tr>
               <tr>
@@ -77,9 +65,8 @@
                 <td>18-9-2015</td>
                 <td><span class="label label-primary">Fyzika</span></td>
                 <td>
-                  <button type="submit" class="btn btn-success btn-sm">Upravit</button>
-                  <button type="submit" class="btn btn-info btn-sm">Odeslat</button>
-                  <button type="submit" class="btn btn-danger btn-sm">Smazat</button>
+                  <button type="submit" class="btn btn-success btn-sm">Edit</button>
+                  <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                 </td>
               </tr>
               <tr>
@@ -88,9 +75,8 @@
                 <td>17-9-2015</td>
                 <td><span class="label label-danger">Administrativa</span></td>
                 <td>
-                  <button type="submit" class="btn btn-success btn-sm">Upravit</button>
-                  <button type="submit" class="btn btn-info btn-sm">Odeslat</button>
-                  <button type="submit" class="btn btn-danger btn-sm">Smazat</button>
+                  <button type="submit" class="btn btn-success btn-sm">Edit</button>
+                  <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                 </td>
               </tr>
               <tr>
@@ -99,9 +85,8 @@
                 <td>11-11-2015</td>
                 <td><span class="label label-danger">Administrativa</span></td>
                 <td>
-                  <button type="submit" class="btn btn-success btn-sm">Upravit</button>
-                  <button type="submit" class="btn btn-info btn-sm">Odeslat</button>
-                  <button type="submit" class="btn btn-danger btn-sm">Smazat</button>
+                  <button type="submit" class="btn btn-success btn-sm">Edit</button>
+                  <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                 </td>
               </tr>
             </table>

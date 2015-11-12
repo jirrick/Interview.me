@@ -6,116 +6,114 @@
       <?php echo $this->escape($this->title); ?>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="index.php"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="index.php">Kandidáti</a></li>
+      <li><a href="candidate"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a href="candidate">Candidates</a></li>
       <li class="active"><?php echo $this->escape($this->title); ?></li>
     </ol>
   </section>
 
-  <!-- Main content -->
+    <!-- Main content -->
   <section class="content">
     <!-- Small boxes (Stat box) -->
     <div class="row">
-      <div class="col-xs-12">
-        <form role="form">
-          <div class="box">
+      <div class="col-md-4">
+        <div class="box box-primary min-520">
+          <div class="box-body box-profile">
+            <img class="profile-user-img img-responsive img-circle" src="dist/img/no-avatar.png" alt="User profile picture">
+            <a>Add file...</a>
+              <div class="form-group">
+                <br><label>Firstname</label>
+                <input type="text" class="form-control" placeholder="Enter ...">
+              </div>
 
-            <div class="box-header with-border">
-              <h3 class="box-title">Základné informace</h3>
-            </div><!-- /.box-header -->
-
-            <div class="box-body">
-              <!-- text input -->
-              <div class="row">
-                <div class="col-xs-6">
-                   <div class="form-group">
-                    <label>Jméno</label>
-                    <input type="text" class="form-control" placeholder="Enter ...">
+              <div class="form-group">
+                <label>Surname</label>
+                <input type="text" class="form-control" placeholder="Enter ...">
+              </div>
+              
+              <div class="form-group">
+                <label>Birthday</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
                   </div>
-
-                  <div class="form-group">
-                    <label>Příjmení</label>
-                    <input type="text" class="form-control" placeholder="Enter ...">
-                  </div>
-                  
-                  <div class="form-group">
-                    <label>Rok narození</label>
-                    <div class="input-group">
-                      <div class="input-group-addon">
-                        <i class="fa fa-calendar"></i>
-                      </div>
-                      <input type="text" class="form-control" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask>
-                    </div><!-- /.input group -->
-                  </div><!-- /.form group -->
-
-                  <div class="form-group">
-                    <label>Pozice</label>
-                    <input type="text" class="form-control" placeholder="Enter ...">
-                  </div>
-
-                  <div class="form-group">
-                    <label>Technológie</label>
-                    <select multiple class="form-control">
-                      <option>.NET</option>
-                      <option>PHP</option>
-                      <option>Delphi</option>
-                      <option>Git</option>
-                      <option>Office</option>
-                      <option>HTML</option>
-                      <option>CSS</option>
-                    </select>
-                  </div>
-
-                  <div class="form-group">
-                    <label>Seniorita</label>
-                    <select class="form-control select2" data-placeholder="Seniorita...">
-                      <option>Junior</option>
-                      <option>Middle</option>
-                      <option>Senior</option>
-                    </select>
-                  </div>
-
-                </div>
-                
-                <div class="col-xs-6">
-
-                  <div class="form-group">
-                    <label>Přidelené testy</label>
-                    <select multiple class="form-control">
-                      <option>Microsof Office</option>
-                      <option>Front-End</option>
-                      <option>Základy .NET</option>
-                      <option>Git-ování</option>
-                      <option>Pohoda</option>
-                    </select>
-                  </div>
-
-                  <div class="form-group">
-                    <label>Prílohy:</label>
-                    <div class="form-group"><input type="file" id="exampleInputFile"></div>
-                    <div class="form-group"><input type="file" id="exampleInputFile"></div>
-                    <div class="form-group"><input type="file" id="exampleInputFile"></div>
-                    <div class="form-group"><input type="file" id="exampleInputFile"></div>
-                  </div>
-
-                  <div class="form-group">
-                    <label>Fotografie:</label>
-                    <div class="form-group"><input type="file" id="exampleInputFile"></div>
-                  </div>
-
-                  <div class="form-group">
-                    <label>Komentář</label>
-                    <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
-                  </div>
-                  
-                  <button type="submit" class="btn btn-success btn-md">Uložit</button>
-                </div>
-              </div>   
-            </div><!-- /.box-body -->
+                  <input type="text" class="form-control" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask>
+                </div><!-- /.input group -->
+              </div>
           </div>
-
-        </form>
+        </div>
       </div>
+
+      <div class="col-md-8">
+        <div class="box box-primary min-520">
+          <div class="box-body box-profile">
+            <div class="form-group">
+              <label>Interview</label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-calendar"></i>
+                </div>
+                <input type="text" class="form-control" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask>
+              </div><!-- /.input group -->
+            </div>
+
+            <div class="form-group">
+              <label>Seniorrity</label>
+              <select class="form-control select2" data-placeholder="Seniorita...">
+                <option>Junior</option>
+                <option>Middle</option>
+                <option>Senior</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Position</label>
+              <input type="text" class="form-control" placeholder="Enter ...">
+            </div>
+
+            <div class="form-group">
+              <label>Technology</label>
+              <select multiple class="form-control">
+                <option>.NET</option>
+                <option>PHP</option>
+                <option>Delphi</option>
+                <option>Git</option>
+                <option>Office</option>
+                <option>HTML</option>
+                <option>CSS</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Comment</label>
+              <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <h1 class="main-h1">Attachements</h1>
+
+      <div class="col-md-12">
+        <div class="box box-primary">
+          <div class="box-body box-profile">
+            <b>Upload new file: </b>
+            <div class="form-group"><input type="file" id="exampleInputFile"></div>
+            <ul class="list-unstyled">
+              <li>
+                <span>CV.pdf(24.5 Kb)</span> <a>Delete</a>
+              </li>
+              <li>
+                <span>About.pdf(24.5 Kb)</span> <a>Delete</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-success btn-lg">Create new Candidate</button>
+      </div>
+
     </div><!-- /.row (main row) -->
 
   </section><!-- /.content -->
