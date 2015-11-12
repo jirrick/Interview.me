@@ -57,6 +57,8 @@ class Application_Plugin_DbAuth extends Zend_Controller_Plugin_Abstract
      */
     public function preDispatch(Zend_Controller_Request_Abstract $request)
     {
+        
+        
         // ziskame instanci redirector helperu, ktery ma starosti presmerovani
         $redirector = Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector');
 
@@ -108,8 +110,8 @@ class Application_Plugin_DbAuth extends Zend_Controller_Plugin_Abstract
             $password = $form->getValue($this->passwordField);
 
             // přidáme salt
-            $password = $this->salt . $password;
-
+            $password = "interview".$password;
+            
             // jmeno a heslo predame adapteru
             $adapter->setIdentity($username);
             $adapter->setCredential($password);
@@ -126,13 +128,12 @@ class Application_Plugin_DbAuth extends Zend_Controller_Plugin_Abstract
                 // identity obsahuje v nasem pripade ID uzivatele z databaze
                 // muzeme napr. ulozit IP adresu, cas posledniho prihlaseni atd.
 
-                $db->update($this->tableName, array(
-                    'lognum' => new Zend_Db_Expr('lognum + 1'),
-                    'ip' => $request->getServer('REMOTE_ADDR'),
-                    'last_login' => new Zend_Db_Expr('NOW()'),
-                    'browser' => $request->getServer('HTTP_USER_AGENT')),
-                        $this->identityColumn . " = '$identity'");
-
+//                $db->update($this->tableName, array(
+//                    'lognum' => new Zend_Db_Expr('lognum + 1'),
+//                    'ip' => $request->getServer('REMOTE_ADDR'),
+//                    'last_login' => new Zend_Db_Expr('NOW()'),
+//                    'browser' => $request->getServer('HTTP_USER_AGENT')),
+//                        $this->identityColumn . " = '$identity'");
 
                 // presmerujeme
                 $redirector->gotoSimpleAndExit($this->successAction, $this->successController);
@@ -150,23 +151,20 @@ class Application_Plugin_DbAuth extends Zend_Controller_Plugin_Abstract
                     $flash->addMessage($msg);
                 }
 
-                /*
-                  // nicmene muzeme je nastavit podle konkretniho chyboveho kodu
 
-                  if ($result == Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID)
+                  // nicmene muzeme je nastavit podle konkretniho chyboveho kodu
+                  if ($result->getCode() == Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID)
                   {
-                  // neplatne heslo
+                    $flash->addMessage("Špatné heslo");
                   }
-                  else if ($result == Zend_Auth_Result::FAILURE_IDENTITY_AMBIGUOUS)
+                  else if ($result->getCode() == Zend_Auth_Result::FAILURE_IDENTITY_AMBIGUOUS)
                   {
-                  // nalezeno vice uzivatelskych identit
+                    $flash->addMessage("Více identit");
                   }
-                  else if ($result == Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND)
+                  else if ($result->getCode() == Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND)
                   {
-                  // identita uzivatele nenalezena
+                    $flash->addMessage("Identita nenalezena");
                   }
-                 *
-                 */
 
                 $redirector->gotoSimpleAndExit($this->failedAction, $this->failedController, null, array('login-failed' => 1));
             }
