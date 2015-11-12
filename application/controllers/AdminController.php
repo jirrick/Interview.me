@@ -10,20 +10,29 @@ class AdminController extends Zend_Controller_Action {
         if ($this->_request->isPost()) {
             if ($form->isValid($this->_request->getPost())) {
 
-                $formValues = $form->getValues();
-                                               
-                $formValues["heslo"] = sha1("interview".$formValues["heslo"]);
-
+                $formValues = $form->getValues();                                               
                 
-                $user = My_Model::get('Users')->createRow();
-                $user->updateFromArray($formValues);
-	
-                $this->_helper->flashMessenger->addMessage("Registrace proběhla úspěšně.");
+                if( $formValues["heslo"] != $formValues["heslo2"]){
+                  
+                    //todo barevne zvyrazeni chybnych poli + kontrola formatu
+                    //neni stejne heslo
+                   
+                }else{
+                    
+                    //neni jiz v databazi
+                    
+                    $formValues["heslo"] = sha1("interview".$formValues["heslo"]);
+                    $user = My_Model::get('Users')->createRow();
+                    $user->updateFromArray($formValues);
 
-                $this->_helper->redirector->gotoRoute(array('controller' => 'candidate',
-                                'action' => 'index'),
-                                'default',
-                                true);
+                    $this->_helper->flashMessenger->addMessage("Registrace proběhla úspěšně.");
+
+                    $this->_helper->redirector->gotoRoute(array('controller' => 'candidate',
+                                    'action' => 'index'),
+                                    'default',
+                                    true);   
+                    
+                }
             }
         }
         
@@ -47,10 +56,6 @@ class AdminController extends Zend_Controller_Action {
 					true);
     } 
 
-    public function errorAction(){
-        
-    }
-    
 }
 
 ?>
