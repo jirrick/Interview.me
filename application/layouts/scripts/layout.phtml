@@ -42,7 +42,7 @@
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <![endif]-->    
   </head>
   <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
@@ -97,18 +97,7 @@
     <!-- AdminLTE App -->
     <script src="<?php echo $this->baseUrl() . "/dist/js/app.min.js"; ?>"></script>
 
-    <script type="text/javascript" charset="utf-8">
-			$(document).ready(function() {
-				$('#candidates-list').DataTable( {
-					responsive: true,
-          columnDefs: [
-          { responsivePriority: 1, targets: 0 },
-          { responsivePriority: 2, targets: 2 },
-          { responsivePriority: 1, targets: -1 }
-          ]
-          } );
-			} );
-		</script>
+    <?php echo $this->InlineScript(); ?>
 
   </body>
 </html>

@@ -61,9 +61,26 @@
               <?php }  //END foreach $candidate?> 
               </tbody>
             </table>
-            </div><!-- /.box-body -->
-            
-          <?php } else { ?>
+            </div><!-- /.box-body --> 
+          <?php 
+          // end of table
+ 
+// haluz konstrukce, ktera vypise tenhle skript na konec souboru        
+$script = <<<'JS'
+$(document).ready(function() {
+$('#candidates-list').DataTable( {
+responsive: true,
+columnDefs: [
+{ responsivePriority: 1, targets: 0 },
+{ responsivePriority: 2, targets: 2 },
+{ responsivePriority: 1, targets: -1 }
+] });
+} );
+JS;
+$this->InlineScript()->appendScript($script, $type = 'text/javascript');
+    
+          } else { ?>
+          
           <!-- Candidate list EMPTY --> 
           <div class="box-body">
             <div class="callout callout-info">
