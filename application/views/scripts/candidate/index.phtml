@@ -21,27 +21,29 @@
             <a href="candidate-edit"><button type="submit" class="btn btn-success">Add new candidate</button></a>
           </div><!-- /.box-header -->
           
-          <!-- Candidate list HEADER START-->
+          <!-- Candidate list HEADER-->
           <?php if (count($this->candidates) > 0) {?>
-           <div class="box-body table-responsive no-padding">
-            <table class="table table-hover">
-              <tr>
-                <th>ID</th>
-                <th>Firstname</th>
-                <th>Surname</th>
-                <th>Interview</th>
-                <th>Technology</th>
-                <th>Test result</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            
+           <div class="box-body">
+              <table id="candidates-list" class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <!--<th>ID</th>-->
+                    <th>Surname</th>
+                    <th>Firstname</th>
+                    <th>Interview</th>
+                    <th>Technology</th>
+                    <th>Test result</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody> 
            <!-- Candidate list ITEM -->   
-           <?php foreach ($this->candidates as $candidate) {  ?>    
+           <?php foreach ($this->candidates as $candidate) {  ?> 
               <tr>
-                <td><?php echo $candidate->getid_kandidat(); ?></td>
-                <td><?php echo $candidate->getjmeno(); ?></td>
+                <!--<td><?php echo $candidate->getid_kandidat(); ?></td>-->
                 <td><?php echo $candidate->getprijmeni(); ?></td>
+                <td><?php echo $candidate->getjmeno(); ?></td>
                 <td><?php $datum = new Zend_Date($candidate->getdatum_pohovoru()); 
                     echo $datum->get(Zend_Date::DATE_MEDIUM, 'cs_CZ')?></td>
                 <td><?php $technologie = $candidate->getTechnologies();
@@ -54,27 +56,25 @@
                 <td><?php echo $candidate->getStatus()->getnazev(); ?></td>
                 <td>
                   <a href="candidate-detail"><button type="button" class="btn btn-success btn-sm">Detail</button></a>  
-          <?php }  ?> 
-          
-          <!-- Candidate list HEADER END-->
                 </td>
               </tr>
+              <?php }  //END foreach $candidate?> 
+              </tbody>
             </table>
             </div><!-- /.box-body -->
             
-          <!-- Candidate list EMPTY -->  
           <?php } else { ?>
+          <!-- Candidate list EMPTY --> 
           <div class="box-body">
             <div class="callout callout-info">
                 <h4>V databázi nejsou žádní kandidáti.</h4>
                 <p>Přidejte nového kandidáta ať zde není tak prázdno.</p>
             </div>
           </div>
-        <?php } ?>
+        <?php } //END candidate list EMPTY ?>
           
         </div><!-- /.box -->
       </div>
-    </div><!-- /.row (main row) -->
-
+    </div><!-- /.row (main row) -->    
   </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
