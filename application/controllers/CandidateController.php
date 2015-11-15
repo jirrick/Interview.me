@@ -2,11 +2,13 @@
 
 class CandidateController extends Zend_Controller_Action {
 	
-	public function init() {	
+	public function init()
+	{
             
 	}
 
-	public function indexAction() {		
+	public function indexAction() 
+	{
 		$candidates = My_Model::get('Candidates')->fetchAll();
 		
 		$this->view->candidates = $candidates;
@@ -14,18 +16,50 @@ class CandidateController extends Zend_Controller_Action {
 
 	}
 
-	public function editAction() {
-		
-		$this->view->title = 'Add new Candidate';
-		// rovnaka akcia pre new aj pre edit, title sa zmeni ak pojde o new, tak ako na cviku
+
+	public function editAction()
+	{
+		$candidateId = $this->_request->getParam('id');
+
+		// Editace kandidáta
+		if (!empty($candidateId)) {
+			$this->view->title = 'Edit Candidate';
+			$record = My_Model::get('Candidates')->getById($candidateId);
+		}
+		// Vytvoření nového
+		else {
+			$this->view->title = 'Create new Candidate';
+
+		}
 
 	}
 
-	public function detailAction() {
-		
+	public function detailAction()
+	{
 		$this->view->title = 'Detail of Candidate';
-		// rovnaka akcia pre new aj pre edit, title sa zmeni ak pojde o new, tak ako na cviku
 
+		$candidateId = $this->_request->getParam('id');
+		if (!empty($candidateId)) {
+			$candidate = My_Model::get('Candidates')->getById($candidateId);
+		}
+
+		if ($candidate === null) {
+			$this->_helper->flashMessenger->addMessage("Kandidát nebyl nalezen");
+			$this->_helper->redirector->gotoRoute(array('controller' => 'candidate',
+														'action' => 'index'),
+														'default',
+														true);
+		}
+		else {
+			$this->view->candidate = $candidate;
+
+			$avatar = $candidate->getFoto();
+			if ($avatar !== NULL) {
+				$base64 = base64_encode($avatar->getfoto());
+				$this->view->candidateAvatarBase64 = $base64;
+			}
+			
+		}
 	}
 	
 }

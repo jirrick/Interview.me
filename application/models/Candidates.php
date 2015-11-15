@@ -46,6 +46,11 @@ class Candidates extends My_Db_Table  {
            'refTableClass' => 'Statuses', 
            'refColumns' => array ('id_status')
         ), 
+        'Photo' => array(
+           'columns' => array ('id_foto'), 
+           'refTableClass' => 'Photos', 
+           'refColumns' => array ('id_foto')
+        ), 
     );
 
 

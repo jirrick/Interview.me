@@ -6,8 +6,8 @@
       <?php echo $this->escape($this->title); ?>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="candidate"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="candidate">Candidates</a></li>
+      <li><a href="<?php echo $this->baseUrl() . "/"; ?>"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a href="<?php echo $this->url(array('controller' => 'candidate')); ?>">Candidates</a></li>
       <li class="active"><?php echo $this->escape($this->title); ?></li>
     </ol>
   </section>
@@ -19,8 +19,8 @@
       <div class="col-md-4">
         <div class="box box-primary min-520">
           <div class="box-body box-profile">
-            <img class="profile-user-img img-responsive img-circle" src="dist/img/no-avatar.png" alt="User profile picture">
-            <a>Add file...</a>
+            <img class="profile-user-img img-responsive img-circle" src="<?php echo $this->baseUrl() . "/dist/img/no-avatar.png"; ?>" alt="User profile picture">
+            <p>Vložit profilový obrázek:<br /><input type="file" id="exampleInputFile"></p>
               <div class="form-group">
                 <br><label>Firstname</label>
                 <input type="text" class="form-control" placeholder="Enter ...">
