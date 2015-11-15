@@ -30,7 +30,5 @@ class UsersHasRoles extends My_Db_Table  {
            'refColumns' => array ('id_role')
         ), 
     );	
-
-
 }
 	
