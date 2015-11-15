@@ -6,8 +6,8 @@
       <?php echo $this->escape($this->title); ?>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="candidate"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="candidate">Candidates</a></li>
+      <li><a href="<?php echo $this->baseUrl() . "/"; ?>"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a href="<?php echo $this->url(array('controller' => 'candidate')); ?>">Candidates</a></li>
       <li class="active"><?php echo $this->escape($this->title); ?></li>
     </ol>
   </section>
@@ -19,22 +19,27 @@
       <div class="col-md-4">
         <div class="box box-primary min-420">
           <div class="box-body box-profile">
-            <img class="profile-user-img img-responsive img-circle" src="dist/img/avatar5.png" alt="User profile picture">
-            <a>Add file...</a>
+            <!-- TODO: IMAGE AVATAR -->
+            <?php if ($this->candidateAvatarBase64 !== NULL) { ?>
+            <?php echo '<img class="profile-user-img img-responsive img-circle" src="data:image/gif;base64,' . $this->candidateAvatarBase64 . '"  />'?>
+            <?php } else { ?>
+            <img class="profile-user-img img-responsive img-circle" src="<?php echo $this->baseUrl() . "/dist/img/avatar5.png"; ?>" alt="User profile picture">
+            <?php } ?>
+            
             <ul class="list-group list-group-unbordered">
               <li class="list-group-item">
                 <b>Last update: </b>
-                <a class="pull-right">14. 07. 2015</a>
+                <a class="pull-right"><?php echo $this->candidate->getdatum_aktualizace(); ?></a>
               </li>
 
               <li class="list-group-item">
                 <b>Interview: </b>
-                <a class="pull-right">11. 08. 2015</a>
+                <a class="pull-right"><?php echo $this->candidate->getdatum_pohovoru(); ?></a>
               </li>
 
               <li class="list-group-item">
                 <b>Status: </b>
-                <a class="pull-right">Waiting for response</a>
+                <a class="pull-right"><?php echo $this->candidate->getStatus()->getnazev(); ?></a>
               </li>
             </ul>
           </div>
@@ -47,31 +52,33 @@
             <ul class="list-group list-group-unbordered">
               <li class="list-group-item">
                 <b>Firstname: </b>
-                <a>Juraj</a>
+                <a><?php echo $this->candidate->getjmeno(); ?></a>
               </li>
               <li class="list-group-item">
                 <b>Surename: </b>
-                <a>Kostráb</a>
+                <a><?php echo $this->candidate->getprijmeni(); ?></a>
               </li>
               <li class="list-group-item">
                 <b>Birthday: </b>
-                <a>11.11.1991</a>
+                <a><?php echo $this->candidate->getdatum_narozeni(); ?></a>
               </li>
               <li class="list-group-item">
                 <b>Seniority: </b>
-                <a>Junior</a>
+                <a><?php echo $this->candidate->getSeniority()->getnazev(); ?></a>
               </li>
               <li class="list-group-item">
                 <b>Position: </b>
-                <a>Developer</a>
+                <a><?php echo $this->candidate->getPosition()->getnazev(); ?></a>
               </li>
               <li class="list-group-item">
                 <b>Technology: </b>
-                <a>.NET</a>
+                <?php foreach ($this->candidate->getTechnologies() as $technology) {  ?>    
+                  <a><?php echo $technology->getnazev(); ?></a>,&nbsp;
+                <?php }  ?> 
               </li>
               <li class="list-group-item">
                 <b>Comment: </b>
-                <p>Farm-to-table biodiesel +1 pop-up, freegan before they sold out chia four dollar toast try-hard kogi single-origin coffee. Mlkshk VHS banh mi, readymade fixie twee put a bird on it. Four dollar toast franzen artisan cronut semiotics yuccie, neutra.Farm-to-table biodiesel +1 pop-up.</p>
+                <p><?php echo $this->candidate->getkomentar(); ?></p>
               </li>
             </ul>
           </div>
@@ -83,21 +90,24 @@
       <div class="col-md-12">
         <div class="box box-primary">
           <div class="box-body box-profile">
-            <b>Upload new file: </b>
-            <div class="form-group"><input type="file" id="exampleInputFile"></div>
-            <ul class="list-unstyled">
-              <li>
-                <span>CV.pdf(24.5 Kb)</span> <a>Delete</a>
-              </li>
-              <li>
-                <span>About.pdf(24.5 Kb)</span> <a>Delete</a>
-              </li>
-            </ul>
+            <?php if (count($this->candidate->getAttachments()) > 0) {?>
+              <ul class="list-unstyled">
+                <?php foreach ($this->candidate->getAttachments() as $attachement) {  ?>    
+                <?php if ($attachement->getnazev() === NULL || strlen($attachement->getnazev()) === 0) {?>
+                  <li>Bez názvu</li>
+                <?php } else { ?>
+                  <li><span><?php echo $attachement->getnazev(); ?></span></li>
+                  <?php } ?>
+                <?php }  ?> 
+              </ul>
+            <?php } else { ?>
+            <p>No attachemens.</p>
+            <?php }  ?> 
           </div>
         </div>
       </div>
 
-      <h1 class="main-h1">Tests</h1>
+      <!--<h1 class="main-h1">Tests</h1>
 
       <div class="col-md-12">
         <div class="box box-primary">
@@ -135,7 +145,7 @@
         </div>
 
         <button type="submit" class="btn btn-danger btn-lg">Delete Candidate</button>
-      </div>
+      </div>-->
 
 
 

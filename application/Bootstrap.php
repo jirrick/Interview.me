@@ -115,16 +115,25 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         $router->addRoute(
                 'candidateEdit',
-                new Zend_Controller_Router_Route('candidate-edit',
+                new Zend_Controller_Router_Route('candidate/:id/edit',
                         array('controller' => 'candidate',
-                            'action' => 'edit'))
+                            'action' => 'edit'),
+                        array('id' => '\d+'))
         );
 
         $router->addRoute(
-                'candidateDetail',
-                new Zend_Controller_Router_Route('candidate-detail',
+                'candidateCreate',
+                new Zend_Controller_Router_Route('candidate/create',
                         array('controller' => 'candidate',
-                            'action' => 'detail'))
+                            'action' => 'edit'))
+        );
+        
+        $router->addRoute(
+                'candidateDetail',
+                new Zend_Controller_Router_Route('candidate/:id/',
+                        array('controller' => 'candidate',
+                            'action' => 'detail'),
+                        array('id' => '\d+'))
         );
 
         $router->addRoute(

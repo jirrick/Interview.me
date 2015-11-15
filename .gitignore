@@ -25,3 +25,5 @@ extras/documentation
 # Netbeans project
 /nbproject/private/
 nbproject/
+
+adminer.php
