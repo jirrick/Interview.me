@@ -2,16 +2,19 @@
 
 class CandidateController extends Zend_Controller_Action {
 	
-	public function init() {	
+	public function init() {
             
-	}
+            //Zjištění zda je uživatel admin (kvůli viditelnosti registrace)
+            $login = Zend_Auth::getInstance()->getIdentity();
+            $user = My_Model::get('Users')->getUserByEmail($login);
+            $this->view->user = $user;
+        }
 
 	public function indexAction() {		
 		$candidates = My_Model::get('Candidates')->fetchAll();
 		
 		$this->view->candidates = $candidates;
 		$this->view->title = 'Candidates';
-
 	}
 
 	public function editAction() {

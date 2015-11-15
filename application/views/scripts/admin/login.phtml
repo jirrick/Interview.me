@@ -2,6 +2,14 @@
 	<p class="login-box-msg">Please login</p>
 
 	<?php echo $this->loginform ?>
+        
+        <?php $flashMessenger = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');?>
+        
+
+        <?php foreach ($flashMessenger->getMessages() as $msg): ?>
+            <?php echo $msg ?>
+        <?php endforeach; ?>
+        
     <a href="index.html">Forgot password?</a>
 
 </div><!-- /.form-box -->

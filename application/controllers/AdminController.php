@@ -3,6 +3,7 @@
 class AdminController extends Zend_Controller_Action {
     
     public function init() {
+        
         // nastaveni layoutu pro administraci
         $adminActions = array('login', 'registration');
         $actionName = $this->getRequest()->getActionName();
@@ -30,13 +31,12 @@ class AdminController extends Zend_Controller_Action {
                    
                 }else{
                     
-                    //neni jiz v databazi
+                    
+                    //pokud už uživatel není v databázi
                     
                     $formValues["heslo"] = sha1("interview".$formValues["heslo"]);
                     $user = My_Model::get('Users')->createRow();
                     $user->updateFromArray($formValues);
-
-                    $this->_helper->flashMessenger->addMessage("Registrace proběhla úspěšně.");
 
                     $this->_helper->redirector->gotoRoute(array('controller' => 'candidate',
                                     'action' => 'index'),
@@ -46,6 +46,7 @@ class AdminController extends Zend_Controller_Action {
                 }
             }
         }
+
         
         
         $this->view->registrationform = $form;
@@ -66,7 +67,6 @@ class AdminController extends Zend_Controller_Action {
 					'default',
 					true);
     } 
-
 }
 
 ?>

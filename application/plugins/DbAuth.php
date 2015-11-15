@@ -122,19 +122,10 @@ class Application_Plugin_DbAuth extends Zend_Controller_Plugin_Abstract
             if ($auth->hasIdentity())
             {
                 // Uzivatel byl uspesne overen a je prihlasen
-
-                $identity = $auth->getIdentity();
-
                 // identity obsahuje v nasem pripade ID uzivatele z databaze
-                // muzeme napr. ulozit IP adresu, cas posledniho prihlaseni atd.
-
-//                $db->update($this->tableName, array(
-//                    'lognum' => new Zend_Db_Expr('lognum + 1'),
-//                    'ip' => $request->getServer('REMOTE_ADDR'),
-//                    'last_login' => new Zend_Db_Expr('NOW()'),
-//                    'browser' => $request->getServer('HTTP_USER_AGENT')),
-//                        $this->identityColumn . " = '$identity'");
-
+                
+                $identity = $auth->getIdentity();
+            
                 // presmerujeme
                 $redirector->gotoSimpleAndExit($this->successAction, $this->successController);
             }
@@ -143,7 +134,7 @@ class Application_Plugin_DbAuth extends Zend_Controller_Plugin_Abstract
                 // autentifikace byla neuspesna
                 // FlashMessenger slouzi k uchovani zprav v session
                 $flash = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
-                $flash->clearMessages();
+                //$flash->clearMessages();
 
                 // vlozime do session rovnou chybove hlasky, ktere pak predame do view
                 foreach ($result->getMessages() as $msg)
@@ -151,20 +142,19 @@ class Application_Plugin_DbAuth extends Zend_Controller_Plugin_Abstract
                     $flash->addMessage($msg);
                 }
 
-
-                  // nicmene muzeme je nastavit podle konkretniho chyboveho kodu
-                  if ($result->getCode() == Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID)
-                  {
-                    $flash->addMessage("Špatné heslo");
-                  }
-                  else if ($result->getCode() == Zend_Auth_Result::FAILURE_IDENTITY_AMBIGUOUS)
-                  {
-                    $flash->addMessage("Více identit");
-                  }
-                  else if ($result->getCode() == Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND)
-                  {
-                    $flash->addMessage("Identita nenalezena");
-                  }
+                // nicmene muzeme je nastavit podle konkretniho chyboveho kodu
+                if ($result->getCode() == Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID)
+                {
+                  $flash->addMessage("Špatné heslo");
+                }
+                else if ($result->getCode() == Zend_Auth_Result::FAILURE_IDENTITY_AMBIGUOUS)
+                {
+                  $flash->addMessage("Více identit");
+                }
+                else if ($result->getCode() == Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND)
+                {
+                  $flash->addMessage("Identita nenalezena");
+                }
 
                 $redirector->gotoSimpleAndExit($this->failedAction, $this->failedController, null, array('login-failed' => 1));
             }
