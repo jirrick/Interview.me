@@ -25,6 +25,10 @@
 	min-height: 520px;
 }
 
+.min-550{
+	min-height: 550px;
+}
+
 .min-42{
 	min-height: 42px
 }
