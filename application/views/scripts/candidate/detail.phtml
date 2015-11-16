@@ -68,12 +68,6 @@
               </li>
               <li class="list-group-item min-42">
                 <div class="own-list">
-                  <div class="flleft min-100"><b>Seniority: </b></div>
-                  <div class="flleft"><a><?php echo $this->candidate->getSeniority()->getnazev(); ?></a></div>
-                </div>
-              </li>
-              <li class="list-group-item min-42">
-                <div class="own-list">
                   <div class="flleft min-100"><b>Position: </b></div>
                   <div class="flleft"><a><?php echo $this->candidate->getPosition()->getnazev(); ?></a></div>
                 </div>
@@ -84,6 +78,12 @@
                   <?php foreach ($this->candidate->getTechnologies() as $technology) {  ?>    
                     <div class="flleft"><a><?php echo $technology->getnazev(); ?></a>,&nbsp;</div>
                   <?php }  ?> 
+                </div>
+              </li>
+              <li class="list-group-item min-42">
+                <div class="own-list">
+                  <div class="flleft min-100"><b>Seniority: </b></div>
+                  <div class="flleft"><a><?php echo $this->candidate->getSeniority()->getnazev(); ?></a></div>
                 </div>
               </li>
               <li class="list-group-item">
