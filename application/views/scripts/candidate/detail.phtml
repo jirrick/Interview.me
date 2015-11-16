@@ -1,0 +1,171 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      <?php echo $this->escape($this->title); ?>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="<?php echo $this->baseUrl() . "/"; ?>"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a href="<?php echo $this->url(array('controller' => 'candidate', 'action' => 'index'), 'default', true); ?>">Candidates</a></li>
+      <li class="active"><?php echo $this->escape($this->title); ?></li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+      <div class="col-md-4">
+        <div class="box box-primary min-420">
+          <div class="box-body box-profile">
+            <!-- TODO: IMAGE AVATAR -->
+            <?php if ($this->candidateAvatarBase64 !== NULL) { ?>
+            <?php echo '<img class="profile-user-img img-responsive img-circle" src="data:image/gif;base64,' . $this->candidateAvatarBase64 . '"  />'?>
+            <?php } else { ?>
+            <img class="profile-user-img img-responsive img-circle" src="<?php echo $this->baseUrl() . "/dist/img/avatar5.png"; ?>" alt="User profile picture">
+            <?php } ?>
+            
+            <ul class="list-group list-group-unbordered">
+              <li class="list-group-item">
+                <b>Last update: </b>
+                <a class="pull-right"><?php echo $this->candidate->getdatum_aktualizace(); ?></a>
+              </li>
+
+              <li class="list-group-item">
+                <b>Interview: </b>
+                <a class="pull-right"><?php echo $this->candidate->getdatum_pohovoru(); ?></a>
+              </li>
+
+              <li class="list-group-item">
+                <b>Status: </b>
+                <a class="pull-right"><?php echo $this->candidate->getStatus()->getnazev(); ?></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="box box-primary min-420">
+          <div class="box-body box-profile">
+            <ul class="list-group list-group-unbordered">
+              <li class="list-group-item min-42">
+                <div class="flleft min-100"><b>Firstname: </b></div>
+                <div class="flleft"><a><?php echo $this->candidate->getjmeno(); ?></a></div>
+              </li>
+              <li class="list-group-item min-42">
+                <div class="own-list">
+                  <div class="flleft min-100"><b>Surename: </b></div>
+                  <div class="flleft"><a><?php echo $this->candidate->getprijmeni(); ?></a></div>
+                </div>
+              </li>
+              <li class="list-group-item min-42">
+                <div class="own-list">
+                  <div class="flleft min-100"><b>Birthday: </b></div>
+                  <div class="flleft"><a><?php echo $this->candidate->getdatum_narozeni(); ?></a></div>
+                </div>
+              </li>
+              <li class="list-group-item min-42">
+                <div class="own-list">
+                  <div class="flleft min-100"><b>Position: </b></div>
+                  <div class="flleft"><a><?php echo $this->candidate->getPosition()->getnazev(); ?></a></div>
+                </div>
+              </li>
+              <li class="list-group-item min-42">
+                <div class="own-list">
+                  <div class="flleft min-100"><b>Technology: </b></div>
+                  <?php foreach ($this->candidate->getTechnologies() as $technology) {  ?>    
+                    <div class="flleft"><a><?php echo $technology->getnazev(); ?></a>,&nbsp;</div>
+                  <?php }  ?> 
+                </div>
+              </li>
+              <li class="list-group-item min-42">
+                <div class="own-list">
+                  <div class="flleft min-100"><b>Seniority: </b></div>
+                  <div class="flleft"><a><?php echo $this->candidate->getSeniority()->getnazev(); ?></a></div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="own-list">
+                  <b>Comment: </b>
+                  <p><?php echo $this->candidate->getkomentar(); ?></p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="mar25">
+            <a href="#"><button type="button" class="btn btn-success btn-sm">Edit Profile</button></a>  
+            <a class="flright" href="#"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>  
+          </div>
+        </div>
+      </div>
+      
+      <h1 class="main-h1">Attachements</h1>
+
+      <div class="col-md-12">
+        <div class="box box-primary">
+          <div class="box-body box-profile">
+            <?php if (count($this->candidate->getAttachments()) > 0) {?>
+              <ul class="list-unstyled">
+                <?php foreach ($this->candidate->getAttachments() as $attachement) {  ?>    
+                <?php if ($attachement->getnazev() === NULL || strlen($attachement->getnazev()) === 0) {?>
+                  <li>Bez názvu</li>
+                <?php } else { ?>
+                  <li><span><?php echo $attachement->getnazev(); ?></span></li>
+                  <?php } ?>
+                <?php }  ?> 
+              </ul>
+            <?php } else { ?>
+            <p>No attachemens.</p>
+            <?php }  ?> 
+          </div>
+        </div>
+      </div>
+
+      <!--<h1 class="main-h1">Tests</h1>
+
+      <div class="col-md-12">
+        <div class="box box-primary">
+          <div class="box-body box-profile">
+            
+            <form>
+              <div class="form-group wdth-300">
+                <select multiple class="form-control">
+                  <option>Microsof Office</option>
+                  <option>Front-End</option>
+                  <option>Základy .NET</option>
+                  <option>Git-ování</option>
+                  <option>Pohoda</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-success btn-md">Generate</button>
+            </form>
+            <div>
+
+              <br><b>Generated: </b>
+              <ul class="list-unstyled">
+                <li>
+                  Microsof Office
+                </li>
+                <li>
+                  Front-End
+                </li>
+                <li>
+                  Základy .NET
+                </li>
+              </ul> 
+
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-danger btn-lg">Delete Candidate</button>
+      </div>-->
+
+
+
+    </div><!-- /.row (main row) -->
+
+  </section><!-- /.content -->
+</div><!-- /.content-wrapper -->

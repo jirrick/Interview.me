@@ -24,7 +24,19 @@ class Application_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 
         if (Zend_Auth::getInstance()->hasIdentity())
         {
-            $role = 'admin';
+            $role = 'user';   
+            
+            if(Zend_Auth::getInstance()->hasIdentity()){
+                return; 
+            }else{
+               
+                 $login = Zend_Auth::getInstance()->getIdentity();
+                 $user = My_Model::get('Users')->getUserByEmail($login);
+                 
+                 if($user->admin == 1){
+                    $role = 'admin';   
+                 }   
+            }
         }
 
         $controller = $request->getControllerName();
@@ -47,11 +59,7 @@ class Application_Plugin_Acl extends Zend_Controller_Plugin_Abstract
         {
 
             $flash = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
-            $flash->clearMessages();
-
-
             $flash->addMessage('Access Denied');
-
 
             $redirector = Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector');
             $redirector->gotoSimpleAndExit('login', 'admin');

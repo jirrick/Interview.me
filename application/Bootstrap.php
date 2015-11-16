@@ -100,17 +100,72 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $router = $frontController->getRouter();
 
         $router->addRoute(
-                'aboutUs',
-                new Zend_Controller_Router_Route('o-nas',
-                        array('controller' => 'index',
-                            'action' => 'about'))
+                'testEdit',
+                new Zend_Controller_Router_Route('test-edit',
+                        array('controller' => 'test',
+                            'action' => 'edit'))
         );
 
         $router->addRoute(
-                'productList',
-                new Zend_Controller_Router_Route('produkty',
-                        array('controller' => 'product'))
+                'testResult',
+                new Zend_Controller_Router_Route('test-result',
+                        array('controller' => 'test',
+                            'action' => 'result'))
         );
+
+        $router->addRoute(
+                'candidateEdit',
+                new Zend_Controller_Router_Route('candidate/:id/edit',
+                        array('controller' => 'candidate',
+                            'action' => 'edit'),
+                        array('id' => '\d+'))
+        );
+
+        $router->addRoute(
+                'candidateCreate',
+                new Zend_Controller_Router_Route('candidate/create',
+                        array('controller' => 'candidate',
+                            'action' => 'edit'))
+        );
+        
+        $router->addRoute(
+                'candidateDetail',
+                new Zend_Controller_Router_Route('candidate/:id/',
+                        array('controller' => 'candidate',
+                            'action' => 'detail'),
+                        array('id' => '\d+'))
+        );
+
+        $router->addRoute(
+                'questionEdit',
+                new Zend_Controller_Router_Route('question-edit',
+                        array('controller' => 'question',
+                            'action' => 'edit'))
+        );
+        
+        $router->addRoute(
+                'login',
+                new Zend_Controller_Router_Route('login',
+                        array('controller' => 'admin',
+                            'action' => 'login'))
+        );
+        
+        $router->addRoute(
+                'logout',
+                new Zend_Controller_Router_Route('logout',
+                        array('controller' => 'admin',
+                            'action' => 'logout'))
+        );
+        
+        $router->addRoute(
+                'registration',
+                new Zend_Controller_Router_Route('registration',
+                        array('controller' => 'admin',
+                            'action' => 'registration'))
+        );
+
+
+
     }
 
     /**

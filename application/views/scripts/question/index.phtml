@@ -1,0 +1,93 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      <?php echo $this->escape($this->title); ?>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="<?php echo $this->baseUrl() . "/"; ?>"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active"><?php echo $this->escape($this->title); ?></li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box">
+          <div class="box-header">
+            <a href="question-edit"><button type="submit" class="btn btn-success">Add new Question</button></a>
+            
+          </div><!-- /.box-header -->
+          <div class="box-body table-responsive no-padding">
+            <table class="table table-hover">
+              <tr>
+                <th>ID</th>
+                <th>Question</th>
+                <th>Tests</th>
+                <th>Action</th>
+              </tr>
+              <tr>
+                <td>28</td>
+                <td>Jakým príkazem dokážeme vytvořit novú větvu (branch)?</td>
+                <td><span class="label label-success">Git-ování</span></td>
+                <td>
+                  <button type="submit" class="btn btn-success btn-sm">Edit</button>
+                  <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </td>
+              </tr>
+              <tr>
+                <td>30</td>
+                <td>Jaké alternativy Gitu poznáte?</td>
+                <td><span class="label label-success">Git-ování</span></td>
+                <td>
+                  <button type="submit" class="btn btn-success btn-sm">Edit</button>
+                  <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </td>
+              </tr>
+              <tr>
+                <td>34</td>
+                <td>K čemu slouží tzv. tagování?</td>
+                <td><span class="label label-success">Git-ování</span></td>
+                <td>
+                  <button type="submit" class="btn btn-success btn-sm">Edit</button>
+                  <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </td>
+              </tr>
+              <tr>
+                <td>38</td>
+                <td>Který program s balíčku Office slouží k tvůrbe diagarmů?</td>
+                <td><span class="label label-primary">Microsoft Office</span></td>
+                <td>
+                  <button type="submit" class="btn btn-success btn-sm">Edit</button>
+                  <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </td>
+              </tr>
+              <tr>
+                <td>55</td>
+                <td>K čemu slouží tlačidlo "Provést faktúry"?</td>
+                <td><span class="label label-danger">Pohoda</span></td>
+                <td>
+                  <button type="submit" class="btn btn-success btn-sm">Edit</button>
+                  <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </td>
+              </tr>
+              <tr>
+                <td>59</td>
+                <td>K čemu slouží tlačidlo "Provést faktúry"?</td>
+                <td><span class="label label-danger">Pohoda</span></td>
+                <td>
+                  <button type="submit" class="btn btn-success btn-sm">Edit</button>
+                  <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </td>
+              </tr>
+            </table>
+          </div><!-- /.box-body -->
+        </div><!-- /.box -->
+      </div>
+    </div>
+
+  </section><!-- /.content -->
+</div><!-- /.content-wrapper -->

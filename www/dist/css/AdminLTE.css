@@ -96,7 +96,7 @@ body {
 .content-wrapper,
 .right-side {
   min-height: 100%;
-  background-color: #ecf0f5;
+  background-color: #fbf8e8;
   z-index: 800;
 }
 .main-footer {
@@ -167,14 +167,14 @@ h6,
 }
 /* General Links */
 a {
-  color: #3c8dbc;
+  color: #e5637c;
 }
 a:hover,
 a:active,
 a:focus {
   outline: none;
   text-decoration: none;
-  color: #72afd2;
+  color: #f0494c;
 }
 /* Page Header */
 .page-header {
@@ -1526,7 +1526,7 @@ a:focus {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 .box.box-primary {
-  border-top-color: #3c8dbc;
+  border-top-color: #ed8181;
 }
 .box.box-info {
   border-top-color: #00c0ef;

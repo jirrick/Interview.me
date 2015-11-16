@@ -15,4 +15,8 @@ class My_Db_Table extends Zend_Db_Table_Abstract {
         return $this->find($id)->current(); 
     }
     
+    public function getUserByEmail($login) {
+        $login = "'".$login."'";
+        return $this->fetchRow('email='.$login);
+    }
 }
