@@ -58,17 +58,13 @@
             </div>
 
             <div class="form-group">
-              <label>Seniorrity</label>
-              <select class="form-control select2" data-placeholder="Seniorita...">
-                <option>Junior</option>
-                <option>Middle</option>
-                <option>Senior</option>
-              </select>
-            </div>
-
-            <div class="form-group">
               <label>Position</label>
-              <input type="text" class="form-control" placeholder="Enter ...">
+              <select class="form-control select2" data-placeholder="Seniorita...">
+                <option>Developer</option>
+                <option>Administrator</option>
+                <option>Staff</option>
+                <option>Cleaning lady</option>
+              </select>
             </div>
 
             <div class="form-group">
@@ -81,6 +77,15 @@
                 <option>Office</option>
                 <option>HTML</option>
                 <option>CSS</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Seniorrity</label>
+              <select class="form-control select2" data-placeholder="Seniorita...">
+                <option>Junior</option>
+                <option>Middle</option>
+                <option>Senior</option>
               </select>
             </div>
 
@@ -100,18 +105,20 @@
           <div class="box-body box-profile">
             <b>Upload new file: </b>
             <div class="form-group"><input type="file" id="exampleInputFile"></div>
-            <ul class="list-unstyled">
-              <li>
-                <span>CV.pdf(24.5 Kb)</span> <a>Delete</a>
+            <ul class="list-group list-group-unbordered">
+              <li class="list-group-item min-42">
+                <div class="flleft min-150"><a class="tud" href="#">CV.pdf(24.5 Kb)</a></div>
+                <div class="flleft"><a>Delete</a></div>  
               </li>
-              <li>
-                <span>About.pdf(24.5 Kb)</span> <a>Delete</a>
+              <li class="list-group-item min-42">
+                <div class="flleft min-150"><a class="tud" href="#">About.pdf(24.5 Kb)</a></div>
+                <div class="flleft"><a>Delete</a></div>   
               </li>
             </ul>
           </div>
         </div>
 
-        <button type="submit" class="btn btn-success btn-lg">Create new Candidate</button>
+        <button type="submit" class="btn btn-success btn-md">Save Candidate</button>
       </div>
 
     </div><!-- /.row (main row) -->

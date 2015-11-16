@@ -50,37 +50,53 @@
         <div class="box box-primary min-420">
           <div class="box-body box-profile">
             <ul class="list-group list-group-unbordered">
-              <li class="list-group-item">
-                <b>Firstname: </b>
-                <a><?php echo $this->candidate->getjmeno(); ?></a>
+              <li class="list-group-item min-42">
+                <div class="flleft min-100"><b>Firstname: </b></div>
+                <div class="flleft"><a><?php echo $this->candidate->getjmeno(); ?></a></div>
+              </li>
+              <li class="list-group-item min-42">
+                <div class="own-list">
+                  <div class="flleft min-100"><b>Surename: </b></div>
+                  <div class="flleft"><a><?php echo $this->candidate->getprijmeni(); ?></a></div>
+                </div>
+              </li>
+              <li class="list-group-item min-42">
+                <div class="own-list">
+                  <div class="flleft min-100"><b>Birthday: </b></div>
+                  <div class="flleft"><a><?php echo $this->candidate->getdatum_narozeni(); ?></a></div>
+                </div>
+              </li>
+              <li class="list-group-item min-42">
+                <div class="own-list">
+                  <div class="flleft min-100"><b>Seniority: </b></div>
+                  <div class="flleft"><a><?php echo $this->candidate->getSeniority()->getnazev(); ?></a></div>
+                </div>
+              </li>
+              <li class="list-group-item min-42">
+                <div class="own-list">
+                  <div class="flleft min-100"><b>Position: </b></div>
+                  <div class="flleft"><a><?php echo $this->candidate->getPosition()->getnazev(); ?></a></div>
+                </div>
+              </li>
+              <li class="list-group-item min-42">
+                <div class="own-list">
+                  <div class="flleft min-100"><b>Technology: </b></div>
+                  <?php foreach ($this->candidate->getTechnologies() as $technology) {  ?>    
+                    <div class="flleft"><a><?php echo $technology->getnazev(); ?></a>,&nbsp;</div>
+                  <?php }  ?> 
+                </div>
               </li>
               <li class="list-group-item">
-                <b>Surename: </b>
-                <a><?php echo $this->candidate->getprijmeni(); ?></a>
-              </li>
-              <li class="list-group-item">
-                <b>Birthday: </b>
-                <a><?php echo $this->candidate->getdatum_narozeni(); ?></a>
-              </li>
-              <li class="list-group-item">
-                <b>Seniority: </b>
-                <a><?php echo $this->candidate->getSeniority()->getnazev(); ?></a>
-              </li>
-              <li class="list-group-item">
-                <b>Position: </b>
-                <a><?php echo $this->candidate->getPosition()->getnazev(); ?></a>
-              </li>
-              <li class="list-group-item">
-                <b>Technology: </b>
-                <?php foreach ($this->candidate->getTechnologies() as $technology) {  ?>    
-                  <a><?php echo $technology->getnazev(); ?></a>,&nbsp;
-                <?php }  ?> 
-              </li>
-              <li class="list-group-item">
-                <b>Comment: </b>
-                <p><?php echo $this->candidate->getkomentar(); ?></p>
+                <div class="own-list">
+                  <b>Comment: </b>
+                  <p><?php echo $this->candidate->getkomentar(); ?></p>
+                </div>
               </li>
             </ul>
+          </div>
+          <div class="mar25">
+            <a href="#"><button type="button" class="btn btn-success btn-sm">Edit Profile</button></a>  
+            <a class="flright" href="#"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>  
           </div>
         </div>
       </div>

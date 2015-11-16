@@ -16,3 +16,28 @@
 .wdth-300{
 	width: 300px;
 }
+
+.min-420{
+	min-height: 420px;
+}
+
+.min-520{
+	min-height: 520px;
+}
+
+.flleft{
+	float: left;
+}
+
+.flright{
+	float: right;
+	text-align: left;
+}
+
+.mar25{
+	margin: 25px;
+}
+
+.own-list{
+	max-width: 250px
+}

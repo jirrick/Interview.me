@@ -33,10 +33,6 @@
 	min-width: 100px
 }
 
-.min-150{
-	min-width: 150px
-}
-
 .flleft{
 	float: left;
 }
@@ -52,10 +48,6 @@
 
 .own-list{
 	max-width: 250px
-}
-
-.tud{
-	text-decoration: underline;
 }
 
 

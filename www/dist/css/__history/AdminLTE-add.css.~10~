@@ -1,8 +1,0 @@
-.own-logo{
-	height: 35px;
-}
-
-.profile-user-img{
-	width: 65% !important;
-	margin-bottom: 15px;
-}

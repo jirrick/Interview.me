@@ -30,11 +30,7 @@
 }
 
 .min-100{
-	min-width: 100px
-}
-
-.min-150{
-	min-width: 150px
+	max-width: 100px
 }
 
 .flleft{
@@ -52,10 +48,6 @@
 
 .own-list{
 	max-width: 250px
-}
-
-.tud{
-	text-decoration: underline;
 }
 
 
