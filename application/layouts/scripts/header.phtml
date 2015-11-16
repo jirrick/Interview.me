@@ -50,6 +50,16 @@
                                 echo $this->user->email;
                             }
                         ?>
+               <br/>
+                        <?php      
+                            if($this->user != null){
+                                if ($this->user->admin){
+                                  echo "Administrator";
+                                } else {
+                                  echo "User";
+                                };
+                            }
+                        ?>
                       
                       
                       </small>
@@ -61,7 +71,7 @@
 	              <a href="#" class="btn btn-default btn-flat">Profile</a>
 	            </div>
 	            <div class="pull-right">
-	              <a href="logout" class="btn btn-default btn-flat">Sign out</a>
+	              <a href="<?php echo $this->baseUrl() . "/logout"; ?>" class="btn btn-default btn-flat">Sign out</a>
 	            </div>
 	          </li>
 	        </ul>
