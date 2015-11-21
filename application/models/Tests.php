@@ -31,6 +31,11 @@ class Tests extends My_Db_Table  {
            'refTableClass' => 'Technologies', 
            'refColumns' => array ('id_technologie')
         ), 
+        'User' => array(
+           'columns' => array ('id_kdo_vytvoril'), 
+           'refTableClass' => 'Users', 
+           'refColumns' => array ('id_uzivatel')
+        ),
     );
 
 
