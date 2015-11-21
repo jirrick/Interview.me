@@ -14,6 +14,15 @@ class User extends My_Db_Table_Row {
         return $this;
     }
     
+    
+    /**
+     * Vrati cele jmeno uzivatele
+     * 
+     */
+    public function getFullName() {      
+        return $this->getjmeno()." ".$this->getprijmeni();
+    }
+    
      /**
      * Reference
      * 

@@ -73,7 +73,8 @@ responsive: true,
 columnDefs: [
 { responsivePriority: 1, targets: 0 },
 { responsivePriority: 2, targets: 2 },
-{ responsivePriority: 1, targets: -1 }
+{ responsivePriority: 1, targets: -1 },
+{ bSortable: false, aTargets: -1 }
 ] });
 } );
 JS;
@@ -84,8 +85,8 @@ $this->InlineScript()->appendScript($script, $type = 'text/javascript');
           <!-- Candidate list EMPTY --> 
           <div class="box-body">
             <div class="callout callout-info">
-                <h4>V databázi nejsou žádní kandidáti.</h4>
-                <p>Přidejte nového kandidáta ať zde není tak prázdno.</p>
+                <h4>There are no candidates to show</h4>
+                <p>Enter new candidate to hide this annoying message :)</p>
             </div>
           </div>
         <?php } //END candidate list EMPTY ?>
