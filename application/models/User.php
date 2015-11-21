@@ -13,5 +13,18 @@ class User extends My_Db_Table_Row {
         
         return $this;
     }
+    
+     /**
+     * Reference
+     * 
+     * @var array
+     */
+    protected $_referenceMap = array (  
+        'Photo' => array(
+           'columns' => array ('id_fotografie'), 
+           'refTableClass' => 'Photos', 
+           'refColumns' => array ('id_foto')
+        ), 
+    );
 }
 	
