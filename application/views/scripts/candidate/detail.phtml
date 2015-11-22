@@ -95,8 +95,7 @@
             </ul>
           </div>
           <div class="mar25">
-            <a href="#"><button type="button" class="btn btn-success btn-sm">Edit Profile</button></a>  
-            <a class="flright" href="#"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>  
+            <a href="<?php echo $this->url(array('controller' => 'candidate', 'id' => $this->candidate->getid_kandidat(), 'action' => 'edit')); ?>"><button type="button" class="btn btn-success btn-sm">Edit Profile</button></a>
           </div>
         </div>
       </div>

@@ -48,21 +48,58 @@ class CandidateController extends My_Controller_Action {
 			$candidateData['datum_pohovoru'] = $this->transformDateToFormFormat($candidateData['datum_pohovoru']);
 
 			$form->setDefaults($candidateData);
+
+			$avatar = $candidate->getFoto();
+			if ($avatar !== NULL) {
+				$base64 = base64_encode($avatar->getfoto());
+				$form->avatar->setAttrib('src', "data:image/gif;base64," . $base64);	
+			}
 		}
 		// Create candidate page
 		else {
 			$this->view->title = 'Create new Candidate';
 
 		}
+
 		// ########################### POST ###########################
 		// Handles form submission
+		
 		if ($this->_request->isPost()) {
 			if ($form->isValid($this->_request->getPost())) {
 				$formValues = $form->getValues();
 
+				// Profile photo
+				$photo;
+				if (!empty($form->profilePhoto)) {
+					
+					if (!$form->profilePhoto->receive()) {
+						print "Error receiving the file";
+					}
+
+					// Reads location and creates blob
+					$profilePhotoLocation = $form->profilePhoto->getFileName();
+					$profilePhotoBlob = file_get_contents($profilePhotoLocation);
+
+					if (!empty($profilePhotoBlob)) {
+						// Creates photo object
+						$photo = My_Model::get('Photos')->createRow();
+						$photo->foto = $profilePhotoBlob;
+						$photo->jmeno = array_pop(explode("/", $profilePhotoLocation));
+						$photo->save();
+					}
+					// Deletes file from directory (is already in DB)
+					unlink($profilePhotoLocation);
+				}
+
+
 				// Converts dates into DB format
 				$formValues['datum_narozeni'] = $this->transformDateToDbFormat($formValues['datum_narozeni']);
 				$formValues['datum_pohovoru'] = $this->transformDateToDbFormat($formValues['datum_pohovoru']);
+
+				// Adds photo id
+				if (!empty($photo)) {
+					$formValues['id_foto'] = $photo->getid_foto();
+				}
 
 				// Adds last update date
 				date_default_timezone_set('UTC');
@@ -81,8 +118,12 @@ class CandidateController extends My_Controller_Action {
 				// Extracts kandidat_technologie
 				$newTechnologieIds = $formValues['kandidat_technologie'];
 				unset($formValues['kandidat_technologie']);
+
+				// Updates candidate object in DB
+				$candidate->updateFromArray($formValues);
+
 				$cht = My_Model::get('CandidatesHasTechnologies');
-				$oldTechnologies = $cht->fetchAll($cht->select()->where('id_kandidat = ?', $candidateId));
+				$oldTechnologies = $cht->fetchAll($cht->select()->where('id_kandidat = ?', $candidate->getid_kandidat()));
 
 				// Deletes kandidat_technologie objects
 				foreach ($oldTechnologies as $oTechnology) {
@@ -103,7 +144,6 @@ class CandidateController extends My_Controller_Action {
 					}
 				}
 
-
 				// Creates objects kandidat_technologie
 				foreach ($newTechnologieIds as $nTechnologyId) {
 					$new = My_Model::get('CandidatesHasTechnologies')->createRow();
@@ -112,13 +152,42 @@ class CandidateController extends My_Controller_Action {
 					$new->save();
 				}
 
-				// Updates candidate object in DB
-				$candidate->updateFromArray($formValues);
-				
 				$this->_helper->redirector->gotoRoute(array('controller' => 'candidate', 'action' => 'index'), 'default', true);
 			}
 		}
 	}
+
+	
+
+	public function detailAction()
+	{
+		$this->view->title = 'Detail of Candidate';
+
+		$candidateId = $this->_request->getParam('id');
+		if (!empty($candidateId)) {
+			$candidate = My_Model::get('Candidates')->getById($candidateId);
+		}
+
+		if ($candidate === null) {
+			$this->_helper->flashMessenger->addMessage("Kandidát nebyl nalezen");
+			$this->_helper->redirector->gotoRoute(array('controller' => 'candidate',
+				'action' => 'index'),
+			'default',
+			true);
+		}
+		else {
+			$this->view->candidate = $candidate;
+
+			$avatar = $candidate->getFoto();
+			if ($avatar !== NULL) {
+				$base64 = base64_encode($avatar->getfoto());
+				$this->view->candidateAvatarBase64 = $base64;
+			}
+			
+		}
+	}
+
+	// Helper methods
 
 	private function transformDateToDbFormat($dateString)
 	{
@@ -166,34 +235,6 @@ class CandidateController extends My_Controller_Action {
 			$rVal[$row->id_seniorita] = $row->nazev;
 		}
 		return $rVal;
-	}
-
-	public function detailAction()
-	{
-		$this->view->title = 'Detail of Candidate';
-
-		$candidateId = $this->_request->getParam('id');
-		if (!empty($candidateId)) {
-			$candidate = My_Model::get('Candidates')->getById($candidateId);
-		}
-
-		if ($candidate === null) {
-			$this->_helper->flashMessenger->addMessage("Kandidát nebyl nalezen");
-			$this->_helper->redirector->gotoRoute(array('controller' => 'candidate',
-				'action' => 'index'),
-			'default',
-			true);
-		}
-		else {
-			$this->view->candidate = $candidate;
-
-			$avatar = $candidate->getFoto();
-			if ($avatar !== NULL) {
-				$base64 = base64_encode($avatar->getfoto());
-				$this->view->candidateAvatarBase64 = $base64;
-			}
-			
-		}
 	}
 	
 }

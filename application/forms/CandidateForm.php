@@ -4,7 +4,7 @@
  * Formular pro vytvoření a editaci kandidáta
  *
  */
-class CandidateForm extends ZendX_JQuery_Form
+class CandidateForm extends Zend_Form
 {
     /**
      * Inicializace formulare
@@ -13,17 +13,22 @@ class CandidateForm extends ZendX_JQuery_Form
     public function init()
     {
     	$this->setMethod(self::METHOD_POST);
-
+    	
     	// ################## FIRST COLUMN ###################
 
 		// Photo (id_foto)
 		// File picker
-    	//$photo = new Zend_Form_Element_File('profilePhoto');
-    	//$photo->setLabel('Insert profile picture:')
-    	//->setDestination('/www/temp/');
-    	//$photo->addValidator('Count', false, 1);
-    	//$photo->addValidator('Extension', false, 'jpg,png,gif');
-    	//$this->addElement($photo);
+    	$profilePhotoPicker = new Zend_Form_Element_File('profilePhoto');
+    	$profilePhotoPicker->setLabel('Insert profile picture:')->setDestination(PUBLIC_PATH . '/temp');
+    	$profilePhotoPicker->addValidator('Count', false, 1);
+    	$profilePhotoPicker->addValidator('Size', false, 2097152);
+    	$profilePhotoPicker->removeDecorator('Label');
+    	$this->addElement($profilePhotoPicker, 'profilePhoto');
+
+    	$avatar = new Zend_Form_Element_Image('avatar');
+    	$avatar->setAttrib('class', array("profile-user-img", "img-responsive", "img-circle"));
+    	$this->addElement($avatar, 'avatar');
+
 
 		// First name (jmeno)
     	$firstName = $this->createElement('text', 'jmeno');
