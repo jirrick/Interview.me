@@ -6,7 +6,7 @@ class CandidateController extends My_Controller_Action {
 	public function init()
 	{
 		$this->view->user = $this->getUser();
-    }
+	}
 
 	public function indexAction() 
 	{
@@ -21,17 +21,151 @@ class CandidateController extends My_Controller_Action {
 	{
 		$candidateId = $this->_request->getParam('id');
 
-		// Editace kandidáta
+		// Creates form instance
+		$form = new CandidateForm();
+		$this->view->form = $form;
+
+		// Loads data from database
+		$statuses = My_Model::get('Statuses')->fetchAll();
+		$positions = My_Model::get('Positions')->fetchAll();
+		$technologies = My_Model::get('Technologies')->fetchAll();
+		$seniorities = My_Model::get('Seniorities')->fetchAll();
+
+		// Fills form selects and multiselect data
+		$form->getElement('id_status')->setMultiOptions($this->transformStatuses($statuses));
+		$form->getElement('id_pozice')->setMultiOptions($this->transformPositions($positions));
+		$form->getElement('kandidat_technologie')->setMultiOptions($this->transformTechnologies($technologies));
+		$form->getElement('id_seniorita')->setMultiOptions($this->transformSeniorities($seniorities));
+
+		// Edit candidate page
 		if (!empty($candidateId)) {
 			$this->view->title = 'Edit Candidate';
-			$record = My_Model::get('Candidates')->getById($candidateId);
+
+			$candidate = My_Model::get('Candidates')->getById($candidateId);
+			$candidateData = $candidate->get_data();
+
+			$candidateData['datum_narozeni'] = $this->transformDateToFormFormat($candidateData['datum_narozeni']);
+			$candidateData['datum_pohovoru'] = $this->transformDateToFormFormat($candidateData['datum_pohovoru']);
+
+			$form->setDefaults($candidateData);
 		}
-		// Vytvoření nového
+		// Create candidate page
 		else {
 			$this->view->title = 'Create new Candidate';
 
 		}
+		// ########################### POST ###########################
+		// Handles form submission
+		if ($this->_request->isPost()) {
+			if ($form->isValid($this->_request->getPost())) {
+				$formValues = $form->getValues();
 
+				// Converts dates into DB format
+				$formValues['datum_narozeni'] = $this->transformDateToDbFormat($formValues['datum_narozeni']);
+				$formValues['datum_pohovoru'] = $this->transformDateToDbFormat($formValues['datum_pohovoru']);
+
+				// Adds last update date
+				date_default_timezone_set('UTC');
+				$formValues['datum_aktualizace'] = date("Y-n-j");
+
+				$candidate;
+				// Editing existing candidate
+				if (!empty($candidateId)) {
+					$candidate = My_Model::get('Candidates')->getById($candidateId);
+				}
+				// Creates new candidate
+				else {
+					$candidate = My_Model::get('Candidates')->createRow();
+				}
+
+				// Extracts kandidat_technologie
+				$newTechnologieIds = $formValues['kandidat_technologie'];
+				unset($formValues['kandidat_technologie']);
+				$cht = My_Model::get('CandidatesHasTechnologies');
+				$oldTechnologies = $cht->fetchAll($cht->select()->where('id_kandidat = ?', $candidateId));
+
+				// Deletes kandidat_technologie objects
+				foreach ($oldTechnologies as $oTechnology) {
+					$deleteOld = true;
+					
+					for ($i = 0 ; $i < count($newTechnologieIds) ; $i++) {
+						// Relation still exists
+						if ($oTechnology->id_technologie === $newTechnologieIds[$i]) {
+							$deleteOld = false;
+							unset($newTechnologieIds[$i]);
+							break;
+						}
+					}
+
+					// Removes object, that doesn't exist (after update)
+					if($deleteOld) {
+						$oTechnology->delete();
+					}
+				}
+
+
+				// Creates objects kandidat_technologie
+				foreach ($newTechnologieIds as $nTechnologyId) {
+					$new = My_Model::get('CandidatesHasTechnologies')->createRow();
+					$new->id_kandidat = $candidate->getid_kandidat();
+					$new->id_technologie = $nTechnologyId;
+					$new->save();
+				}
+
+				// Updates candidate object in DB
+				$candidate->updateFromArray($formValues);
+				
+				$this->_helper->redirector->gotoRoute(array('controller' => 'candidate', 'action' => 'index'), 'default', true);
+			}
+		}
+	}
+
+	private function transformDateToDbFormat($dateString)
+	{
+		$components = explode("/", $dateString);
+		return $components[2]."-".$components[0]."-".$components[1];
+	}
+
+	private function transformDateToFormFormat($dateString)
+	{
+		$components = explode("-", $dateString);
+		return $components[1]."/".$components[2]."/".$components[0];
+	}
+
+	private function transformStatuses($arr)
+	{
+		$rVal = array();
+		foreach ($arr as $row) {
+			$rVal[$row->id_status] = $row->nazev;
+		}
+		return $rVal;
+	}
+
+	private function transformPositions($arr)
+	{
+		$rVal = array();
+		foreach ($arr as $row) {
+			$rVal[$row->id_pozice] = $row->nazev;
+		}
+		return $rVal;
+	}
+
+	private function transformTechnologies($arr)
+	{
+		$rVal = array();
+		foreach ($arr as $row) {
+			$rVal[$row->id_technologie] = $row->nazev;
+		}
+		return $rVal;
+	}
+
+	private function transformSeniorities($arr)
+	{
+		$rVal = array();
+		foreach ($arr as $row) {
+			$rVal[$row->id_seniorita] = $row->nazev;
+		}
+		return $rVal;
 	}
 
 	public function detailAction()
@@ -46,9 +180,9 @@ class CandidateController extends My_Controller_Action {
 		if ($candidate === null) {
 			$this->_helper->flashMessenger->addMessage("Kandidát nebyl nalezen");
 			$this->_helper->redirector->gotoRoute(array('controller' => 'candidate',
-														'action' => 'index'),
-														'default',
-														true);
+				'action' => 'index'),
+			'default',
+			true);
 		}
 		else {
 			$this->view->candidate = $candidate;

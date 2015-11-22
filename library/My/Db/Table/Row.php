@@ -5,7 +5,13 @@
  */
 class My_Db_Table_Row extends Zend_Db_Table_Row_Abstract {
 	
-	
+	public function updateFromArray(array $values) {
+        $this->setFromArray($values);
+        $this->save();
+        
+        return $this;
+    }
+
    /**
      * Inflektor pro ziskani nazvu atributu
      * camelCase -> under_score
