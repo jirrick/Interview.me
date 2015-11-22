@@ -1,16 +1,12 @@
 <?php
 
-class CandidateController extends Zend_Controller_Action {
+class CandidateController extends My_Controller_Action {
 	
 
 	public function init()
 	{
-          
-            //Zjištění zda je uživatel admin (kvůli viditelnosti registrace)
-            $login = Zend_Auth::getInstance()->getIdentity();
-            $user = My_Model::get('Users')->getUserByEmail($login);
-            $this->view->user = $user;
-        }
+		$this->view->user = $this->getUser();
+    }
 
 	public function indexAction() 
 	{

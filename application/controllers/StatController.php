@@ -1,10 +1,11 @@
 <?php
 
-class StatController extends Zend_Controller_Action {
+class StatController extends My_Controller_Action {
 	
-	public function init() {	
-		
-	}
+	public function init()
+	{
+		$this->view->user = $this->getUser();
+    }
 
 	public function indexAction() {
 		

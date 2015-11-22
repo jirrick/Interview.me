@@ -1,6 +1,6 @@
 <?php
 
-class QuestionController extends Zend_Controller_Action {
+class QuestionController extends My_Controller_Action {
 	
 	public function init() {	
 		
