@@ -27,9 +27,12 @@
               <table id="tests-list" class="table table-bordered table-hover">
                 <thead>
                   <tr>
-                    <!--<th>ID</th>-->
                     <th>Name</th>
                     <th>Technology</th>
+                    <th>Difficulty</th>
+                    <th>Time alloted</th>
+                    <th>Questions</th>
+                    <th>Description</th>
                     <th>Author</th>
                     <th>Created</th>
                     <th>Action</th>
@@ -39,9 +42,12 @@
            <!-- Test list ITEM -->   
            <?php foreach ($this->tests as $test) {  ?> 
               <tr>
-                <!--<td><?php echo $test->getid_test(); ?></td>-->
                 <td><?php echo $test->getnazev(); ?></td>
                 <td><?php echo $test->getTechnology()->getnazev(); ?></td>
+                <td><?php echo $test->getSeniority()->getnazev(); ?></td>
+                <td><?php echo $test->getpocet_minut(); ?> mins</td>
+                <td><?php echo $test->getpocet_otazek(); ?></td>
+                <td><?php echo $this->truncate($test->getpopis(), 66);?></td>
                 <td><?php echo $test->getCreator()->getFullName(); ?></td>
                 <td><?php $datum = new Zend_Date($test->getdatum_vytvoreni()); 
                     echo $datum->get(Zend_Date::DATE_MEDIUM, 'cs_CZ')?></td>
@@ -63,9 +69,13 @@ $('#tests-list').DataTable( {
 responsive: true,
 columnDefs: [
 { responsivePriority: 1, targets: 0 },
-{ responsivePriority: 4, targets: 1 },
-{ responsivePriority: 2, targets: 2 },
-{ responsivePriority: 3, targets: 3 },
+{ responsivePriority: 2, targets: 1 },
+{ responsivePriority: 3, targets: 2 },
+{ responsivePriority: 5, targets: 3 },
+{ responsivePriority: 4, targets: 4 },
+{ responsivePriority: 6, targets: 5 },
+{ responsivePriority: 50, targets: 6 },
+{ responsivePriority: 51, targets: 7 },
 { responsivePriority: 1, targets: -1 },
 { bSortable: false, aTargets: -1 }
 ] });

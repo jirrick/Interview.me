@@ -15,6 +15,14 @@ class Test extends My_Db_Table_Row {
     }
     
     /**
+     * Vrati instanci seniority
+     *
+     */
+    public function getSeniority() {
+        return $this->findParentRow('Seniorities');
+    }
+    
+    /**
      * Vrati instanci uzivatele-tvurce
      *
      */
