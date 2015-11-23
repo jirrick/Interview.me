@@ -29,6 +29,13 @@ class Test extends My_Db_Table_Row {
     public function getCreator() {
         return $this->findParentRow('Users');
     }
+    
+    public function updateFromArray(array $values) {
+        $this->setFromArray($values);
+        $this->save();
+        
+        return $this;
+    }
 	
 }
 	

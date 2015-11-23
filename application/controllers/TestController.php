@@ -15,7 +15,7 @@ class TestController extends My_Controller_Action {
 
 
 	public function editAction() {
- 
+             
             $testId = $this->_request->getParam('id');
             
             // Creates form instance
@@ -33,7 +33,11 @@ class TestController extends My_Controller_Action {
             // Edit test page
             if (!empty($testId)) {
                $this->view->title = 'Edit Test';
-               //TODO edit
+               
+               $test = My_Model::get('Tests')->getById($testId);
+               
+               $testData = $test->get_data();
+               $form->setDefaults($testData); 
             }
             // Create test page
             else {
@@ -42,38 +46,33 @@ class TestController extends My_Controller_Action {
             
             // ########################### POST ###########################
             // Handles form submission
-            Zend_Debug::dump("HOVNO 1");
             if ($this->_request->isPost()) {
-                Zend_Debug::dump("HOVNO 2");
                 if ($form->isValid($this->_request->getPost())) {
-                    Zend_Debug::dump("HOVNO 3");
                     $formValues = $form->getValues();
 
                     $test;
                     // Editing existing test 
                     if (!empty($testId)) {
-                        //TODO edit existing test 
+                        $test = My_Model::get('Tests')->getById($testId);
                     }
                     // Creates new test
                     else {
+                        date_default_timezone_set('UTC');
+                        $formValues['datum_vytvoreni'] = date("Y-n-j");
+                        $formValues['id_kdo_vytvoril']  = $this->getUser()->id_uzivatel;
+                                              
                         $test = My_Model::get('Tests')->createRow();
                     }
-
+                    
                     // Updates test object in DB
-                    $test->updateFromArray($formValues);
-
+                    $test->updateFromArray($formValues);              
                     $this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'index'), 'default', true);
                 }
             }
-            else {
-                Zend_Debug::dump("HOVNO ERR");
-            }
 	}
 
-	public function resultAction() {
-		
-		$this->view->title = 'Test results';
-
+	public function resultAction() {		
+            $this->view->title = 'Test results';
 	}
 
         private function transformTechnologies($arr)
