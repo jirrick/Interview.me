@@ -99,11 +99,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $frontController = $this->getResource('FrontController');
         $router = $frontController->getRouter();
 
+        
         $router->addRoute(
                 'testEdit',
-                new Zend_Controller_Router_Route('test-edit',
+                new Zend_Controller_Router_Route('test/:id/edit',
                         array('controller' => 'test',
-                            'action' => 'edit'))
+                            'action' => 'edit'),
+                        array('id' => '\d+'))
         );
 
         $router->addRoute(
@@ -163,8 +165,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         array('controller' => 'admin',
                             'action' => 'registration'))
         );
-
-
+        
 
     }
 
