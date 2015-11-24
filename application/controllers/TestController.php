@@ -66,7 +66,7 @@ class TestController extends My_Controller_Action {
                     
                     // Updates test object in DB
                     $test->updateFromArray($formValues);              
-                    $this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'index'), 'default', true);
+                    $this->_helper->redirector->gotoRoute(array('controller' => 'question', 'action' => 'edit', 'testId' => $test->id_test ), 'default', true);
                 }
             }
 	}
@@ -92,6 +92,7 @@ class TestController extends My_Controller_Action {
 		}
 		return $rVal;
 	}
-}
 
+
+}
 ?>

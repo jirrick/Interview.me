@@ -38,11 +38,9 @@ class TestForm extends Zend_Form
         
         //prideleny cas
         $time = $this->createElement('text', 'pocet_minut');
-    	$time->setRequired(true);
-        
+    	$time->setRequired(true);        
         $validator = new Zend_Validate_Digits();
         $validator->isValid("1234567890");
-        
         $time->addValidator($validator);
     	$time->setAttrib('class', 'form-control'); 
     	$time->setAttrib('placeholder', 'Alloted time');

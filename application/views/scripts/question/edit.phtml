@@ -17,40 +17,16 @@
     <!-- Small boxes (Stat box) -->
     <div class="row">
       <div class="col-xs-12">
-        <form role="form">
+    
         <div class="box">
-
-          <div class="box-header with-border">
-            <h3 class="box-title">General information</h3>
-          </div><!-- /.box-header -->
-
-          <div class="box-body">
-            <!-- text input -->
-            <div class="row">
-              <div class="col-xs-6">
-                 <div class="form-group">
-                  <label>Question</label>
-                  <input type="text" class="form-control" placeholder="Enter ...">
-                </div>
-                <div class="form-group">
-                  <label>Type</label>
-                  <select class="form-control">
-                    <option>Checkbox - ABC</option>
-                    <option>Text</option>
-                    <option>Long text</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label>Correct answer (podle odpovědi)</label>
-                  <input type="text" class="form-control" placeholder="Enter ...">
-                </div>
-                <button type="submit" class="btn btn-success btn-md">Save</button>
-              </div>
-            </div>   
-          </div><!-- /.box-body -->
+            
+            <!--formular pro pridani nove otazky -->
+            <?php echo $this->questionForm ?>
+            
+            <!--button ktery vraci zpet na seznam testu (kdyz uz jsem dokoncil pridavani otazek) -->
+            <a href="<?php echo $this->url(array('controller' => 'test', 'action' => 'index'), 'default', true); ?>"><i class="fa fa-files-o"></i> <span> Tests</span></a>
 
         </div>
-        </form>
       </div>
     </div><!-- /.row (main row) -->
 
