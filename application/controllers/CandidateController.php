@@ -11,6 +11,7 @@ class CandidateController extends My_Controller_Action {
 	public function indexAction() 
 	{
 		$candidates = My_Model::get('Candidates')->fetchAll();
+		$this->view->messages = $this->_helper->flashMessenger->getMessages();
 		
 		$this->view->candidates = $candidates;
 		$this->view->title = 'Candidates';
@@ -37,6 +38,7 @@ class CandidateController extends My_Controller_Action {
 	public function detailAction()
 	{
 		$this->view->title = 'Detail of Candidate';
+		$this->view->messages = $this->_helper->flashMessenger->getMessages();
 
 		$candidateId = $this->_request->getParam('id');
 		if (!empty($candidateId)) {
@@ -58,7 +60,7 @@ class CandidateController extends My_Controller_Action {
 				$base64 = base64_encode($avatar->getfoto());
 				$this->view->candidateAvatarBase64 = $base64;
 			}
-			
+						
 		}
 	}
 	

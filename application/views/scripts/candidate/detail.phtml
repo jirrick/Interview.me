@@ -14,6 +14,17 @@
 
   <!-- Main content -->
   <section class="content">
+    
+    
+    <?php if (count($this->messages)){ ?>
+    <!-- flashMesenger -->
+    <?php foreach ($this->messages as $message) { ?>
+      <div class="callout callout-info">
+         <h4><?php echo $this->escape($message); ?></h4>
+      </div>
+    <?php } }; ?>
+   
+    
     <!-- Small boxes (Stat box) -->
     <div class="row">
       <div class="col-md-4">
