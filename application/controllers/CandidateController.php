@@ -25,18 +25,6 @@ class CandidateController extends My_Controller_Action {
 		$form = new CandidateForm();
 		$this->view->form = $form;
 
-		// Loads data from database
-		$statuses = My_Model::get('Statuses')->fetchAll();
-		$positions = My_Model::get('Positions')->fetchAll();
-		$technologies = My_Model::get('Technologies')->fetchAll();
-		$seniorities = My_Model::get('Seniorities')->fetchAll();
-
-		// Fills form selects and multiselect data
-		$form->getElement('id_status')->setMultiOptions($this->transformStatuses($statuses));
-		$form->getElement('id_pozice')->setMultiOptions($this->transformPositions($positions));
-		$form->getElement('kandidat_technologie')->setMultiOptions($this->transformTechnologies($technologies));
-		$form->getElement('id_seniorita')->setMultiOptions($this->transformSeniorities($seniorities));
-
 		// Edit candidate page
 		if (!empty($candidateId)) {
 			$this->view->title = 'Edit Candidate';
@@ -47,6 +35,7 @@ class CandidateController extends My_Controller_Action {
 			$candidateData['datum_narozeni'] = $this->transformDateToFormFormat($candidateData['datum_narozeni']);
 			$candidateData['datum_pohovoru'] = $this->transformDateToFormFormat($candidateData['datum_pohovoru']);
 
+			$this->fillFormWithData($form, $candidate);
 			$form->setDefaults($candidateData);
 
 			$avatar = $candidate->getFoto();
@@ -59,18 +48,21 @@ class CandidateController extends My_Controller_Action {
 		else {
 			$this->view->title = 'Create new Candidate';
 
+			$this->fillFormWithData($form, NULL);
 		}
 
 		// ########################### POST ###########################
 		// Handles form submission
 		
+		Zend_Debug::dump('HOVNO-2');
 		if ($this->_request->isPost()) {
+			Zend_Debug::dump('HOVNO-1');
 			if ($form->isValid($this->_request->getPost())) {
 				$formValues = $form->getValues();
 
 				// Profile photo
 				$photo;
-				if (!empty($form->profilePhoto)) {
+				if ($form->profilePhoto->isUploaded()) {
 					
 					if (!$form->profilePhoto->receive()) {
 						print "Error receiving the file";
@@ -90,7 +82,6 @@ class CandidateController extends My_Controller_Action {
 					// Deletes file from directory (is already in DB)
 					unlink($profilePhotoLocation);
 				}
-
 
 				// Converts dates into DB format
 				$formValues['datum_narozeni'] = $this->transformDateToDbFormat($formValues['datum_narozeni']);
@@ -118,6 +109,10 @@ class CandidateController extends My_Controller_Action {
 				// Extracts kandidat_technologie
 				$newTechnologieIds = $formValues['kandidat_technologie'];
 				unset($formValues['kandidat_technologie']);
+
+				// Extracts kandidat_priloha
+				$deleteAttachments = $formValues['attachmentsCheckGroup'];
+				unset($formValues['attachmentsCheckGroup']);				
 
 				// Updates candidate object in DB
 				$candidate->updateFromArray($formValues);
@@ -152,12 +147,58 @@ class CandidateController extends My_Controller_Action {
 					$new->save();
 				}
 
+				// Attachements
+				// Deletes
+				if ($deleteAttachments !== NULL) {
+					foreach ($deleteAttachments as $dId) {
+						$row = My_Model::get('Attachments')->getById($dId);
+						$row->delete();
+					}
+				}
+
+				// Creates
+				if (!$form->attachments->receive()) {
+					print "Error receiving the file";
+				}
+
+				// Reads location and creates blob
+				$attsLocations = $form->attachments->getFileName();
+
+				if (!is_array($attsLocations)) {
+					$attsLocations = array($attsLocations);
+				}
+
+				Zend_Debug::dump($attsLocations);
+				foreach ($attsLocations as $location) {
+					$attachmentBlob = file_get_contents($location);
+
+					Zend_Debug::dump('HOVNO2');
+
+					if (!empty($attachmentBlob)) {
+
+						Zend_Debug::dump('HOVNO3');
+
+						// Creates attachment object
+						$attachment = My_Model::get('Attachments')->createRow();
+						$attachment->priloha = $attachmentBlob;
+						$attachment->jmeno = array_pop(explode("/", $location));
+						$attachment->save();
+
+						// Creates kandidat_priloha object
+						$connection = My_Model::get('CandidatesHasAttachments')->createRow();
+						$connection->id_priloha = $attachment->getid_priloha();
+						$connection->id_kandidat = $candidate->getid_kandidat();
+						$connection->save();
+					}
+					// Deletes file from temp directory (is already in DB)
+					unlink($location);
+				}
+
+				// Redirects
 				$this->_helper->redirector->gotoRoute(array('controller' => 'candidate', 'action' => 'index'), 'default', true);
 			}
 		}
 	}
-
-	
 
 	public function detailAction()
 	{
@@ -188,6 +229,34 @@ class CandidateController extends My_Controller_Action {
 	}
 
 	// Helper methods
+
+	private function fillFormWithData($form, $candidate)
+	{
+		// Loads data from database
+		$statuses = My_Model::get('Statuses')->fetchAll();
+		$positions = My_Model::get('Positions')->fetchAll();
+		$technologies = My_Model::get('Technologies')->fetchAll();
+		$seniorities = My_Model::get('Seniorities')->fetchAll();
+
+		// Fills form selects and multiselect data
+		$form->id_status->setMultiOptions($this->transformStatuses($statuses));
+		$form->id_pozice->setMultiOptions($this->transformPositions($positions));
+		$form->kandidat_technologie->setMultiOptions($this->transformTechnologies($technologies));
+		$form->id_seniorita->setMultiOptions($this->transformSeniorities($seniorities));
+
+		if ($candidate !== NULL) {
+			$atts = $candidate->getAttachments();
+
+			if (!empty($atts)) {
+				$checkGroupContent = array();
+				foreach ($atts as $att) {
+					$checkGroupContent[$att->id_priloha] = $att->jmeno;
+				}
+
+				$form->attachmentsCheckGroup->setMultiOptions($checkGroupContent);
+			}
+		}
+	}
 
 	private function transformDateToDbFormat($dateString)
 	{

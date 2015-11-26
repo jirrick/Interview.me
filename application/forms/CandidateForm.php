@@ -19,7 +19,7 @@ class CandidateForm extends Zend_Form
 		// Photo (id_foto)
 		// File picker
     	$profilePhotoPicker = new Zend_Form_Element_File('profilePhoto');
-    	$profilePhotoPicker->setLabel('Insert profile picture:')->setDestination(PUBLIC_PATH . '/temp');
+    	$profilePhotoPicker->setDestination(PUBLIC_PATH . '/temp');
     	$profilePhotoPicker->addValidator('Count', false, 1);
     	$profilePhotoPicker->addValidator('Size', false, 2097152);
     	$profilePhotoPicker->removeDecorator('Label');
@@ -74,28 +74,28 @@ class CandidateForm extends Zend_Form
     	$status = new Zend_Form_Element_Select('id_status');
     	$status->removeDecorator('Label');
     	$status->setAttrib('class', 'form-control'); 
-    	$this->addElement($status);
+    	$this->addElement($status, 'id_status');
 
     	// Position (id_pozice)
     	// Select box
     	$position = new Zend_Form_Element_Select('id_pozice');
     	$position->removeDecorator('Label');
     	$position->setAttrib('class', 'form-control'); 
-    	$this->addElement($position);
+    	$this->addElement($position, 'id_pozice');
 
     	// Technology (kandidat_technologie)
     	// Multi select
     	$technology = new Zend_Form_Element_Multiselect('kandidat_technologie');
     	$technology->removeDecorator('Label');
     	$technology->setAttrib('class', 'form-control'); 
-    	$this->addElement($technology);
+    	$this->addElement($technology, 'kandidat_technologie');
 
     	// Seniority (id_seniorita)
     	// Select box
     	$seniority = new Zend_Form_Element_Select('id_seniorita');
     	$seniority->removeDecorator('Label');
     	$seniority->setAttrib('class', 'form-control'); 
-    	$this->addElement($seniority);
+    	$this->addElement($seniority, 'id_seniorita');
 
     	// Comment (komentar)
     	$comment = $this->createElement('textarea', 'komentar');
@@ -110,6 +110,17 @@ class CandidateForm extends Zend_Form
 
 		// Attchements (kandidat_priloha)
 		// File picker
+        $attachments = new Zend_Form_Element_File('attachments');
+        $attachments->setDestination(PUBLIC_PATH . '/temp');
+        $attachments->addValidator('Count', false, array('min' => 0, 'max' => 4));
+        $attachments->addValidator('Size', false, 2097152);
+        $attachments->setMultiFile(4);
+        $attachments->removeDecorator('Label');
+        $this->addElement($attachments, 'attachments');
+
+        $attachmentsCheckGroup = new Zend_Form_Element_MultiCheckbox('attachmentsCheckGroup');
+        $comment->removeDecorator('Label');
+        $this->addElement($attachmentsCheckGroup, 'attachmentsCheckGroup');
 
 		// ###################### BUTTON ######################
     	

@@ -6,9 +6,9 @@
 				<div class="box-body box-profile">
 
 					<?php if ($this->element->avatar->getAttrib('src') !== NULL) { ?>
-						<?php echo $this->element->avatar; ?>
+					<?php echo $this->element->avatar; ?>
 					<?php } else { ?>
-						<img class="profile-user-img img-responsive img-circle" src="<?php echo $this->baseUrl() . "/dist/img/avatar5.png"; ?>" alt="User profile picture">
+					<img class="profile-user-img img-responsive img-circle" src="<?php echo $this->baseUrl() . "/dist/img/avatar5.png"; ?>" alt="User profile picture">
 					<?php } ?>
 
 					<div class="form-group">
@@ -86,18 +86,14 @@
 			<div class="box box-primary">
 				<div class="box-body box-profile">
 					<b>Upload new file: </b>
-					<div class="form-group"><input type="file" id="exampleInputFile"></div>
-					<ul class="list-group list-group-unbordered">
-						<li class="list-group-item min-42">
-							<div class="flleft min-150"><a class="tud" href="#">CV.pdf(24.5 Kb)</a></div>
-							<div class="flleft"><a>Delete</a></div>  
-						</li>
-						<li class="list-group-item min-42">
-							<div class="flleft min-150"><a class="tud" href="#">About.pdf(24.5 Kb)</a></div>
-							<div class="flleft"><a>Delete</a></div>   
-						</li>
-					</ul>
+					<?php echo $this->element->attachments; ?>
 				</div>
+				<?php
+					if ($this->element->attachmentsCheckGroup->getMultiOptions()) { 
+						echo "<b>Odstranit soubory: </b>";
+						echo $this->element->attachmentsCheckGroup;
+					}
+						?>
 			</div>
 
 			<?php echo $this->element->Save; ?>
