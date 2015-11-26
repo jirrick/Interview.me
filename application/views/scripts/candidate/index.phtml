@@ -55,7 +55,7 @@
                 <td><?php echo $candidate->getprijmeni(); ?></td>
                 <td><?php echo $candidate->getjmeno(); ?></td>
                 <td><?php $datum = new Zend_Date($candidate->getdatum_pohovoru()); 
-                    echo $datum->get(Zend_Date::DATE_MEDIUM, 'cs_CZ')?></td>
+                    echo $datum->get(Zend_Date::DATE_MEDIUM)?></td>
                 <td><?php $technologie = $candidate->getTechnologies();
                       $tech = array();
                       foreach ($technologie as $t) {

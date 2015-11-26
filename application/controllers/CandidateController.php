@@ -60,7 +60,13 @@ class CandidateController extends My_Controller_Action {
 				$base64 = base64_encode($avatar->getfoto());
 				$this->view->candidateAvatarBase64 = $base64;
 			}
-						
+			
+			$available_tests = My_Model::get('Tests')->fetchAll();
+			$this->view->available_tests = $available_tests;	
+			
+			$assignments = new Assignments();
+			$assigned_tests = $assignments->getAssignedTests($candidateId);
+			$this->view->assigned_tests = $assigned_tests;					
 		}
 	}
 	
