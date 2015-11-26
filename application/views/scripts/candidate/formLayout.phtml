@@ -1,0 +1,101 @@
+<form action="<?php echo $this->element->getAction(); ?>" method="<?php echo $this->element->getMethod(); ?>" enctype="multipart/form-data">
+	
+	<div class="row">
+		<div class="col-md-4">
+			<div class="box box-primary min-550">
+				<div class="box-body box-profile">
+
+					<?php if ($this->element->avatar->getAttrib('src') !== NULL) { ?>
+					<?php echo $this->element->avatar; ?>
+					<?php } else { ?>
+					<img class="profile-user-img img-responsive img-circle" src="<?php echo $this->baseUrl() . "/dist/img/avatar5.png"; ?>" alt="User profile picture">
+					<?php } ?>
+
+					<div class="form-group">
+						<label>Insert profile picture</label>
+						<?php echo $this->element->profilePhoto; ?>
+					</div>
+					<div class="form-group">
+						<label>Firstname</label>
+						<?php echo $this->element->jmeno; ?>
+					</div>
+
+					<div class="form-group">
+						<label for="prijmeni">Surname</label>
+						<?php echo $this->element->prijmeni; ?>
+					</div>
+
+					<div class="form-group">
+						<label for="datum_narozeni">Birthday</label>
+						<div class="input-group">
+							<div class="input-group-addon">
+								<i class="fa fa-calendar"></i>
+							</div>
+							<?php echo $this->element->datum_narozeni; ?>
+						</div><!-- /.input group -->
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-8">
+			<div class="box box-primary min-550">
+				<div class="box-body box-profile">
+					<div class="form-group">
+						<label>Interview</label>
+						<div class="input-group">
+							<div class="input-group-addon">
+								<i class="fa fa-calendar"></i>
+							</div>
+							<?php echo $this->element->datum_pohovoru; ?>
+						</div><!-- /.input group -->
+					</div>
+
+					<div class="form-group">
+						<label>Status</label>
+						<?php echo $this->element->id_status; ?>
+					</div>
+
+					<div class="form-group">
+						<label>Position</label>
+						<?php echo $this->element->id_pozice; ?>
+					</div>
+
+					<div class="form-group">
+						<label>Technology</label>
+						<?php echo $this->element->kandidat_technologie; ?>
+					</div>
+
+					<div class="form-group">
+						<label>Seniorrity</label>
+						<?php echo $this->element->id_seniorita; ?>
+					</div>
+
+					<div class="form-group">
+						<label>Comment</label>
+						<?php echo $this->element->komentar; ?>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<h1 class="main-h1">Attachements</h1>
+
+		<div class="col-md-12">
+			<div class="box box-primary">
+				<div class="box-body box-profile">
+					<b>Upload new file: </b>
+					<?php echo $this->element->attachments; ?>
+				</div>
+				<?php
+					if ($this->element->attachmentsCheckGroup->getMultiOptions()) { 
+						echo "<b>Odstranit soubory: </b>";
+						echo $this->element->attachmentsCheckGroup;
+					}
+						?>
+			</div>
+
+			<?php echo $this->element->Save; ?>
+		</div>
+	</form>
