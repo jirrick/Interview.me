@@ -125,7 +125,7 @@ class CandidateForm extends Zend_Form
 		// ###################### BUTTON ######################
 
         $close = new Zend_Form_Element_Submit('closeButton');
-        $close->setLabel('Close');
+        $close->setLabel('Back');
         $close->setAttrib('class', 'btn btn-default btn-lg');
         $close->setDecorators(array('ViewHelper'));
         $this->addElement($close, 'closeButton');

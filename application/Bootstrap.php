@@ -139,6 +139,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         );
 
         $router->addRoute(
+                'attachment',
+                new Zend_Controller_Router_Route('file/:id/:name',
+                        array('controller' => 'attachments',
+                            'action' => 'index'),
+                        array('id' => '\d+'))
+        );
+
+        $router->addRoute(
                 'questionEdit',
                 new Zend_Controller_Router_Route('question-edit',
                         array('controller' => 'question',
