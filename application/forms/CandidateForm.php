@@ -123,10 +123,28 @@ class CandidateForm extends Zend_Form
         $this->addElement($attachmentsCheckGroup, 'attachmentsCheckGroup');
 
 		// ###################### BUTTON ######################
-    	
-    	$button = $this->createElement('submit', 'Save');
-    	$button->setAttrib('class', 'btn btn-success btn-md');
-    	$this->addElement($button);
+
+        $close = new Zend_Form_Element_Submit('closeButton');
+        $close->setLabel('Close');
+        $close->setAttrib('class', 'btn btn-default btn-lg');
+        $close->setDecorators(array('ViewHelper'));
+        $this->addElement($close, 'closeButton');
+
+        $save = new Zend_Form_Element_Submit('saveButton');
+        $save->setLabel('Save');
+        $save->setAttrib('class', 'btn btn-success btn-lg');
+        $save->setDecorators(array('ViewHelper'));
+        $this->addElement($save, 'saveButton');
+
+        $delete = new Zend_Form_Element_Submit('deleteButton');
+        $delete->setLabel('Delete');
+        $delete->setAttrib('class', 'btn btn-danger btn-lg');
+        $delete->setAttrib(
+            'onclick', 
+            'if (confirm("Are you sure?")) { document.form.submit(); } return false;'
+            );
+        $delete->setDecorators(array('ViewHelper'));
+        $this->addElement($delete, 'deleteButton');
     }
 
     public function loadDefaultDecorators()
