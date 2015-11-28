@@ -54,9 +54,7 @@ class CandidateController extends My_Controller_Action {
 		// ########################### POST ###########################
 		// Handles form submission
 		
-		Zend_Debug::dump('HOVNO-2');
 		if ($this->_request->isPost()) {
-			Zend_Debug::dump('HOVNO-1');
 			if ($form->isValid($this->_request->getPost())) {
 				$formValues = $form->getValues();
 
@@ -168,15 +166,10 @@ class CandidateController extends My_Controller_Action {
 					$attsLocations = array($attsLocations);
 				}
 
-				Zend_Debug::dump($attsLocations);
 				foreach ($attsLocations as $location) {
 					$attachmentBlob = file_get_contents($location);
 
-					Zend_Debug::dump('HOVNO2');
-
 					if (!empty($attachmentBlob)) {
-
-						Zend_Debug::dump('HOVNO3');
 
 						// Creates attachment object
 						$attachment = My_Model::get('Attachments')->createRow();
