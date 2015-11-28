@@ -238,6 +238,15 @@ class CandidateController extends My_Controller_Action {
 		$form->id_seniorita->setMultiOptions($this->transformSeniorities($seniorities));
 
 		if ($candidate !== NULL) {
+			$techs = $candidate->getTechnologies();
+			if (!empty($techs)) {
+				$techsDefault = array();
+				for ($i = 0 ; $i < count($techs) ; $i++) {
+					$techsDefault[$i] = $techs[$i]->getid_technologie();
+				}
+				$form->kandidat_technologie->setValue($techsDefault);
+			}
+
 			$atts = $candidate->getAttachments();
 
 			if (!empty($atts)) {
