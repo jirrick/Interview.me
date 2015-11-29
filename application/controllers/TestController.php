@@ -1,5 +1,11 @@
 <?php
 
+class QuestionContent {
+    public $question;
+    public $options;
+    public $order;
+}
+
 class TestController extends My_Controller_Action {
 	
 	public function init() {
@@ -12,6 +18,62 @@ class TestController extends My_Controller_Action {
 		$this->view->tests = $tests;
 		$this->view->title = 'Tests';
 	}
+
+    public function detailAction()
+    {
+        $testId = $this->_request->getParam('id');
+        $test = My_Model::get('Tests')->getById($testId);
+
+        $this->customizeView($test, $this->view);
+    }
+
+    private function customizeView($test, $view)
+    {
+        // Loads objects from database
+        $creator = $test->getCreator();
+        $technology = $test->getTechnology();
+        $seniority = $test->getSeniority();
+
+        $view->title = 'Test detail';
+        $view->test = $test;
+        $view->technologyName = $technology->getnazev();
+        $view->seniorityName = $seniority->getnazev();
+
+        // Creator name
+        if (strlen($creator->getjmeno()) > 0 && strlen($creator->getprijmeni()) > 0) {
+            $view->creatorName = $creator->getjmeno() . " " . $creator->getprijmeni();
+        }
+        else if (strlen($creator->getjmeno()) > 0) {
+            $view->creatorName = $creator->getjmeno();
+        }
+        else if (strlen($creator->getprijmeni()) > 0) {
+            $view->creatorName = $creator->getprijmeni();
+        }
+        else {
+            $view->creatorName = "–";
+        }
+
+        // Number of questions
+        $view->numberOfQuestions = empty($test->getpocet_otazek()) ? "–" : $test->getpocet_otazek();
+
+        // Load questions and it's options
+        $qTable = My_Model::get('Questions');
+        $oTable = My_Model::get('Options');
+
+        $questions = $qTable->fetchAll($qTable->select()->where('id_test = ?', $test->getid_test()));
+        
+        $qContents = array();
+        for ($i = 0 ; $i < count($questions) ; $i++) {
+            $qContent = new QuestionContent();
+            $qContent->order = $i + 1;
+            $qContent->question = $questions[$i];
+            $qContent->options = $oTable->fetchAll($oTable->select()->where('id_otazka = ?', $questions[$i]->getid_otazka()));
+
+            $qContents[$i] = $qContent;
+        }
+
+        $view->questions = $qContents;
+    }
 
 
 	public function editAction() {
@@ -95,4 +157,3 @@ class TestController extends My_Controller_Action {
 
 
 }
-?>

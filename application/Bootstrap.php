@@ -109,6 +109,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         );
 
         $router->addRoute(
+                'testDetail',
+                new Zend_Controller_Router_Route('test/:id/detail',
+                        array('controller' => 'test',
+                            'action' => 'detail'),
+                        array('id' => '\d+'))
+        );
+
+        $router->addRoute(
                 'testResult',
                 new Zend_Controller_Router_Route('test-result',
                         array('controller' => 'test',

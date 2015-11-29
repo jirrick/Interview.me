@@ -53,9 +53,5 @@ class Candidate extends My_Db_Table_Row {
     public function getTechnologies() {
         return $this->findManyToManyRowset('Technologies', 'CandidatesHasTechnologies');
     }
-    
-	
-	
-	
 }
 	

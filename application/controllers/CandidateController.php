@@ -55,11 +55,10 @@ class CandidateController extends My_Controller_Action {
 		
 		if ($this->_request->isPost()) {
 			if($this->_request->getPost('saveButton', false)) {
-				Zend_Debug::dump('Save');
 				if ($form->isValid($this->_request->getPost())) {
 					$formValues = $form->getValues();
 
-				// Profile photo
+					// Profile photo
 					$photo;
 					if ($form->profilePhoto->isUploaded()) {
 
@@ -67,64 +66,64 @@ class CandidateController extends My_Controller_Action {
 							print "Error receiving the file";
 						}
 
-					// Reads location and creates blob
+						// Reads location and creates blob
 						$profilePhotoLocation = $form->profilePhoto->getFileName();
 						$profilePhotoBlob = file_get_contents($profilePhotoLocation);
 
 						if (!empty($profilePhotoBlob)) {
-						// Creates photo object
+							// Creates photo object
 							$photo = My_Model::get('Photos')->createRow();
 							$photo->foto = $profilePhotoBlob;
 							$photo->nazev = array_pop(explode("/", $profilePhotoLocation));
 							$photo->save();
 						}
-					// Deletes file from directory (is already in DB)
+						// Deletes file from directory (is already in DB)
 						unlink($profilePhotoLocation);
 					}
 
-				// Converts dates into DB format
+					// Converts dates into DB format
 					$formValues['datum_narozeni'] = $this->transformDateToDbFormat($formValues['datum_narozeni']);
 					$formValues['datum_pohovoru'] = $this->transformDateToDbFormat($formValues['datum_pohovoru']);
 
-				// Adds photo id
+					// Adds photo id
 					if (!empty($photo)) {
 						$formValues['id_foto'] = $photo->getid_foto();
 					}
 
-				// Adds last update date
+					// Adds last update date
 					date_default_timezone_set('UTC');
 					$formValues['datum_aktualizace'] = date("Y-n-j");
 
 					$candidate;
-				// Editing existing candidate
+					// Editing existing candidate
 					if (!empty($candidateId)) {
 						$candidate = My_Model::get('Candidates')->getById($candidateId);
 					}
-				// Creates new candidate
+					// Creates new candidate
 					else {
 						$candidate = My_Model::get('Candidates')->createRow();
 					}
 
-				// Extracts kandidat_technologie
+					// Extracts kandidat_technologie
 					$newTechnologieIds = $formValues['kandidat_technologie'];
 					unset($formValues['kandidat_technologie']);
 
-				// Extracts kandidat_priloha
+					// Extracts kandidat_priloha
 					$deleteAttachments = $formValues['attachmentsCheckGroup'];
 					unset($formValues['attachmentsCheckGroup']);				
 
-				// Updates candidate object in DB
+					// Updates candidate object in DB
 					$candidate->updateFromArray($formValues);
 
 					$cht = My_Model::get('CandidatesHasTechnologies');
 					$oldTechnologies = $cht->fetchAll($cht->select()->where('id_kandidat = ?', $candidate->getid_kandidat()));
 
-				// Deletes kandidat_technologie objects
+					// Deletes kandidat_technologie objects
 					foreach ($oldTechnologies as $oTechnology) {
 						$deleteOld = true;
 
 						for ($i = 0 ; $i < count($newTechnologieIds) ; $i++) {
-						// Relation still exists
+							// Relation still exists
 							if ($oTechnology->id_technologie === $newTechnologieIds[$i]) {
 								$deleteOld = false;
 								unset($newTechnologieIds[$i]);
@@ -132,13 +131,13 @@ class CandidateController extends My_Controller_Action {
 							}
 						}
 
-					// Removes object, that doesn't exist (after update)
+						// Removes object, that doesn't exist (after update)
 						if($deleteOld) {
 							$oTechnology->delete();
 						}
 					}
 
-				// Creates objects kandidat_technologie
+					// Creates objects kandidat_technologie
 					foreach ($newTechnologieIds as $nTechnologyId) {
 						$new = My_Model::get('CandidatesHasTechnologies')->createRow();
 						$new->id_kandidat = $candidate->getid_kandidat();
@@ -146,8 +145,8 @@ class CandidateController extends My_Controller_Action {
 						$new->save();
 					}
 
-				// Attachements
-				// Deletes
+					// Attachements
+					// Deletes
 					if ($deleteAttachments !== NULL) {
 						foreach ($deleteAttachments as $dId) {
 							$row = My_Model::get('Attachments')->getById($dId);
@@ -155,12 +154,12 @@ class CandidateController extends My_Controller_Action {
 						}
 					}
 
-				// Creates
+					// Creates
 					if (!$form->attachments->receive()) {
 						print "Error receiving the file";
 					}
 
-				// Reads location and creates blob
+					// Reads location and creates blob
 					$attsLocations = $form->attachments->getFileName();
 
 					if (!is_array($attsLocations)) {
@@ -172,23 +171,23 @@ class CandidateController extends My_Controller_Action {
 
 						if (!empty($attachmentBlob)) {
 
-						// Creates attachment object
+							// Creates attachment object
 							$attachment = My_Model::get('Attachments')->createRow();
 							$attachment->priloha = $attachmentBlob;
 							$attachment->nazev = array_pop(explode("/", $location));
 							$attachment->save();
 
-						// Creates kandidat_priloha object
+							// Creates kandidat_priloha object
 							$connection = My_Model::get('CandidatesHasAttachments')->createRow();
 							$connection->id_priloha = $attachment->getid_priloha();
 							$connection->id_kandidat = $candidate->getid_kandidat();
 							$connection->save();
 						}
-					// Deletes file from temp directory (is already in DB)
+						// Deletes file from temp directory (is already in DB)
 						unlink($location);
 					}
 
-				// Redirects
+					// Redirects
 					$this->_helper->redirector->gotoRoute(array('controller' => 'candidate', 'action' => 'detail', 'id' => $candidate->getid_kandidat()), 'default', true);
 				}
 			}
@@ -325,5 +324,3 @@ class CandidateController extends My_Controller_Action {
 	}
 	
 }
-
-?>
