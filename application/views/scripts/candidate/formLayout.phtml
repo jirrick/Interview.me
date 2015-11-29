@@ -76,15 +76,6 @@
 						<?php echo $this->element->komentar; ?>
 					</div>
 
-					<div class="row">
-						<div class="col-xs-6">
-							<?php echo $this->element->closeButton; ?>
-						</div>
-						<div class="col-xs-6 text-right">
-							<?php echo $this->element->deleteButton; ?>
-							<?php echo $this->element->saveButton; ?>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -98,6 +89,7 @@
 				<div class="box-body">
 					<div class="form-group">
 						<b>Upload new file</b>
+						<br/><i>You can insert your attachment about this candidate here.</i>
 						<?php echo $this->element->attachments; ?>
 
 					</div>
@@ -111,5 +103,15 @@
 				</div>
 			</div>
 
+			<div class="row">
+				<div class="col-xs-6">
+					<?php echo $this->element->closeButton; ?>
+				</div>
+				<div class="col-xs-6 text-right">
+					<?php echo $this->element->deleteButton; ?>
+					<?php echo $this->element->saveButton; ?>
+				</div>
+			</div>
 		</div>
+
 	</form>

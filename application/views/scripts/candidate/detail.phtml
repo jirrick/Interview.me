@@ -34,7 +34,7 @@
             <?php if ($this->candidateAvatarBase64 !== NULL) { ?>
             <?php echo '<img class="profile-user-img img-responsive img-circle" src="data:image/gif;base64,' . $this->candidateAvatarBase64 . '"  />'?>
             <?php } else { ?>
-            <img class="profile-user-img img-responsive img-circle" src="<?php echo $this->baseUrl() . "/dist/img/avatar5.png"; ?>" alt="User profile picture">
+              <img class="profile-user-img img-responsive img-circle" src="<?php echo $this->baseUrl() . "/dist/img/avatar5.png"; ?>" alt="User profile picture">
             <?php } ?>
             
             <ul class="list-group list-group-unbordered">
@@ -66,25 +66,25 @@
                 <div class="flleft"><a><?php echo $this->candidate->getjmeno(); ?></a></div>
               </li>
               <li class="list-group-item min-42">
-                <div class="own-list">
+                <div>
                   <div class="flleft min-100"><b>Surename: </b></div>
                   <div class="flleft"><a><?php echo $this->candidate->getprijmeni(); ?></a></div>
                 </div>
               </li>
               <li class="list-group-item min-42">
-                <div class="own-list">
+                <div>
                   <div class="flleft min-100"><b>Birthday: </b></div>
                   <div class="flleft"><a><?php echo $this->candidate->getdatum_narozeni(); ?></a></div>
                 </div>
               </li>
               <li class="list-group-item min-42">
-                <div class="own-list">
+                <div>
                   <div class="flleft min-100"><b>Position: </b></div>
                   <div class="flleft"><a><?php echo $this->candidate->getPosition()->getnazev(); ?></a></div>
                 </div>
               </li>
               <li class="list-group-item min-42">
-                <div class="own-list">
+                <div>
                   <div class="flleft min-100"><b>Technology: </b></div>
                   <?php foreach ($this->candidate->getTechnologies() as $technology) {  ?>    
                   <div class="flleft"><a><?php echo $technology->getnazev(); ?></a>,&nbsp;</div>
@@ -92,15 +92,15 @@
                 </div>
               </li>
               <li class="list-group-item min-42">
-                <div class="own-list">
+                <div>
                   <div class="flleft min-100"><b>Seniority: </b></div>
                   <div class="flleft"><a><?php echo $this->candidate->getSeniority()->getnazev(); ?></a></div>
                 </div>
               </li>
-              <li class="list-group-item">
-                <div class="own-list">
-                  <b>Comment: </b>
-                  <p><?php echo $this->candidate->getkomentar(); ?></p>
+              <li class="list-group-item min-42 border-b-n">
+                <div>
+                  <div class="flleft min-100"><b>Comment: </b></div>
+                  <div class="flleft max-w-can"><a><?php echo $this->candidate->getkomentar(); ?></a></div>
                 </div>
               </li>
             </ul>

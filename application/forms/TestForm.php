@@ -19,21 +19,23 @@ class TestForm extends Zend_Form
         $name = $this->createElement('text', 'nazev');
     	$name->addFilter('StringTrim');
     	$name->setRequired(true);
-    	$name->setAttrib('class', 'form-control'); 
+    	$name->setAttrib('class', 'form-control dd-test'); 
     	$name->setAttrib('placeholder', 'Name');
     	$name->removeDecorator('Label');
     	$this->addElement($name);
 
+        
+
         //kategorie testu
         $technology = new Zend_Form_Element_Select('id_technologie');
     	$technology->removeDecorator('Label');
-    	$technology->setAttrib('class', 'form-control'); 
+    	$technology->setAttrib('class', 'form-control dd-test'); 
     	$this->addElement($technology);
         
         //obtiznost
         $seniority = new Zend_Form_Element_Select('id_seniorita');
     	$seniority->removeDecorator('Label');
-    	$seniority->setAttrib('class', 'form-control'); 
+    	$seniority->setAttrib('class', 'form-control dd-test'); 
     	$this->addElement($seniority);
         
         //prideleny cas
@@ -42,7 +44,7 @@ class TestForm extends Zend_Form
         $validator = new Zend_Validate_Digits();
         $validator->isValid("1234567890");
         $time->addValidator($validator);
-    	$time->setAttrib('class', 'form-control'); 
+    	$time->setAttrib('class', 'form-control dd-test'); 
     	$time->setAttrib('placeholder', 'Allotted time');
     	$time->removeDecorator('Label');
     	$this->addElement($time);
@@ -51,14 +53,14 @@ class TestForm extends Zend_Form
         $name = $this->createElement('textarea', 'popis');
     	$name->addFilter('StringTrim');
     	$name->setRequired(true);
-    	$name->setAttrib('class', 'form-control'); 
+    	$name->setAttrib('class', 'form-control dd-test'); 
     	$name->setAttrib('placeholder', 'Description');
     	$name->removeDecorator('Label');
     	$this->addElement($name);
         
         //submit button
         $button = $this->createElement('submit', 'Save');
-    	$button->setAttrib('class', 'btn btn-success btn-md');
+    	$button->setAttrib('class', 'btn btn-success btn-md dd-test');
     	$this->addElement($button);
     }
 
