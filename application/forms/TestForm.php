@@ -43,7 +43,7 @@ class TestForm extends Zend_Form
         $validator->isValid("1234567890");
         $time->addValidator($validator);
     	$time->setAttrib('class', 'form-control'); 
-    	$time->setAttrib('placeholder', 'Alloted time');
+    	$time->setAttrib('placeholder', 'Allotted time');
     	$time->removeDecorator('Label');
     	$this->addElement($time);
         

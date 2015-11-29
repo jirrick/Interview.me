@@ -109,6 +109,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         );
 
         $router->addRoute(
+                'testDetail',
+                new Zend_Controller_Router_Route('test/:id/detail',
+                        array('controller' => 'test',
+                            'action' => 'detail'),
+                        array('id' => '\d+'))
+        );
+
+        $router->addRoute(
                 'testResult',
                 new Zend_Controller_Router_Route('test-result',
                         array('controller' => 'test',
@@ -135,6 +143,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 new Zend_Controller_Router_Route('candidate/:id/',
                         array('controller' => 'candidate',
                             'action' => 'detail'),
+                        array('id' => '\d+'))
+        );
+
+        $router->addRoute(
+                'attachment',
+                new Zend_Controller_Router_Route('file/:id/:name',
+                        array('controller' => 'attachments',
+                            'action' => 'index'),
                         array('id' => '\d+'))
         );
 

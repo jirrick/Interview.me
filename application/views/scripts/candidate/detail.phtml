@@ -87,7 +87,7 @@
                 <div class="own-list">
                   <div class="flleft min-100"><b>Technology: </b></div>
                   <?php foreach ($this->candidate->getTechnologies() as $technology) {  ?>    
-                    <div class="flleft"><a><?php echo $technology->getnazev(); ?></a>,&nbsp;</div>
+                  <div class="flleft"><a><?php echo $technology->getnazev(); ?></a>,&nbsp;</div>
                   <?php }  ?> 
                 </div>
               </li>
@@ -104,35 +104,54 @@
                 </div>
               </li>
             </ul>
-          </div>
-          <div class="mar25">
-            <a href="#"><button type="button" class="btn btn-success btn-sm">Edit Profile</button></a>  
-            <a class="flright" href="#"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>  
-          </div>
-        </div>
-      </div>
-      
-      <h1 class="main-h1">Attachements</h1>
 
-      <div class="col-md-12">
-        <div class="box box-primary">
-          <div class="box-body box-profile">
-            <?php if (count($this->candidate->getAttachments()) > 0) {?>
-              <ul class="list-unstyled">
-                <?php foreach ($this->candidate->getAttachments() as $attachement) {  ?>    
-                <?php if ($attachement->getnazev() === NULL || strlen($attachement->getnazev()) === 0) {?>
-                  <li>Bez názvu</li>
-                <?php } else { ?>
-                  <li><span><?php echo $attachement->getnazev(); ?></span></li>
-                  <?php } ?>
-                <?php }  ?> 
-              </ul>
-            <?php } else { ?>
-            <p>No attachemens.</p>
-            <?php }  ?> 
+            <div class="row">
+              <div class="col-xs-6">
+                <a href="<?php echo $this->url(array('controller' => 'candidate', 'action' => 'index', 'id' => NULL)); ?>"><button type="button" class="btn btn-default btn-lg">Back</button></a>
+              </div>
+              <div class="col-xs-6 text-right">
+                <a href="<?php echo $this->url(array('controller' => 'candidate', 'id' => $this->candidate->getid_kandidat(), 'action' => 'edit')); ?>"><button type="button" class="btn btn-success btn-lg">Edit Profile</button></a>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <h1 class="main-h1">Attachements</h1>
+
+        <div class="col-md-12">
+          <div class="box box-primary">
+            <div class="box-body box-profile">
+              <?php if (count($this->candidate->getAttachments()) > 0) {?>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Name
+                    </th>
+                  </tr>
+                </thead>
+                <?php foreach ($this->candidate->getAttachments() as $att) {  ?>    
+                <tr>
+                  <?php if ($att->getnazev() === NULL || strlen($att->getnazev()) === 0) {?>
+                  <td>Bez názvu</td>
+                  <?php } else { ?>
+                  <td>
+                    <a target="_blank" href="<?php echo $this->url(array('controller' => 'attachments', 'action' => 'index', 'nazev' => $att->getnazev() , 'id' => $att->getid_priloha())); ?>">
+                      <?php echo $att->getnazev(); ?>
+                    </a>
+                  </td>
+                  <?php } ?>
+                </tr>
+                <?php }  ?> 
+              </table>
+              <?php } else { ?>
+              <p>No attachemens.</p>
+              <?php }  ?> 
+            </div>
+          </div>
+        </div>
 
  <?php //Seznam testu, ktere je mozne kandidatovi priradit ?>
       <div class="col-md-5">

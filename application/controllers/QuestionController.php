@@ -1,5 +1,11 @@
 <?php
 
+class QuestionContent {
+    public $question;
+    public $options;
+    public $order;
+}
+ 
 class QuestionController extends My_Controller_Action {
 	
 	public function init() {	
@@ -37,6 +43,8 @@ class QuestionController extends My_Controller_Action {
             $this->view->title = 'Add new Question';          
             $testId = $this->_request->getParam('testId');
                   
+            $this->customizeView($testId, $this->view);
+
             // Creates form instance
             $form = new QuestionForm();
             $this->view->questionForm = $form; 
@@ -112,6 +120,25 @@ class QuestionController extends My_Controller_Action {
                }
             }
 	}
-}
 
-?>
+    private function customizeView($testId, $view)
+    {
+        // Load questions and it's options
+        $qTable = My_Model::get('Questions');
+        $oTable = My_Model::get('Options');
+
+        $questions = $qTable->fetchAll($qTable->select()->where('id_test = ?', $testId));
+        
+        $qContents = array();
+        for ($i = 0 ; $i < count($questions) ; $i++) {
+            $qContent = new QuestionContent();
+            $qContent->order = $i + 1;
+            $qContent->question = $questions[$i];
+            $qContent->options = $oTable->fetchAll($oTable->select()->where('id_otazka = ?', $questions[$i]->getid_otazka()));
+
+            $qContents[$i] = $qContent;
+        }
+
+        $view->questions = $qContents;
+    }
+}
