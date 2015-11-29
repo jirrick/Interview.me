@@ -135,8 +135,8 @@
       </div>
 
  <?php //Seznam testu, ktere je mozne kandidatovi priradit ?>
-      <h1 class="main-h1">Available tests</h1>
-      <div class="col-md-5">  
+      <div class="col-md-5">
+        <h1 class="main-h1">Available tests</h1> 
         <div class="box box-primary min-420">        <!-- Test list HEADER-->
           <?php if (count($this->available_tests) > 0) {?>
            <div class="box-body">
@@ -203,8 +203,8 @@ $this->InlineScript()->appendScript($script, $type = 'text/javascript');
   
  
   <?php //Seznam testu, ktere jsou kandidatovi prirazene ?>       
-     <h1 class="main-h1">Assigned tests</h1>
       <div class="col-md-7">  
+        <h1 class="main-h1">Assigned tests</h1>
         <div class="box box-primary min-420">        <!-- Test list HEADER-->
           <?php if (count($this->assigned_tests) > 0) {?>
            <div class="box-body">
@@ -228,7 +228,7 @@ $this->InlineScript()->appendScript($script, $type = 'text/javascript');
                     echo $datum->get(Zend_Date::DATE_MEDIUM)?></td>
                 <td><?php echo $test->getStatus()->getnazev(); ?></td>
                 <td>
-                  <a href="<?php echo $this->url(array('controller' => 'assignment', 'action' => 'test', 'link' => $test->getodkaz(), 'id' => null, )); ?>"><button type="button" class="btn btn-success btn-sm">Go to test</button></a>  
+                  <a href="<?php echo $this->url(array('controller' => 'assignment', 'action' => 'test', 'link' => $test->getodkaz(), 'id' => null, )); ?>">Go to test</a>  
                 </td>
               </tr>
               <?php }  //END foreach $test?> 
@@ -264,9 +264,6 @@ $this->InlineScript()->appendScript($script, $type = 'text/javascript');
         <?php } //END test list EMPTY ?>
         </div>
       </div>
-
-        <button type="submit" class="btn btn-danger btn-lg">Delete Candidate</button>
-
 
     </div><!-- /.row (main row) -->
 

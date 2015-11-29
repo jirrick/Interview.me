@@ -4,11 +4,22 @@ class AssignmentController extends My_Controller_Action {
 	
 	public function init()
 	{
-		$this->_helper->layout->setLayout('admin');
+        //pro kandidata nastavi jiny layout
+		$auth = Zend_Auth::getInstance();
+		if (!$auth->hasIdentity()) {
+            $this->_helper->layout->setLayout('admin');
+        }
     }
 
 	public function indexAction() {
-		$this->view->title = 'TODO - HOME';
+		//pro kandidata nastavi jiny view
+		$auth = Zend_Auth::getInstance();
+		if (!$auth->hasIdentity()) {
+			$this->_helper->viewRenderer('index-external');
+        } else {
+			$this->_helper->viewRenderer('index-internal');
+		}
+		$this->view->title = 'TODO - TEST HOME';
 		$this->view->messages = $this->_helper->flashMessenger->getMessages();
 	}
 	
@@ -107,6 +118,14 @@ class AssignmentController extends My_Controller_Action {
 	
 	//zobrazeni testu - TODO
 	public function testAction() {
+		//pro kandidata nastavi jiny view
+		$auth = Zend_Auth::getInstance();
+		if (!$auth->hasIdentity()) {
+			$this->_helper->viewRenderer('test-external');
+        } else {
+			$this->_helper->viewRenderer('test-internal');
+		}
+		
 		// kontrola, zda existuje prirazeny test
 		$link = $this->getParam('link');
 		$assignment = $this->verifyLink($link);			
