@@ -107,10 +107,30 @@ input[type=checkbox]{
 	margin-right: 5px;
 	margin-top: 0px;
 }
-
 .dd-test{
-	margin:10px;
+	margin:10px !important;
+}
+.dd-chc{
+	margin-top:16px !important;
 }
 textarea.dd-test {
 	height:150px !important;
 }
+#odpovedA-element,
+#checkA-label, 
+#odpovedB-element, 
+#checkB-label, 
+#odpovedC-element,
+#checkC-label, 
+#odpovedD-element,
+#checkD-label{
+	float:left;
+} 
+
+#odpovedA-element,
+#odpovedB-element, 
+#odpovedC-element,
+#odpovedD-element
+{
+	width: 450px;
+} 

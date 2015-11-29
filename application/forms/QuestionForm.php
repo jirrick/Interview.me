@@ -35,7 +35,7 @@ class QuestionForm extends Zend_Form
         
         $this->addElement('checkbox', 'checkA', array(
             'name' => 'checkA',
-            'class' => 'dd-test',
+            'class' => 'dd-chc',
             'disableHidden' => true
         ));
         
@@ -49,7 +49,7 @@ class QuestionForm extends Zend_Form
         
         $this->addElement('checkbox', 'checkB', array(
             'name' => 'checkB',
-            'class' => 'dd-test',
+            'class' => 'dd-chc',
             'disableHidden' => true
         ));
         
@@ -63,7 +63,7 @@ class QuestionForm extends Zend_Form
         
         $this->addElement('checkbox', 'checkC', array(
             'name' => 'checkC',
-            'class' => 'dd-test',
+            'class' => 'dd-chc',
             'disableHidden' => true
         ));
         
@@ -77,7 +77,7 @@ class QuestionForm extends Zend_Form
                          
         $this->addElement('checkbox', 'checkD', array(
             'name' => 'checkD',
-            'class' => 'dd-test',
+            'class' => 'dd-chc',
             'disableHidden' => true
         ));
         

@@ -107,10 +107,12 @@ input[type=checkbox]{
 	margin-right: 5px;
 	margin-top: 0px;
 }
-
-.dd-test{
-	margin:10px;
+.zend_form dt{
+	display: none;
 }
-textaera.dd-test {
+.dd-test{
+	margin:10px !important;
+}
+textarea.dd-test {
 	height:150px !important;
 }

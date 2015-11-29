@@ -79,7 +79,7 @@
 }
 
 .max-w-test{
-	max-width:80%;
+	max-width:65%;
 }
 
 .max-w-can{
@@ -107,3 +107,10 @@ input[type=checkbox]{
 	margin-right: 5px;
 	margin-top: 0px;
 }
+.dd-test{
+	margin:10px !important;
+}
+textarea.dd-test {
+	height:150px !important;
+}
+#odpovedA-element, #checkA-label, #odpovedB-element, #checkB-label, #odpovedC-element,#checkC-label, #odpovedD-element,#checkD-label{float:left;} 

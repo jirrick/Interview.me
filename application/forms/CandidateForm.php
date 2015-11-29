@@ -126,19 +126,19 @@ class CandidateForm extends Zend_Form
 
         $close = new Zend_Form_Element_Submit('closeButton');
         $close->setLabel('Back');
-        $close->setAttrib('class', 'btn btn-default btn-lg');
+        $close->setAttrib('class', 'btn btn-default');
         $close->setDecorators(array('ViewHelper'));
         $this->addElement($close, 'closeButton');
 
         $save = new Zend_Form_Element_Submit('saveButton');
         $save->setLabel('Save');
-        $save->setAttrib('class', 'btn btn-success btn-lg');
+        $save->setAttrib('class', 'btn btn-success');
         $save->setDecorators(array('ViewHelper'));
         $this->addElement($save, 'saveButton');
 
         $delete = new Zend_Form_Element_Submit('deleteButton');
         $delete->setLabel('Delete');
-        $delete->setAttrib('class', 'btn btn-danger btn-lg');
+        $delete->setAttrib('class', 'btn btn-danger');
         $delete->setAttrib(
             'onclick', 
             'if (confirm("Are you sure?")) { document.form.submit(); } return false;'
