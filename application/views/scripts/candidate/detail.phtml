@@ -14,6 +14,17 @@
 
   <!-- Main content -->
   <section class="content">
+    
+    
+    <?php if (count($this->messages)){ ?>
+    <!-- flashMesenger -->
+    <?php foreach ($this->messages as $message) { ?>
+      <div class="callout callout-info">
+         <h4><?php echo $this->escape($message); ?></h4>
+      </div>
+    <?php } }; ?>
+   
+    
     <!-- Small boxes (Stat box) -->
     <div class="row">
       <div class="col-md-4">
@@ -123,47 +134,136 @@
         </div>
       </div>
 
-      <!--<h1 class="main-h1">Tests</h1>
-
-      <div class="col-md-12">
-        <div class="box box-primary">
-          <div class="box-body box-profile">
-            
-            <form>
-              <div class="form-group wdth-300">
-                <select multiple class="form-control">
-                  <option>Microsof Office</option>
-                  <option>Front-End</option>
-                  <option>Základy .NET</option>
-                  <option>Git-ování</option>
-                  <option>Pohoda</option>
-                </select>
-              </div>
-              <button type="submit" class="btn btn-success btn-md">Generate</button>
-            </form>
-            <div>
-
-              <br><b>Generated: </b>
-              <ul class="list-unstyled">
-                <li>
-                  Microsof Office
-                </li>
-                <li>
-                  Front-End
-                </li>
-                <li>
-                  Základy .NET
-                </li>
-              </ul> 
-
+ <?php //Seznam testu, ktere je mozne kandidatovi priradit ?>
+      <div class="col-md-5">
+        <h1 class="main-h1">Available tests</h1> 
+        <div class="box box-primary min-420">        <!-- Test list HEADER-->
+          <?php if (count($this->available_tests) > 0) {?>
+           <div class="box-body">
+              <table id="available-tests-list" class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Technology</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody> 
+           <!-- Test list ITEM -->   
+           <?php foreach ($this->available_tests as $test) {  ?> 
+              <tr>
+                <td><?php echo $test->getnazev(); ?></td>
+                <td><?php echo $test->getTechnology()->getnazev(); ?></td>
+                <td>
+                  <form action="<?php echo $this->url(array('controller' => 'assignment',
+                                                        'action' => 'assign',
+                                                        'candidate' => $this->candidate->getid_kandidat(),
+                                                        'test' => $test->getid_test(),                                                       
+                                                        'id' => null)); ?>"
+                       method="post"><input type="submit" class="btn btn-success btn-sm" value="Assign"/>
+                </td>
+              </tr>
+              <?php }  //END foreach $test?> 
+              </tbody>
+            </table>
+            </div><!-- /.box-body --> 
+          <?php 
+          // end of table
+ 
+// haluz konstrukce, ktera vypise tenhle skript na konec souboru        
+$script = <<<'JS'
+$(document).ready(function() {
+$('#available-tests-list').DataTable( {
+responsive: true,
+columnDefs: [
+{ responsivePriority: 1, targets: 0 },
+{ responsivePriority: 2, targets: 1 },
+{ responsivePriority: 1, targets: -1 },
+{ bSortable: false, aTargets: -1 }
+] });
+} );
+JS;
+$this->InlineScript()->appendScript($script, $type = 'text/javascript');   
+          } else { ?>
+          
+          <!-- test list EMPTY --> 
+          <div class="box-body">
+            <div class="callout callout-info">
+                <h4>There are no tests to show</h4>
+                <p>Create new test to hide this annoying message :)</p>
             </div>
           </div>
+        <?php } //END test list EMPTY ?>
         </div>
-
-        <button type="submit" class="btn btn-danger btn-lg">Delete Candidate</button>
-      </div>-->
-
-
+      </div>
+      
+      
+      
+      
+  
+ 
+  <?php //Seznam testu, ktere jsou kandidatovi prirazene ?>       
+      <div class="col-md-7">  
+        <h1 class="main-h1">Assigned tests</h1>
+        <div class="box box-primary min-420">        <!-- Test list HEADER-->
+          <?php if (count($this->assigned_tests) > 0) {?>
+           <div class="box-body">
+              <table id="assigned-tests-list" class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Assigned by</th>
+                    <th>Assigned on</th>
+                    <th>Status</th>
+                    <th>Link</th>
+                  </tr>
+                </thead>
+                <tbody> 
+           <!-- Test list ITEM -->   
+           <?php foreach ($this->assigned_tests as $test) {  ?> 
+              <tr>
+                <td><?php echo $test->getTest()->getnazev(); ?></td>
+                <td><?php echo $test->getCreator()->getFullName(); ?></td>
+                <td><?php $datum = new Zend_Date($test->getdatum_prirazeni()); 
+                    echo $datum->get(Zend_Date::DATE_MEDIUM)?></td>
+                <td><?php echo $test->getStatus()->getnazev(); ?></td>
+                <td>
+                  <a href="<?php echo $this->url(array('controller' => 'assignment', 'action' => 'test', 'link' => $test->getodkaz(), 'id' => null, )); ?>">Go to test</a>  
+                </td>
+              </tr>
+              <?php }  //END foreach $test?> 
+              </tbody>
+            </table>
+            </div><!-- /.box-body --> 
+          <?php 
+          // end of table
+ 
+// haluz konstrukce, ktera vypise tenhle skript na konec souboru        
+$script = <<<'JS'
+$(document).ready(function() {
+$('#assigned-tests-list').DataTable( {
+responsive: true,
+columnDefs: [
+{ responsivePriority: 1, targets: 0 },
+{ responsivePriority: 2, targets: -2 },
+{ responsivePriority: 1, targets: -1 },
+{ bSortable: false, aTargets: -1 }
+] });
+} );
+JS;
+$this->InlineScript()->appendScript($script, $type = 'text/javascript');   
+          } else { ?>
+          
+          <!-- test list EMPTY --> 
+          <div class="box-body">
+            <div class="callout callout-info">
+                <h4>There are no assigned tests to show</h4>
+                <p>Assign a test to hide this annoying message :)</p>
+            </div>
+          </div>
+        <?php } //END test list EMPTY ?>
+        </div>
+      </div>
 
     </div><!-- /.row (main row) -->
 

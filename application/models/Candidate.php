@@ -54,6 +54,14 @@ class Candidate extends My_Db_Table_Row {
         return $this->findManyToManyRowset('Technologies', 'CandidatesHasTechnologies');
     }
     
+    /**
+     * Vrati cele jmeno kandidata
+     * 
+     */
+    public function getFullName() {      
+        return $this->getjmeno()." ".$this->getprijmeni();
+    }
+    
 	
 	
 	

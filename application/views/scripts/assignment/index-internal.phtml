@@ -1,0 +1,17 @@
+<div >    
+   
+   <h1>
+      <?php echo $this->escape($this->title); ?>
+    </h1>
+   
+   
+     <?php if (count($this->messages)){ ?>
+    <!-- flashMesenger -->
+    <?php foreach ($this->messages as $message) { ?>
+      <div class="callout callout-info">
+         <h4><?php echo $this->escape($message); ?></h4>
+      </div>
+    <?php } }; ?>
+
+
+</div>
