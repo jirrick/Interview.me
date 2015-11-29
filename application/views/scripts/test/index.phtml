@@ -52,7 +52,7 @@
                 <td><?php $datum = new Zend_Date($test->getdatum_vytvoreni()); 
                     echo $datum->get(Zend_Date::DATE_MEDIUM, 'cs_CZ')?></td>
                 <td>
-                  <a href="<?php echo $this->url(array('controller' => 'test', 'id' => $test->getid_test(), 'action' => 'detail')); ?>"><button type="button" class="btn btn-default btn-sm">Detail</button></a>  
+                  <a href="<?php echo $this->url(array('controller' => 'test', 'id' => $test->getid_test(), 'action' => 'detail')); ?>"><button type="button" class="btn btn-success btn-sm">Detail</button></a>  
                 </td>
               </tr>
               <?php }  //END foreach $test?> 

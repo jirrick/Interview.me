@@ -65,9 +65,7 @@
                 <td>--%</td>
                 <td><?php echo $candidate->getStatus()->getnazev(); ?></td>
                 <td>
-                  <a href="<?php echo $this->url(array('controller' => 'candidate', 'id' => $candidate->getid_kandidat(), 'action' => 'detail')); ?>"><button type="button" class="btn btn-default btn-sm">Detail</button></a>  
-                  <a href="<?php echo $this->url(array('controller' => 'candidate', 'id' => $candidate->getid_kandidat(), 'action' => 'edit')); ?>"><button type="button" class="btn btn-default btn-sm">Edit</button></a>
-                  <!--<a href="<?php echo $this->url(array('controller' => 'candidate', 'id' => $candidate->getid_kandidat(), 'action' => 'delete')); ?>"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>-->
+                  <a href="<?php echo $this->url(array('controller' => 'candidate', 'id' => $candidate->getid_kandidat(), 'action' => 'detail')); ?>"><button type="button" class="btn btn-success btn-sm">Detail</button></a>  
                 </td>
               </tr>
               <?php }  //END foreach $candidate?> 
