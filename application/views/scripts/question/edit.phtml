@@ -49,7 +49,7 @@
             </div>
             
             <!--button ktery vraci zpet na seznam testu (kdyz uz jsem dokoncil pridavani otazek) -->
-            <!--<a href="<?php echo $this->url(array('controller' => 'test', 'action' => 'index'), 'default', true); ?>"><i class="fa fa-files-o"></i> <span> Tests</span></a>-->
+            <a href="<?php echo $this->url(array('controller' => 'test', 'action' => 'detail', 'id' => $this->testId), 'default', true); ?>"><button type="submit" class="btn btn-success mar10">Save test</button></a>
 
         </div>
       </div>
