@@ -53,6 +53,9 @@ class TestController extends My_Controller_Action {
             $view->creatorName = "–";
         }
 
+        // Number of questions
+        $view->numberOfQuestions = $test->getQuestionsCount();
+
         // Load questions and it's options
         $qTable = My_Model::get('Questions');
         $oTable = My_Model::get('Options');
