@@ -23,7 +23,7 @@ class TestController extends My_Controller_Action {
     {
         $testId = $this->_request->getParam('id');
         $test = My_Model::get('Tests')->getById($testId);
-
+        $test->updateQuestionsCount();
         $this->customizeView($test, $this->view);
     }
 
@@ -52,9 +52,6 @@ class TestController extends My_Controller_Action {
         else {
             $view->creatorName = "–";
         }
-
-        // Number of questions
-        $view->numberOfQuestions = $test->getQuestionsCount();
 
         // Load questions and it's options
         $qTable = My_Model::get('Questions');

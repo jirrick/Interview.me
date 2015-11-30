@@ -140,5 +140,6 @@ class QuestionController extends My_Controller_Action {
         }
 
         $view->questions = $qContents;
+        $view->testId = $testId;
     }
 }

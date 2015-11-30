@@ -31,17 +31,14 @@ class Test extends My_Db_Table_Row {
     }
     
     /**
-     * Vrati pocet otazek
+     * Prepocita otazky
      *
      */
-    public function getQuestionsCount() {
-        if ($this->getpocet_otazek() === null){
-           $rowset = $this->findDependentRowset('Questions');
-           $rowCount = count($rowset);
-           $this->setpocet_otazek($rowCount);
-           $this->save();
-        }
-        return $this->getpocet_otazek();
+    public function updateQuestionsCount() {
+        $rowset = $this->findDependentRowset('Questions');
+        $rowCount = count($rowset);
+        $this->setpocet_otazek($rowCount);
+        $this->save();
     }
 }
 	
