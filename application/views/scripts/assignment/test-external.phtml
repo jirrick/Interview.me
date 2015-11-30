@@ -1,8 +1,6 @@
   <!-- Content Header (Page header) -->
-  <section class="content-header">
-    <h1>
-      <?php echo $this->escape($this->title); ?>
-    </h1>
+  <section class="content-header">  
+    <img class="own-logo" src="<?php echo $this->baseUrl() . "/dist/img/logo-black.png"; ?>" alt="logo" />
   </section>
 
   <!-- Main content -->
@@ -18,6 +16,7 @@
     <?php } }; ?>
 
     <div class="col-md-8">
+      <h1 class="main-h1"><?php echo $this->escape($this->title); ?></h1>
         <div class="box box-primary min-420">
           <div class="box-body box-profile">
             <ul class="list-group list-group-unbordered">

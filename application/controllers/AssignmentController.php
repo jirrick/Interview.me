@@ -19,7 +19,7 @@ class AssignmentController extends My_Controller_Action {
         } else {
 			$this->_helper->viewRenderer('index-internal');
 		}
-		$this->view->title = 'Assigned test';
+		$this->view->title = '';
 		$this->view->messages = $this->_helper->flashMessenger->getMessages();
 	}
 	
