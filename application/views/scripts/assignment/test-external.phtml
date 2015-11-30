@@ -1,9 +1,14 @@
-<div >    
-   
-   <h2>
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
       <?php echo $this->escape($this->title); ?>
-    </h2>
-    
+    </h1>
+  </section>
+
+  <!-- Main content -->
+  <section class="content"> 
+    <div class="row">
+     
      <?php if (count($this->messages)){ ?>
     <!-- flashMesenger -->
     <?php foreach ($this->messages as $message) { ?>
@@ -12,20 +17,30 @@
       </div>
     <?php } }; ?>
 
+    <div class="col-md-8">
+        <div class="box box-primary min-420">
+          <div class="box-body box-profile">
+            <ul class="list-group list-group-unbordered">
+              <li class="list-group-item min-42">
+                <div class="flleft min-100"><b>Test: </b></div>
+                <div class="flleft"><a><?php echo $this->escape($this->test); ?></a></div>
+              </li>
+              <li class="list-group-item min-42">
+                <div>
+                  <div class="flleft min-100"><b>Candidate: </b></div>
+                  <div class="flleft"><a><?php echo $this->escape($this->candidate); ?></a></div>
+                </div>
+              </li>
+            </ul>
 
-    <h3>
-     TEST: <?php echo $this->escape($this->test); ?>
-    </h3>
-    
-    <h3>
-     CANDIDATE: <?php echo $this->escape($this->candidate); ?>
-    </h3>
-
-
-    <form action="<?php echo $this->url(array('controller' => 'assignment',
-                                            'action' => 'submit' )); ?>"
-                       method="post"><input type="submit" class="btn btn-success btn-sm" value="Test submit"/>
-	
-
-
-</div>
+            <div class="row">
+              <div class="col-xs-6">
+                <form action="<?php echo $this->url(array('controller' => 'assignment',
+                                                    'action' => 'submit' )); ?>"
+                              method="post"><input type="submit" class="btn btn-success" value="Submit test"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.row (main row) -->
+  </section><!-- /.content -->

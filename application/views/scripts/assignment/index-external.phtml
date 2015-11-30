@@ -1,10 +1,14 @@
-<div >    
-   
-   <h1>
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
       <?php echo $this->escape($this->title); ?>
     </h1>
-   
-   
+  </section>
+
+  <!-- Main content -->
+  <section class="content"> 
+    <div class="row">
+     
      <?php if (count($this->messages)){ ?>
     <!-- flashMesenger -->
     <?php foreach ($this->messages as $message) { ?>
@@ -13,6 +17,6 @@
       </div>
     <?php } }; ?>
 
+    </div><!-- /.row (main row) -->
 
-
-</div>
+  </section><!-- /.content -->

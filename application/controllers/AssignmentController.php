@@ -4,10 +4,10 @@ class AssignmentController extends My_Controller_Action {
 	
 	public function init()
 	{
-        //pro kandidata nastavi jiny layout
-		$auth = Zend_Auth::getInstance();
-		if (!$auth->hasIdentity()) {
-            $this->_helper->layout->setLayout('admin');
+        $this->view->user = $this->getUser();
+		
+		if ($this->getUser() === null) {
+            $this->_helper->layout->setLayout('basic');
         }
     }
 
@@ -19,7 +19,7 @@ class AssignmentController extends My_Controller_Action {
         } else {
 			$this->_helper->viewRenderer('index-internal');
 		}
-		$this->view->title = 'TODO - TEST HOME';
+		$this->view->title = 'Assigned test';
 		$this->view->messages = $this->_helper->flashMessenger->getMessages();
 	}
 	
@@ -131,7 +131,7 @@ class AssignmentController extends My_Controller_Action {
 		$assignment = $this->verifyLink($link);			
 		
 		//TODO vyplnit test
-		$this->view->title = 'TODO - SUBMIT TEST';
+		$this->view->title = 'Assigned test';
 		$test = My_Model::get('Tests')->getById($assignment->getid_test());
 		$this->view->test = $test->getnazev();
 		$candidate = My_Model::get('Candidates')->getById($assignment->getid_kandidat());
@@ -158,7 +158,7 @@ class AssignmentController extends My_Controller_Action {
 			$assignment -> setid_status($statusID);
 			$assignment -> save();
 			
-			$this->_helper->flashMessenger->addMessage("This test has been successfully submitted.");
+			$this->_helper->flashMessenger->addMessage("Test has been successfully submitted.");
 			$this->_helper->redirector->gotoRoute(array('controller' => 'assignment',
 														'action' => 'index'),
 														'default',
