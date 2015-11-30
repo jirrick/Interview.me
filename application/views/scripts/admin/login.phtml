@@ -3,12 +3,20 @@
 
 	<?php echo $this->loginform ?>
         
-        <?php $flashMessenger = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');?>
         
+        
+        
+        <?php 
 
-        <?php foreach ($flashMessenger->getMessages() as $msg): ?>
-            <?php echo $msg ?>
-        <?php endforeach; ?>
+        if($this->messages != null){
+            foreach ($this->messages as $msg){
+                echo "</br>";
+                echo $msg;
+                echo "</br>";
+                echo "</br>";
+            }
+        } ?>
+
         
     <a href="index.html">Forgot password?</a>
 

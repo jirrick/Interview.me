@@ -134,31 +134,15 @@ class Application_Plugin_DbAuth extends Zend_Controller_Plugin_Abstract
                 // autentifikace byla neuspesna
                 // FlashMessenger slouzi k uchovani zprav v session
                 $flash = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
-                //$flash->clearMessages();
-
+                
                 // vlozime do session rovnou chybove hlasky, ktere pak predame do view
                 foreach ($result->getMessages() as $msg)
                 {
                     $flash->addMessage($msg);
                 }
 
-                // nicmene muzeme je nastavit podle konkretniho chyboveho kodu
-                if ($result->getCode() == Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID)
-                {
-                  $flash->addMessage("Špatné heslo");
-                }
-                else if ($result->getCode() == Zend_Auth_Result::FAILURE_IDENTITY_AMBIGUOUS)
-                {
-                  $flash->addMessage("Více identit");
-                }
-                else if ($result->getCode() == Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND)
-                {
-                  $flash->addMessage("Identita nenalezena");
-                }
-
                 $redirector->gotoSimpleAndExit($this->failedAction, $this->failedController, null, array('login-failed' => 1));
             }
         }
     }
-
 }

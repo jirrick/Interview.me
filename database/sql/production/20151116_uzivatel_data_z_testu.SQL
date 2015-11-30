@@ -6,3 +6,4 @@ INSERT INTO `uzivatel` (`jmeno`, `prijmeni`, `email`, `heslo`, `admin`) VALUES
 ('Jirka', 'Hudec', 'jirrick@outlook.cz', 'cb8d3a7f8e18c504d1c27939b868fb45b8004692', 1),
 ('Filip', 'Fabišík', 'filip.fabisik@gmail.com', 'f8a6c4744156928c34cc7f295b2bdd28a7548c5a', 1),
 ('Jan', 'Černý', 'jc@cn.cz', '676126e0af3a3bddabd7e33983c9e1f8d8e5a9b0', 1);
+('j',	'c',	'jcislinsky@gmail.com',	'98a54f5ae7ad07e93d060be2e723c774b2b38f80',	1);

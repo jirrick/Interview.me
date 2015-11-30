@@ -25,7 +25,7 @@
                       
                       <?php      
                             if($this->user != null){
-                                echo $this->user->jmeno." ".$this->user->prijmeni;
+                               echo $this->user->getFullName();
                             }
                         ?>
                       
@@ -39,7 +39,7 @@
 	             
                         <?php      
                             if($this->user != null){
-                                echo $this->user->jmeno." ".$this->user->prijmeni;
+                                echo $this->user->getFullName();
                             }
                         ?>
                         

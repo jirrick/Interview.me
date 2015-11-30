@@ -19,6 +19,16 @@ class Statuses extends My_Db_Table  {
      * @var string
      */
     protected $_rowClass = 'Status';	
+    
+    /**
+     * Ziska z DB aktualni ID odpovidaji status kodu
+     *
+     */
+    public function getStatusID($statusCode){
+        $select = $this->select()->where('kod = ?', $statusCode);
+        $row = $this->fetchRow($select);
+        return $row->getid_status();
+    } 
 
 
 }

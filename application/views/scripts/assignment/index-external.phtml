@@ -1,0 +1,22 @@
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      <img class="own-logo" src="<?php echo $this->baseUrl() . "/dist/img/logo-black.png"; ?>" alt="logo" />
+    </h1>
+  </section>
+
+  <!-- Main content -->
+  <section class="content"> 
+    <div class="row">
+     
+     <?php if (count($this->messages)){ ?>
+    <!-- flashMesenger -->
+    <?php foreach ($this->messages as $message) { ?>
+      <div class="callout callout-info">
+         <h4><?php echo $this->escape($message); ?></h4>
+      </div>
+    <?php } }; ?>
+
+    </div><!-- /.row (main row) -->
+
+  </section><!-- /.content -->

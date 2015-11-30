@@ -14,6 +14,9 @@ defined('APPLICATION_PATH')
 defined('APPLICATION_ENV')
     || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'development'));
 
+defined('PUBLIC_PATH')
+	|| define('PUBLIC_PATH', realpath(dirname(__FILE__)));
+
 /** Zend_Application */
 require_once 'Zend/Application.php';  
 

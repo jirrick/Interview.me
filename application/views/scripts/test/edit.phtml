@@ -17,52 +17,17 @@
     <!-- Small boxes (Stat box) -->
     <div class="row">
       <div class="col-xs-12">
-        <form role="form">
         <div class="box box-primary">
 
           <div class="box-header with-border">
             <h3 class="box-title">General Informations</h3>
           </div><!-- /.box-header -->
-
-          <div class="box-body">
-            <!-- text input -->
-            <div class="row">
-              <div class="col-xs-6">
-                 <div class="form-group">
-                  <label>Name</label>
-                  <input type="text" class="form-control" placeholder="Enter ...">
-                </div>
-                <div class="form-group">
-                  <label>Categories</label>
-                  <select class="form-control">
-                    <option>Programování</option>
-                    <option>Administrativa</option>
-                    <option>Fyzika</option>
-                  </select><br/>
-                  <input type="text" class="form-control" placeholder="Enter ...">
-                </div>
-              </div>
-            </div>   
-          </div><!-- /.box-body -->
-
-          <div class="box-header with-border">
-            <h3 class="box-title">Question</h3>
-          </div><!-- /.box-header -->
-
-          <div class="box-body">
-            <!-- text input -->
-            <div class="row">
-              <div class="col-xs-6">
-                
-                Pridávanie otázok doriesime neskor.
-
-              </div>
-            </div>   
-            <button type="submit" class="btn btn-success btn-md">Save</button>
-          </div><!-- /.box-body -->
-
+          <div class="row"> 
+            <div class="col-md-6">
+              <?php echo $this->testform ?>
+            </div>
+          </div>
         </div>
-        </form>
       </div>
     </div><!-- /.row (main row) -->
 

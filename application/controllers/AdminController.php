@@ -11,7 +11,7 @@ class AdminController extends Zend_Controller_Action {
         if ($actionName && in_array($actionName, $adminActions)) {
             $this->_helper->layout->setLayout('admin');
         }
-    
+        
     }
 
     public function registrationAction() {
@@ -55,13 +55,18 @@ class AdminController extends Zend_Controller_Action {
     public function loginAction() {
         $this->view->title = 'Přihlášení administrátora';
         
+        // flash messenger
+        if ($this->_helper->FlashMessenger->hasMessages()) {
+            $this->view->messages = $this->_helper->FlashMessenger->getMessages();
+        }
+        
         $form = new LoginForm();         
         $this->view->loginform = $form;      
     }
     
     public function logoutAction() {
         Zend_Auth::getInstance()->clearIdentity();
-       
+               
         $this->_helper->redirector->gotoRoute(array('controller' => 'candidate',
 					'action' => 'index'),
 					'default',

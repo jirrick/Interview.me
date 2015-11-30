@@ -1,0 +1,86 @@
+
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      <?php echo $this->escape($this->title); ?>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="candidate"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a href="test">Tests</a></li>
+      <li class="active"><?php echo $this->escape($this->title); ?></li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+      <div class="col-md-4">
+        <div class="box box-primary min-420">
+          <div class="box-body box-profile">
+            <ul class="list-group list-group-unbordered">
+              <li class="list-group-item min-42">
+                <div class="flleft min-100"><b>Name: </b></div>
+                <div class="flleft"><a><?php echo $this->test->getnazev(); ?></a></div>
+              </li>
+              <li class="list-group-item min-42">
+                <div class="flleft min-100"><b>Technology: </b></div>
+                <div class="flleft"><a><?php echo $this->technologyName; ?></a></div>
+              </li>
+              <li class="list-group-item min-42">
+                <div class="flleft min-100"><b>Seniority: </b></div>
+                <div class="flleft"><a><?php echo $this->seniorityName; ?></a></div>
+              </li>
+              <li class="list-group-item min-42">
+                <div class="flleft min-100"><b>Allotted time: </b></div>
+                <div class="flleft"><a><?php echo $this->test->getpocet_minut(); ?></a></div>
+              </li>
+              <li class="list-group-item min-62">
+                <div class="flleft min-100"><b>Number of</br> questions: </b></div>
+                <div class="flleft"><a><?php echo $this->numberOfQuestions; ?></a></div>
+              </li>
+              <li class="list-group-item min-42">
+                <div class="flleft min-100"><b>Creator: </b></div>
+                <div class="flleft"><a><?php echo $this->creatorName; ?></a></div>
+              </li>
+              <li class="list-group-item min-42 border-b-n">
+                <div class="flleft min-100"><b>Description: </b></div>
+                <div class="flleft max-w-test"><a><?php echo $this->test->getpopis(); ?></a></div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <div class="row">
+              <h4 class="test-h4">Questions:</h4>
+              <?php foreach ($this->questions as $q) { ?>
+              <div class="col-xs-12">
+                <h4><?php echo $q->order . ") " . $q->question->getobsah(); ?></h4>
+                <?php echo $q->question->getkomentar(); ?>
+              <ul style="list-style-type: upper-alpha">
+                <?php foreach ($q->options as $o) { ?>
+                <li>
+                  <?php if ($o->getspravnost())  { echo '<b style="color:green;">'; } ?>
+                  <?php echo $o->getobsah(); ?>
+                  <?php if ($o->getspravnost())  { echo "</b>"; } ?>
+                  <br>
+                  <?php echo $o->getkomentar(); ?>
+                </li>
+                <?php } ?>  
+              </ul>
+              </div>
+              <?php } ?>
+            </div>
+
+        </div>
+      </div>
+    </div><!-- /.row (main row) -->
+
+  </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+

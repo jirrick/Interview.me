@@ -55,7 +55,7 @@ class RegistrationForm extends Zend_Form
         
         $this->addElement('hidden', 'registration', array('value' => 1));
         
-                $this->addElement('checkbox', 'admin', array(
+        $this->addElement('checkbox', 'admin', array(
             'label' => 'Admin account',
             'name' => 'admin',
             'disableHidden' => true

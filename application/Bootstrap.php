@@ -99,11 +99,21 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $frontController = $this->getResource('FrontController');
         $router = $frontController->getRouter();
 
+        
         $router->addRoute(
                 'testEdit',
-                new Zend_Controller_Router_Route('test-edit',
+                new Zend_Controller_Router_Route('test/:id/edit',
                         array('controller' => 'test',
-                            'action' => 'edit'))
+                            'action' => 'edit'),
+                        array('id' => '\d+'))
+        );
+
+        $router->addRoute(
+                'testDetail',
+                new Zend_Controller_Router_Route('test/:id/detail',
+                        array('controller' => 'test',
+                            'action' => 'detail'),
+                        array('id' => '\d+'))
         );
 
         $router->addRoute(
@@ -137,6 +147,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         );
 
         $router->addRoute(
+                'attachment',
+                new Zend_Controller_Router_Route('file/:id/:name',
+                        array('controller' => 'attachments',
+                            'action' => 'index'),
+                        array('id' => '\d+'))
+        );
+
+        $router->addRoute(
                 'questionEdit',
                 new Zend_Controller_Router_Route('question-edit',
                         array('controller' => 'question',
@@ -163,8 +181,22 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         array('controller' => 'admin',
                             'action' => 'registration'))
         );
-
-
+        
+        $router->addRoute(
+                'questionEdit',
+                new Zend_Controller_Router_Route('question/:testId/edit',
+                        array('controller' => 'question',
+                            'action' => 'edit'),
+                        array('testId' => '\d+'))
+        );
+        
+       $router->addRoute(
+                'questionDelete',
+                new Zend_Controller_Router_Route('questionDelete',
+                        array('controller' => 'question',
+                            'action' => 'delete'))
+        );
+        
 
     }
 

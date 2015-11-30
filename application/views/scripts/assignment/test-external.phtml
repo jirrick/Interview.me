@@ -1,0 +1,45 @@
+  <!-- Content Header (Page header) -->
+  <section class="content-header">  
+    <img class="own-logo" src="<?php echo $this->baseUrl() . "/dist/img/logo-black.png"; ?>" alt="logo" />
+  </section>
+
+  <!-- Main content -->
+  <section class="content"> 
+    <div class="row">
+     
+     <?php if (count($this->messages)){ ?>
+    <!-- flashMesenger -->
+    <?php foreach ($this->messages as $message) { ?>
+      <div class="callout callout-info">
+         <h4><?php echo $this->escape($message); ?></h4>
+      </div>
+    <?php } }; ?>
+
+    <div class="col-md-8">
+      <h1 class="main-h1"><?php echo $this->escape($this->title); ?></h1>
+        <div class="box box-primary min-420">
+          <div class="box-body box-profile">
+            <ul class="list-group list-group-unbordered">
+              <li class="list-group-item min-42">
+                <div class="flleft min-100"><b>Test: </b></div>
+                <div class="flleft"><a><?php echo $this->escape($this->test); ?></a></div>
+              </li>
+              <li class="list-group-item min-42">
+                <div>
+                  <div class="flleft min-100"><b>Candidate: </b></div>
+                  <div class="flleft"><a><?php echo $this->escape($this->candidate); ?></a></div>
+                </div>
+              </li>
+            </ul>
+
+            <div class="row">
+              <div class="col-xs-6">
+                <form action="<?php echo $this->url(array('controller' => 'assignment',
+                                                    'action' => 'submit' )); ?>"
+                              method="post"><input type="submit" class="btn btn-success" value="Submit test"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.row (main row) -->
+  </section><!-- /.content -->
