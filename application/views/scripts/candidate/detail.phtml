@@ -174,12 +174,13 @@
                 <td><?php echo $test->getnazev(); ?></td>
                 <td><?php echo $test->getTechnology()->getnazev(); ?></td>
                 <td>
-                  <form action="<?php echo $this->url(array('controller' => 'assignment',
-                                                        'action' => 'assign',
-                                                        'candidate' => $this->candidate->getid_kandidat(),
-                                                        'test' => $test->getid_test(),                                                       
-                                                        'id' => null)); ?>"
-                       method="post"><input type="submit" class="btn btn-success btn-sm" value="Assign"/>
+                  <form method="POST" action="<?php echo $this->url(array('controller' => 'assignment',
+                                                        'action' => 'assign',                                              
+                                                        'id' => null)); ?>">
+                  <input type="hidden" name="candidate" value="<?php echo $this->candidate->getid_kandidat(); ?>" />
+                  <input type="hidden" name="test" value="<?php echo $test->getid_test(); ?>" />
+                  <input type="submit" name="submit" class="btn btn-success btn-sm" value="Assign" />
+                </form>
                 </td>
               </tr>
               <?php }  //END foreach $test?> 
