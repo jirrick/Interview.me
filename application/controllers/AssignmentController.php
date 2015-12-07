@@ -115,7 +115,6 @@ class AssignmentController extends My_Controller_Action {
 	}
 	
 	
-	
 	//zobrazeni linku s testem
 	public function testAction() {
 		// kontrola, zda existuje prirazeny test
@@ -166,8 +165,8 @@ class AssignmentController extends My_Controller_Action {
 			}
 			
 			$this->view->title = 'Assigned test';
-			$test = My_Model::get('Tests')->getById($assignment->getid_test());
-			$this->view->test = $test->getnazev();
+			$this->view->test = My_Model::get('Tests')->getById($assignment->getid_test());
+			$this->view->status = My_Model::get('Statuses')->getById($assignment->getid_status());
 			$candidate = My_Model::get('Candidates')->getById($assignment->getid_kandidat());
 			$this->view->candidate= $candidate->getFullName();
 
@@ -250,5 +249,43 @@ class AssignmentController extends My_Controller_Action {
 														'default',
 														true);
 		}
+	}
+	
+	// zobrazeni detailu testu
+	public function detailAction() {
+		// kontrola, zda existuje prirazeny test
+		$link = $this->getParam('link');
+		if (!empty($link)) {
+			$assignments = new Assignments();
+			$assignment = $assignments->getFromLink($link);
+			
+		}
+		if ($assignment === null) {
+			$this->_helper->flashMessenger->addMessage("ERROR: Invalid action.");
+			$this->_helper->redirector->gotoRoute(array('controller' => 'assignment',
+														'action' => 'index'),
+														'default',
+														true);
+		}
+		$this->view->messages = $this->_helper->flashMessenger->getMessages();
+			
+		//pro kandidata nastavi jiny view
+		$auth = Zend_Auth::getInstance();
+		if ($auth->hasIdentity()) {
+			$this->_helper->viewRenderer('detail-internal');
+		} else {
+			$this->_helper->flashMessenger->addMessage("ERROR: Invalid action.");
+			$this->_helper->redirector->gotoRoute(array('controller' => 'assignment',
+														'action' => 'index'),
+														'default',
+														true);
+		}
+		
+		$this->view->title = 'Detail of submitted test';
+		$this->view->test = My_Model::get('Tests')->getById($assignment->getid_test());
+		$this->view->status = My_Model::get('Statuses')->getById($assignment->getid_status());
+		$candidate = My_Model::get('Candidates')->getById($assignment->getid_kandidat());
+		$this->view->candidate= $candidate->getFullName();
+	
 	}
 }

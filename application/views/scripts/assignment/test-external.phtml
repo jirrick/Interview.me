@@ -22,13 +22,21 @@
             <ul class="list-group list-group-unbordered">
               <li class="list-group-item min-42">
                 <div class="flleft min-100"><b>Test: </b></div>
-                <div class="flleft"><a><?php echo $this->escape($this->test); ?></a></div>
+                <div class="flleft"><a><?php echo $this->escape($this->test->getnazev()); ?></a></div>
               </li>
               <li class="list-group-item min-42">
                 <div>
                   <div class="flleft min-100"><b>Candidate: </b></div>
                   <div class="flleft"><a><?php echo $this->escape($this->candidate); ?></a></div>
                 </div>
+              </li>
+              <li class="list-group-item min-42">
+                <div class="flleft min-100"><b>Time alotted: </b></div>
+                <div class="flleft"><a><?php echo $this->escape($this->test->getpocet_minut()); ?></a></div>
+              </li>
+              <li class="list-group-item min-42">
+                <div class="flleft min-100"><b>Questions: </b></div>
+                <div class="flleft"><a><?php echo $this->escape($this->test->getpocet_otazek()); ?></a></div>
               </li>
             </ul>
 
