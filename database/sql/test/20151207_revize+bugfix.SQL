@@ -7,7 +7,7 @@ ALTER TABLE otazka ADD CONSTRAINT FK_otazka_revize
 ;
 
 ALTER TABLE `moznost` ADD `revize` INT NULL DEFAULT NULL AFTER `spravnost`;
-ALTER TABLE `otazka` CHANGE `id_otazka` `id_otazka` INT(11) NULL; 
+ALTER TABLE `moznost` CHANGE `id_otazka` `id_otazka` INT(11) NULL; 
 ALTER TABLE moznost ADD CONSTRAINT FK_moznost_revize 
 	FOREIGN KEY (revize) REFERENCES moznost (id_moznost)
 ;
