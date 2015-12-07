@@ -189,19 +189,38 @@ class AssignmentController extends My_Controller_Action {
 				$this->_helper->viewRenderer('index-external');
 				$values = $form->getValues();
 				
+				// pocitani spravnych
+				$count_all = 0;
+				$count_correct = 0;
+				
 				// projit jednotlive otazky a odpovedi ulozit odpoved do db	
-				foreach($values as $que_id => $que_val){	
-					foreach($que_val as $opt_id){
-						$r = My_Model::get('Responses')->createRow();
-						$r->setid_prirazeny_test($assignment->getid_prirazeny_test());
-						$r->setid_otazka($que_id);
-						$r->setid_moznost($opt_id);
-						$r->save();
+				foreach($values as $que_id => $que_val){
+					// nacte predpis otazky 
+					$question = My_Model::get('Questions')->getById($que_id);
+					$options = $question->getOptions();
+					
+					foreach($options as $opt){
+						$opt_id = $opt->getid_moznost(); // id moznosti
+						$opt_vyplneno = in_array($opt_id, $que_val); // byla moznost zatrzena uzivatelem
+						$opt_spravne = ($opt_vyplneno == $opt->getspravnost()); // zadal uzivatel spravnou odpoved
+						$count_all++;
+						if ($opt_spravne) $count_correct++;
+						
+						$resp = My_Model::get('Responses')->createRow();
+						$resp->setid_prirazeny_test($assignment->getid_prirazeny_test());
+						$resp->setid_otazka($que_id);
+						$resp->setid_moznost($opt_id);
+						$resp->setvyplneno($opt_vyplneno);
+						$resp->setspravne($opt_spravne);
+						$resp->save();
 					}
 				}
 				
+				$result = (int) round(($count_correct / $count_all) * 100);
+				
 				// zneplatnit odkaz a upravit status
 				$assignment->setotevren(false);
+				$assignment->sethodnoceni($result);		
 				$statuses = new Statuses();
 				$statusID = $statuses->getStatusID('SUBMITTED');
 				$assignment -> setid_status($statusID);
@@ -231,11 +250,5 @@ class AssignmentController extends My_Controller_Action {
 														'default',
 														true);
 		}
-			
-		/*	
-			
-			
-		*/	
-		
 	}
 }
