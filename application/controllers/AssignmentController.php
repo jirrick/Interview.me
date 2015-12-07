@@ -98,7 +98,7 @@ class AssignmentController extends My_Controller_Action {
 			
 		}
 		if ($assignment === null) {
-			$this->_helper->flashMessenger->addMessage("ERROR: Invalid test link.");
+			$this->_helper->flashMessenger->addMessage("ERROR: Invalid action.");
 			$this->_helper->redirector->gotoRoute(array('controller' => 'assignment',
 														'action' => 'index'),
 														'default',
@@ -124,7 +124,7 @@ class AssignmentController extends My_Controller_Action {
 		$this->view->messages = $this->_helper->flashMessenger->getMessages();
 			
 		if ($this->_request->isPost()) {
-			///POST - zobrazeni testu k vyplneni
+			// ---- POST - zobrazeni testu k vyplneni -------------------------------------------------------------
 			//kontrola eula
 			$eula = $this->getParam('eula');
 			if ($eula != 'agree') {
@@ -152,10 +152,11 @@ class AssignmentController extends My_Controller_Action {
 			$this->view->candidate = $candidate->getFullName();
 			// Creates form instance
 			$form = new TestFillForm(array('testId' => $test->getid_test(),));
+			$form->setAction($this->view->url(array('controller' => 'assignment', 'action' => 'submit', 'link' => $link), 'default', true));
 			$this->view->form = $form;
 	
 		} else {
-			///GET - zobrazeni prehledu a eula
+			// ---- GET - zobrazeni prehledu a eula --------------------------------------------------------------
 			//pro kandidata nastavi jiny view
 			$auth = Zend_Auth::getInstance();
 			if (!$auth->hasIdentity()) {
@@ -173,33 +174,68 @@ class AssignmentController extends My_Controller_Action {
 		}	
 	}
 	
-	// odevzdani testi - TODO
+	// odevzdani testi
 	public function submitAction() {
-		// akceptuje pouze POST requesty
 		if ($this->_request->isPost()) {
 			// kontrola, zda existuje prirazeny test
 			$link = $this->getParam('link');
 			$assignment = $this->verifyLink($link);
 			
-			//TODO - vyhodnoceni
-			
-			
-			
-			//SUCCESS
-			$assignment->setotevren(false);
-			
-			$statuses = new Statuses();
-			$statusID = $statuses->getStatusID('SUBMITTED');
-			$assignment -> setid_status($statusID);
-			$assignment -> save();
-			
-			$this->_helper->flashMessenger->addMessage("Test has been successfully submitted.");
+			$test = My_Model::get('Tests')->getById($assignment->getid_test());
+			$form = new TestFillForm(array('testId' => $test->getid_test(),));	
+		
+			if ($form->isValid($_POST)) {
+				// formular validni
+				$this->_helper->viewRenderer('index-external');
+				$values = $form->getValues();
+				
+				// projit jednotlive otazky a odpovedi ulozit odpoved do db	
+				foreach($values as $que_id => $que_val){	
+					foreach($que_val as $opt_id){
+						$r = My_Model::get('Responses')->createRow();
+						$r->setid_prirazeny_test($assignment->getid_prirazeny_test());
+						$r->setid_otazka($que_id);
+						$r->setid_moznost($opt_id);
+						$r->save();
+					}
+				}
+				
+				// zneplatnit odkaz a upravit status
+				$assignment->setotevren(false);
+				$statuses = new Statuses();
+				$statusID = $statuses->getStatusID('SUBMITTED');
+				$assignment -> setid_status($statusID);
+				$assignment -> save();
+				
+				$this->_helper->flashMessenger->addMessage("Test has been successfully submitted.");
+				$this->_helper->redirector->gotoRoute(array('controller' => 'assignment',
+															'action' => 'index'),
+															'default',
+															true);
+				
+			} else {
+				// nevalidni
+				$this->_helper->flashMessenger->addMessage("ERROR: Submission not valid.");
+			    $this->_helper->redirector->gotoRoute(array('controller' => 'assignment',
+														'action' => 'test',
+														'link' => $link),
+														'default',
+														true);
+			}
+
+		} else {
+			//neni post
+			$this->_helper->flashMessenger->addMessage("ERROR: Invalid action.");
 			$this->_helper->redirector->gotoRoute(array('controller' => 'assignment',
 														'action' => 'index'),
 														'default',
 														true);
+		}
+			
+		/*	
 			
 			
-		} 
+		*/	
+		
 	}
 }
