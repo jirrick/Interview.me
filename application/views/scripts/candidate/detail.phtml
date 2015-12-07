@@ -236,12 +236,16 @@ $this->InlineScript()->appendScript($script, $type = 'text/javascript');
                     <th>Assigned on</th>
                     <th>Status</th>
                     <th>Result</th>
-                    <th>Link</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody> 
            <!-- Test list ITEM -->   
-           <?php foreach ($this->assigned_tests as $test) {  ?> 
+           <?php 
+            $statuses = new Statuses();
+            $assigned = $statuses->getStatusID('ASSIGNED');
+            
+            foreach ($this->assigned_tests as $test) {  ?> 
               <tr>
                 <td><?php echo $test->getTest()->getnazev(); ?></td>
                 <td><?php echo $test->getCreator()->getFullName(); ?></td>
@@ -253,8 +257,14 @@ $this->InlineScript()->appendScript($script, $type = 'text/javascript');
                 } else {
                   echo '-- %';
                 } ?></td>
-                <td>
-                  <a href="<?php echo $this->url(array('controller' => 'assignment', 'action' => 'test', 'link' => $test->getodkaz(), 'id' => null, )); ?>">Go to test</a>  
+                <td><?php 
+                  if($test->getStatus()->getid_status() == $assigned) {
+                    //pokud je prirazeno, tak se zobrazuje odkaz na test?> 
+                    <a href="<?php echo $this->url(array('controller' => 'assignment', 'action' => 'test', 'link' => $test->getodkaz(), 'id' => null, )); ?>">Test link</a>  
+                  <?php } else {
+                    //jinak odkaz na vyplneny test?> 
+                    <a href="<?php echo $this->url(array('controller' => 'assignment', 'action' => 'detail', 'link' => $test->getodkaz(), 'id' => null, ));?>"><button type="button" class="btn btn-success btn-sm">Detail</button></a>  
+                  <?php } ?> 
                 </td>
               </tr>
               <?php }  //END foreach $test?> 
@@ -271,6 +281,7 @@ $('#assigned-tests-list').DataTable( {
 responsive: true,
 columnDefs: [
 { responsivePriority: 1, targets: 0 },
+{ responsivePriority: 2, targets: -3 },
 { responsivePriority: 2, targets: -2 },
 { responsivePriority: 1, targets: -1 },
 { bSortable: false, aTargets: -1 }
