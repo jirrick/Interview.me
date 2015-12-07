@@ -43,7 +43,7 @@ class Assignments extends My_Db_Table  {
         ), 
         'Candidate' => array(
            'columns' => array ('id_kandidat'), 
-           'refTableClass' => 'Candidatess', 
+           'refTableClass' => 'Candidates', 
            'refColumns' => array ('id_kandidat')
         ), 
     );

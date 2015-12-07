@@ -235,6 +235,7 @@ $this->InlineScript()->appendScript($script, $type = 'text/javascript');
                     <th>Assigned by</th>
                     <th>Assigned on</th>
                     <th>Status</th>
+                    <th>Result</th>
                     <th>Link</th>
                   </tr>
                 </thead>
@@ -247,6 +248,11 @@ $this->InlineScript()->appendScript($script, $type = 'text/javascript');
                 <td><?php $datum = new Zend_Date($test->getdatum_prirazeni()); 
                     echo $datum->get(Zend_Date::DATE_MEDIUM)?></td>
                 <td><?php echo $test->getStatus()->getnazev(); ?></td>
+                <td><?php if ($test->gethodnoceni() > 0){
+                  echo $test->gethodnoceni() . ' %';
+                } else {
+                  echo '-- %';
+                } ?></td>
                 <td>
                   <a href="<?php echo $this->url(array('controller' => 'assignment', 'action' => 'test', 'link' => $test->getodkaz(), 'id' => null, )); ?>">Go to test</a>  
                 </td>

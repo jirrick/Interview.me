@@ -42,7 +42,7 @@
                     <th>Firstname</th>
                     <th>Interview</th>
                     <th>Technology</th>
-                    <th>Test result</th>
+                    <th>Last result</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -62,7 +62,11 @@
                         $tech[] = $t->getnazev();
                       }
                       echo implode (', ', $tech)?></td>
-                <td>--%</td>
+                <td><?php if ($candidate->getLastResult() > 0){
+                  echo $candidate->getLastResult() . ' %';
+                } else {
+                  echo '-- %';
+                } ?></td>
                 <td><?php echo $candidate->getStatus()->getnazev(); ?></td>
                 <td>
                   <a href="<?php echo $this->url(array('controller' => 'candidate', 'id' => $candidate->getid_kandidat(), 'action' => 'detail')); ?>"><button type="button" class="btn btn-success btn-sm">Detail</button></a>  
