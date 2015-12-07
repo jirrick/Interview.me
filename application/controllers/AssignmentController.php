@@ -116,7 +116,7 @@ class AssignmentController extends My_Controller_Action {
 	
 	
 	
-	//zobrazeni testu - TODO
+	//zobrazeni linku s testem
 	public function testAction() {
 		//pro kandidata nastavi jiny view
 		$auth = Zend_Auth::getInstance();
@@ -130,12 +130,39 @@ class AssignmentController extends My_Controller_Action {
 		$link = $this->getParam('link');
 		$assignment = $this->verifyLink($link);			
 		
-		//TODO vyplnit test
 		$this->view->title = 'Assigned test';
 		$test = My_Model::get('Tests')->getById($assignment->getid_test());
 		$this->view->test = $test->getnazev();
 		$candidate = My_Model::get('Candidates')->getById($assignment->getid_kandidat());
 		$this->view->candidate= $candidate->getFullName();
+	}
+	
+	//zobrazeni testu
+	public function fillAction() {
+		// akceptuje pouze POST requesty
+		if ($this->_request->isPost()) {
+			//pro kandidata nastavi jiny view
+			$auth = Zend_Auth::getInstance();
+			if (!$auth->hasIdentity()) {
+				$this->_helper->viewRenderer('fill-external');
+			} else {
+				$this->_helper->viewRenderer('fill-internal');
+			}
+			
+			// kontrola, zda existuje prirazeny test
+			$link = $this->getParam('link');
+			$assignment = $this->verifyLink($link);			
+			
+			//vyplnit test
+			$this->view->title = 'Test in progress';
+			$test = My_Model::get('Tests')->getById($assignment->getid_test());
+			$this->view->test = $test;
+			$candidate = My_Model::get('Candidates')->getById($assignment->getid_kandidat());
+			$this->view->candidate = $candidate->getFullName();
+			// Creates form instance
+			$form = new TestFillForm(array('testId' => $test->getid_test(),));
+			$this->view->form = $form;
+		}
 	}
 	
 	// odevzdani testi - TODO

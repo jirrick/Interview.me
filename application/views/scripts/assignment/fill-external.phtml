@@ -1,0 +1,26 @@
+  <!-- Content Header (Page header) -->
+  <section class="content-header">  
+    <img class="own-logo" src="<?php echo $this->baseUrl() . "/dist/img/logo-black.png"; ?>" alt="logo" />
+  </section>
+
+  <!-- Main content -->
+  <section class="content"> 
+    <div class="row">
+     
+     <?php if (count($this->messages)){ ?>
+    <!-- flashMesenger -->
+    <?php foreach ($this->messages as $message) { ?>
+      <div class="callout callout-info">
+         <h4><?php echo $this->escape($message); ?></h4>
+      </div>
+    <?php } }; ?>
+
+    <div class="col-md-12">
+      <h1 class="main-h1"><?php echo $this->escape($this->title); ?></h1>
+
+      <!-- Test fill form -->
+    <?php echo $this->form; ?>
+
+      </div>
+    </div><!-- /.row (main row) -->
+  </section><!-- /.content -->
