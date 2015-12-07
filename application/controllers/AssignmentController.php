@@ -118,40 +118,31 @@ class AssignmentController extends My_Controller_Action {
 	
 	//zobrazeni linku s testem
 	public function testAction() {
-		//pro kandidata nastavi jiny view
-		$auth = Zend_Auth::getInstance();
-		if (!$auth->hasIdentity()) {
-			$this->_helper->viewRenderer('test-external');
-        } else {
-			$this->_helper->viewRenderer('test-internal');
-		}
-		
 		// kontrola, zda existuje prirazeny test
 		$link = $this->getParam('link');
-		$assignment = $this->verifyLink($link);			
-		
-		$this->view->title = 'Assigned test';
-		$test = My_Model::get('Tests')->getById($assignment->getid_test());
-		$this->view->test = $test->getnazev();
-		$candidate = My_Model::get('Candidates')->getById($assignment->getid_kandidat());
-		$this->view->candidate= $candidate->getFullName();
-	}
-	
-	//zobrazeni testu
-	public function fillAction() {
-		// akceptuje pouze POST requesty
+		$assignment = $this->verifyLink($link);	
+		$this->view->messages = $this->_helper->flashMessenger->getMessages();
+			
 		if ($this->_request->isPost()) {
+			///POST - zobrazeni testu k vyplneni
+			//kontrola eula
+			$eula = $this->getParam('eula');
+			if ($eula != 'agree') {
+				$this->_helper->flashMessenger->addMessage("ERROR: You must agree with agreements.");
+				$this->_helper->redirector->gotoRoute(array('controller' => 'assignment',
+															'action' => 'test',
+															'link' => $link),
+															'default',
+															true);
+			}
+			
 			//pro kandidata nastavi jiny view
 			$auth = Zend_Auth::getInstance();
 			if (!$auth->hasIdentity()) {
 				$this->_helper->viewRenderer('fill-external');
 			} else {
 				$this->_helper->viewRenderer('fill-internal');
-			}
-			
-			// kontrola, zda existuje prirazeny test
-			$link = $this->getParam('link');
-			$assignment = $this->verifyLink($link);			
+			}	
 			
 			//vyplnit test
 			$this->view->title = 'Test in progress';
@@ -162,7 +153,24 @@ class AssignmentController extends My_Controller_Action {
 			// Creates form instance
 			$form = new TestFillForm(array('testId' => $test->getid_test(),));
 			$this->view->form = $form;
-		}
+	
+		} else {
+			///GET - zobrazeni prehledu a eula
+			//pro kandidata nastavi jiny view
+			$auth = Zend_Auth::getInstance();
+			if (!$auth->hasIdentity()) {
+				$this->_helper->viewRenderer('test-external');
+			} else {
+				$this->_helper->viewRenderer('test-internal');
+			}
+			
+			$this->view->title = 'Assigned test';
+			$test = My_Model::get('Tests')->getById($assignment->getid_test());
+			$this->view->test = $test->getnazev();
+			$candidate = My_Model::get('Candidates')->getById($assignment->getid_kandidat());
+			$this->view->candidate= $candidate->getFullName();
+
+		}	
 	}
 	
 	// odevzdani testi - TODO

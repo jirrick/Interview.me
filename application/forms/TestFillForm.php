@@ -17,6 +17,7 @@ class TestFillForm extends Zend_Form
     public function init()
     {
         $this->setMethod(self::METHOD_POST);
+        $this->setAction('/assignment/submit');
         
         $questions = $this->_test->getQuestions();
         foreach ($questions as $q) { 
