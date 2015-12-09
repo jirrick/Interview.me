@@ -17,12 +17,14 @@ class TestFillForm extends Zend_Form
     public function init()
     {
         $this->setMethod(self::METHOD_POST);
+        $this->setName('fillTest');
         
         $questions = $this->_test->getQuestions();
         foreach ($questions as $q) { 
             $element = new Zend_Form_Element_MultiCheckbox($q->getid_otazka());
             $element->setLabel($q->getobsah());
             $element->addDecorator('Label',array('placement' => 'prepend'));
+            $element->class = 'question';
             $element->setRequired(true);
             $options = $q->getOptions();
             foreach ($options as $o) { 

@@ -20,6 +20,31 @@
 
       <!-- Test fill form -->
     <?php echo $this->form; ?>
+    
+      <div class="callout callout-warning" id="error-box"></div>
+      
+<?php      
+// haluz konstrukce, ktera vypise tenhle skript na konec souboru        
+$script = <<<'JS'
+$('#fillTest').validate({
+submitHandler: function(form) {
+$("#submit").attr('disabled', 'disabled');
+form.submit();
+},
+showErrors: function(errorMap, errorList) {
+$("#error-box").html("You must select at least one option for each question.");
+},
+onchange: true,         
+wrapper: "p"
+});
+
+jQuery.validator.addClassRules("question", {
+required: true,
+minlength: 1
+});
+JS;
+$this->InlineScript()->appendScript($script, $type = 'text/javascript');   
+?>  
 
       </div>
     </div><!-- /.row (main row) -->
