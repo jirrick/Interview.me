@@ -62,6 +62,14 @@ class Candidate extends My_Db_Table_Row {
         return $this->getjmeno()." ".$this->getprijmeni();
     }
     
+    /**
+     * Vrati rowset s prirazenymi testy
+     *
+     */
+     public function getAssignedTests() {
+        return $this->findDependentRowset('Assignments');
+    }
+    
 	/**
      * Vrati vysledek posledniho testu
      *
