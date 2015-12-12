@@ -20,6 +20,18 @@ class Users extends My_Db_Table  {
      */
     protected $_rowClass = 'User';	
 
+    /**
+     * Reference
+     * 
+     * @var array
+     */
+    protected $_referenceMap = array (  
+        'Photo' => array(
+           'columns' => array ('id_fotografie'), 
+           'refTableClass' => 'Photos', 
+           'refColumns' => array ('id_foto')
+        ), 
+    );
 
 }
 	
