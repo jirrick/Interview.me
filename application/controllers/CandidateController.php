@@ -6,6 +6,10 @@ class CandidateController extends My_Controller_Action {
 	public function init()
 	{
 		$this->view->user = $this->getUser();
+
+		$this->_helper->ajaxContext
+                        ->addActionContext('detail', 'html')
+                        ->initContext('html');
 	}
 
 	public function indexAction() 
@@ -214,6 +218,9 @@ class CandidateController extends My_Controller_Action {
 		$this->view->title = 'Detail of Candidate';
 		$this->view->messages = $this->_helper->flashMessenger->getMessages();
 
+		$messageForm = new MessageForm();
+		$this->view->messageForm = $messageForm;
+
 		$candidateId = $this->_request->getParam('id');
 		if (!empty($candidateId)) {
 			$candidate = My_Model::get('Candidates')->getById($candidateId);
@@ -240,8 +247,69 @@ class CandidateController extends My_Controller_Action {
 			
 			$assignments = new Assignments();
 			$assigned_tests = $assignments->getAssignedTests($candidateId);
-			$this->view->assigned_tests = $assigned_tests;					
+			$this->view->assigned_tests = $assigned_tests;
+
+			// Handles send message action
+			if ($this->_request->isPost()) {
+				$this->sendMessage($this->getParam('message'), $candidateId);
+				$messageForm->message->setValue('');
+			}
+
+			// Direct chat
+			$this->view->chatMessages = $this->loadDirectChatContent($candidateId);
 		}
+	}
+
+	private function sendMessage($messageString, $candidateId)
+	{
+		// Message is not empty
+		if (!empty($messageString)) {
+			$user = $this->getUser();
+
+			date_default_timezone_set('Europe/Prague');
+			$now = date("Y-n-j H:i:s");
+
+			$newMessage = My_Model::get('Messages')->createRow();
+			$newMessage->text = $messageString;
+			$newMessage->id_uzivatel = $user->getid_uzivatel();
+			$newMessage->id_kandidat = $candidateId;
+			$newMessage->datum_vytvoreni = $now;
+
+			$newMessage->save();
+		}
+	}
+
+	// Content 
+
+	private function loadDirectChatContent($candidateId)
+	{
+		$currentUser = $this->getUser();
+
+		$mTable = My_Model::get('Messages');
+		$messages = $mTable->fetchAll($mTable->select()->where('id_kandidat = ?', $candidateId));
+
+		$uTable = My_Model::get('Users');
+
+		$content = array();
+		foreach ($messages as $m) {
+			$creator = $uTable->getById($m->getid_uzivatel());
+
+			$message = array();
+			$message['text'] = $m->gettext();
+			$message['date'] = str_replace('-', '.', $m->getdatum_vytvoreni());
+			$message['name'] = $creator->getjmeno() . ' ' . $creator->getprijmeni();
+			$message['right'] = $creator->getid_uzivatel() == $currentUser->getid_uzivatel();
+
+			$avatar = $creator->getFoto();
+			if ($avatar !== NULL) {
+				$base64 = base64_encode($avatar->getfoto());
+				$message['avatarBase64'] = $base64;
+			}
+
+			$content[] = $message;
+		}
+		
+		return $content;
 	}
 
 	// Helper methods

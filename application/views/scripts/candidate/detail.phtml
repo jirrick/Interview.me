@@ -119,6 +119,51 @@
 
         <div class="clearfix"></div>
 
+        <div class="col-md-12">
+        <!-- DIRECT CHAT -->
+        <div class="box box-primary direct-chat direct-chat-warning">      
+          <div class="box-header with-border ">
+            <h3 class="box-title">Direct Chat</h3>
+            <!-- /.box-header -->
+            <div class="box-body">
+
+              <!-- Direct caht message-->
+              <div class="direct-chat-messages">
+                <?php foreach ($this->chatMessages as $m) { ?>
+                  <!-- Message. Default to the left -->
+                  <div class="direct-chat-msg <?php if ($m['right']) { echo 'right'; } ?>">
+                    <div class="direct-chat-info clearfix">
+                      <span class="direct-chat-name pull-left"><? echo $m['name'] ?></span>
+                      <span class="direct-chat-timestamp pull-right"><? echo $m['date'] ?></span>
+                    </div>
+                    <!-- /.direct-chat-info -->
+                    <?php if ($m['avatarBase64'] !== NULL) { ?>
+                    <?php echo '<img class="direct-chat-img" src="data:image/gif;base64,' . $m['avatarBase64'] . '"  />'?>
+                    <?php } else { ?>
+                      <img class="direct-chat-img" src="<?php echo $this->baseUrl() . "/dist/img/avatar5.png"; ?>" alt="message user image">
+                    <?php } ?>
+                    <div class="direct-chat-text">
+                      <? echo $m['text'] ?>
+                    </div>
+                    <!-- /.direct-chat-text -->
+                  </div>
+                  <!-- /.direct-chat-msg -->
+                <?php } ?>
+              </div>
+              <!--/.direct-chat-messages-->
+
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+              <?php echo $this->messageForm; ?>
+            </div>
+            <!-- /.box-footer-->
+          </div>
+          <!--/.direct-chat -->
+        </div>
+
+        <div class="clearfix"></div>
+
         <h1 class="main-h1">Attachements</h1>
 
         <div class="col-md-12">
