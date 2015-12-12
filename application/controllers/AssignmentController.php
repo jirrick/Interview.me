@@ -91,7 +91,8 @@ class AssignmentController extends My_Controller_Action {
 	
 	
 	// Prevede link na interni objekt prirazenenho testu (pouze ve stavu k vyplneni)
-	private function verifyLink($link){
+	// parametr checkSubmitted urcuje, zda se ma konrolovat predchozi odeslani testu 
+	private function verifyLink($link, $checkSubmitted){
 		if (!empty($link)) {
 			$assignments = new Assignments();
 			$assignment = $assignments->getFromLink($link);
@@ -104,7 +105,7 @@ class AssignmentController extends My_Controller_Action {
 														'default',
 														true);
 		}
-		if ($assignment->getotevren() == false) {
+		if ($checkSubmitted && ($assignment->getotevren() == false)) {
 			$this->_helper->flashMessenger->addMessage("ERROR: This test has been already submitted.");
 			$this->_helper->redirector->gotoRoute(array('controller' => 'assignment',
 														'action' => 'index'),
@@ -119,7 +120,7 @@ class AssignmentController extends My_Controller_Action {
 	public function testAction() {
 		// kontrola, zda existuje prirazeny test
 		$link = $this->getParam('link');
-		$assignment = $this->verifyLink($link);	
+		$assignment = $this->verifyLink($link, TRUE);	
 		$this->view->messages = $this->_helper->flashMessenger->getMessages();
 			
 		if ($this->_request->isPost()) {
@@ -178,7 +179,7 @@ class AssignmentController extends My_Controller_Action {
 		if ($this->_request->isPost()) {
 			// kontrola, zda existuje prirazeny test
 			$link = $this->getParam('link');
-			$assignment = $this->verifyLink($link);
+			$assignment = $this->verifyLink($link, TRUE);
 			
 			$test = My_Model::get('Tests')->getById($assignment->getid_test());
 			$form = new TestFillForm(array('testId' => $test->getid_test(),));	
@@ -253,20 +254,10 @@ class AssignmentController extends My_Controller_Action {
 	
 	// zobrazeni detailu testu
 	public function detailAction() {
-		// kontrola, zda existuje prirazeny test
+		// kontrola, zda existuje prirazeny test, netestuje se vyplneni (byl uz vyplnen)
 		$link = $this->getParam('link');
-		if (!empty($link)) {
-			$assignments = new Assignments();
-			$assignment = $assignments->getFromLink($link);
-			
-		}
-		if ($assignment === null) {
-			$this->_helper->flashMessenger->addMessage("ERROR: Invalid action.");
-			$this->_helper->redirector->gotoRoute(array('controller' => 'assignment',
-														'action' => 'index'),
-														'default',
-														true);
-		}
+		$assignment = $this->verifyLink($link, FALSE);
+		
 		$this->view->messages = $this->_helper->flashMessenger->getMessages();
 			
 		//pro kandidata nastavi jiny view
