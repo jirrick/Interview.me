@@ -37,7 +37,7 @@ $(function() {
         When it complete (or errors)*/
         $.ajax({
             type: "POST",
-            url: "/www/candidate/detail/id/3",
+            url: window.location.href,
 
             async: true, /* If set to non-async, browser shows page as "Loading.."*/
             cache: false,
