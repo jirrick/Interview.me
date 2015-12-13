@@ -49,8 +49,10 @@
                 <div class="flleft max-w-test"><a><?php echo $this->test->getpopis(); ?></a></div>
               </li>
             </ul>
+            <a href="<?php echo $this->url(array('controller' => 'test', 'id' => $this->test->getid_test(), 'action' => 'edit')); ?>"><button type="button" class="btn btn-success">Edit Test</button></a>
           </div>
-        </div>
+          </div>
+        
       </div>
 
       <div class="col-md-8">
