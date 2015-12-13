@@ -7,17 +7,17 @@ class QuestionContent {
 }
 
 class TestController extends My_Controller_Action {
-	
-	public function init() {
-  		$this->view->user = $this->getUser();
+
+    public function init() {
+        $this->view->user = $this->getUser();
     }
 
-	public function indexAction() {
-		$tests = My_Model::get('Tests')->fetchAll();
-		
-		$this->view->tests = $tests;
-		$this->view->title = 'Tests';
-	}
+    public function indexAction() {
+        $tests = My_Model::get('Tests')->fetchAll();
+
+        $this->view->tests = $tests;
+        $this->view->title = 'Tests';
+    }
 
     public function detailAction()
     {
@@ -58,7 +58,7 @@ class TestController extends My_Controller_Action {
         $oTable = My_Model::get('Options');
 
         $questions = $qTable->fetchAll($qTable->select()->where('id_test = ?', $test->getid_test()));
-        
+
         $qContents = array();
         for ($i = 0 ; $i < count($questions) ; $i++) {
             $qContent = new QuestionContent();
@@ -73,84 +73,282 @@ class TestController extends My_Controller_Action {
     }
 
 
-	public function editAction() {
-             
-            $testId = $this->_request->getParam('id');
-            
-            // Creates form instance
-            $form = new TestForm();
-            $this->view->testform = $form;      
+    public function editAction() 
+    {
+        $this->view->messages = $this->_helper->flashMessenger->getMessages();
+        
+        $testId = $this->_request->getParam('id');
 
-            // Loads data from database
-            $technologies = My_Model::get('Technologies')->fetchAll();
-            $seniorities = My_Model::get('Seniorities')->fetchAll();
- 
-            // Fills form selects
-            $form->getElement('id_technologie')->setMultiOptions($this->transformTechnologies($technologies));
-            $form->getElement('id_seniorita')->setMultiOptions($this->transformSeniorities($seniorities));
-           
-            // Edit test page
-            if (!empty($testId)) {
-               $this->view->title = 'Edit Test';
-               
-               $test = My_Model::get('Tests')->getById($testId);
-               
-               $testData = $test->get_data();
-               $form->setDefaults($testData); 
-            }
-            // Create test page
-            else {
-                $this->view->title = 'Add new Test';
-            }
-            
-            // ########################### POST ###########################
-            // Handles form submission
-            if ($this->_request->isPost()) {
-                if ($form->isValid($this->_request->getPost())) {
-                    $formValues = $form->getValues();
 
-                    $test;
+        // Creates form instance
+        $testFrom = new TestForm();
+        $this->view->testForm = $testFrom;      
+
+        // Loads data from database
+        $technologies = My_Model::get('Technologies')->fetchAll();
+        $seniorities = My_Model::get('Seniorities')->fetchAll();
+
+        // Fills form selects
+        $testFrom->getElement('id_technologie')->setMultiOptions($this->transformTechnologies($technologies));
+        $testFrom->getElement('id_seniorita')->setMultiOptions($this->transformSeniorities($seniorities));
+
+        // Edit test page
+        if (!empty($testId)) {
+            $this->view->testId = $testId;
+            $this->view->title = 'Edit Test';
+
+            $test = My_Model::get('Tests')->getById($testId);
+
+            $testData = $test->get_data();
+            $testFrom->setDefaults($testData);
+
+            // Loads questions with options
+            $questions = $test->getQuestions();
+
+            $questionForms = array();
+            foreach ($questions as $q) {
+                $questionForm = new QuestionForm();
+                $questionForm->setAction($this->view->url(array('controller' => 'test', 'action' => 'save-question', 'testId' => $testId, 'questionId' => $q->getid_otazka()), 'default', true));
+
+                $questionForm->getElement('otazka')->setValue($q->getobsah());
+
+                $options = $q->getOptions();
+
+                $optionsNames = array('A', 'B', 'C', 'D');
+                for ($i = 0 ; $i < count($options) ; $i++) {
+                    $questionForm->getElement('odpoved' . $optionsNames[$i])->setValue($options[$i]->getobsah());
+                    $questionForm->getElement('check' . $optionsNames[$i])->setValue($options[$i]->getspravnost());
+                }
+
+                $questionForms[] = $questionForm;
+            }
+
+            $newQuestionForm = new QuestionForm();
+            $newQuestionForm->setAction($this->view->url(array('controller' => 'test', 'action' => 'save-question', 'testId' => $testId), 'default', true));
+
+            $questionForms[] = $newQuestionForm;
+            $this->view->questionForms = $questionForms;
+        }
+        // Create test page
+        else {
+            $this->view->title = 'Add new Test';
+        }
+
+        // ########################### POST ###########################
+        // Handles form submission
+        if ($this->_request->isPost()) {
+            if ($testFrom->isValid($this->_request->getPost())) {
+                $formValues = $testFrom->getValues();
+
+                $test;
                     // Editing existing test 
-                    if (!empty($testId)) {
-                        $test = My_Model::get('Tests')->getById($testId);
-                    }
+                if (!empty($testId)) {
+                    $test = My_Model::get('Tests')->getById($testId);
+                }
                     // Creates new test
-                    else {
-                        date_default_timezone_set('UTC');
-                        $formValues['datum_vytvoreni'] = date("Y-n-j");
-                        $formValues['id_kdo_vytvoril']  = $this->getUser()->id_uzivatel;
-                                              
-                        $test = My_Model::get('Tests')->createRow();
-                    }
-                    
+                else {
+                    date_default_timezone_set('UTC');
+                    $formValues['datum_vytvoreni'] = date("Y-n-j");
+                    $formValues['id_kdo_vytvoril']  = $this->getUser()->id_uzivatel;
+
+                    $test = My_Model::get('Tests')->createRow();
+                }
+
                     // Updates test object in DB
-                    $test->updateFromArray($formValues);              
-                    $this->_helper->redirector->gotoRoute(array('controller' => 'question', 'action' => 'edit', 'testId' => $test->id_test ), 'default', true);
+                $test->updateFromArray($formValues);              
+                $this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'edit', 'id' => $test->id_test ), 'default', true);
+            }
+        }
+    }
+
+    public function resultAction() {        
+        $this->view->title = 'Test results';
+    }
+
+    public function saveQuestionAction() 
+    {
+        // Disables view script call
+        $this->_helper->viewRenderer->setNoRender(true);
+
+        // Disables layout to action mapping
+        $this->_helper->layout->disableLayout();
+
+        if ($this->_request->isPost()) {
+            // load params
+            $testId = $this->getParam('testId');
+            $questionId = $this->getParam('questionId');
+
+            $test = My_Model::get('Tests')->getById($testId);
+            $form = new QuestionForm(array('testId' => $testId));  
+
+            if ($form->isValid($this->_request->getPost())) {
+
+                $formValues = $form->getValues();
+
+                //check if at least one option is checked
+                if($formValues['checkA'] == false && $formValues['checkB'] == false && $formValues['checkC'] == false && $formValues['checkD'] == false) {
+                    $flash = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
+                    $flash->clearMessages();
+                    $flash->addMessage('At least one option have to be right.');
+
+                    // redirect to test edit page
+                    $this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'edit', 'id' => $testId ), 'default', true);
+                    return;
+                }
+
+                // ### SAVE/UPDATE QUESTION ###
+                $oldQuestion;
+                $question;
+                $isNewQuestion = true;
+
+                if ($questionId === NULL) {
+                    //create question
+                    $question = My_Model::get('Questions')->createRow();
+
+                    Zend_Debug::dump('no question id');
+                    Zend_Debug::dump('Create question');
+                }
+                else {
+                    // load existing
+                    $oldQuestion = My_Model::get('Questions')->getById($questionId);
+
+                    if ($oldQuestion === NULL || $oldQuestion->isAnswered()) {
+                        Zend_Debug::dump('no old question || is anwered');
+                        Zend_Debug::dump('Create question');
+                        $question = My_Model::get('Questions')->createRow();
+                    }
+                    else {
+                        $question = $oldQuestion;
+                        $isNewQuestion = false;
+                        Zend_Debug::dump('use old question');
+                    }
+                }
+
+                // update question with new data
+                $questionValues = array(
+                    "id_test"  => $testId,
+                    "obsah" =>  $formValues['otazka']
+                );
+                $question->updateFromArray($questionValues);
+
+                // archive old if exist
+                if ($oldQuestion !== NULL && $isNewQuestion) {
+                    Zend_Debug::dump('archive old question');
+                    $oldQuestion->id_test = NULL;
+                    $oldQuestion->revize = $question->getid_otazka();
+                    $oldQuestion->save();
+                }
+
+                // save question id
+                $questionId = $question->id_otazka;
+
+                // ### SAVE/UPDATE OPTIONS ###
+                $optionContents = $this->loadOptionsFromFormValues($formValues, $questionId);
+                $existingOptions = $question->getOptions();
+
+                // question is new or existing options are empty
+                if ($isNewQuestion || empty($existingOptions)) {
+                    Zend_Debug::dump('is new question || no existing options');
+                    // create options with given content
+                    foreach ($optionContents as $content) {
+                        Zend_Debug::dump('create new option');
+                        $option = My_Model::get('Options')->createRow();
+                        $option->updateFromArray($content);
+                    }
+                }
+                else {
+                    Zend_Debug::dump('!(is new question || no existing options)');
+
+                    // update existing options with given content
+                    for ($i = 0 ; $i < count($existingOptions) ; $i++) {
+
+                        $oldOption = $existingOptions[$i];
+                        $option;
+                        $isNewOption = true;
+
+                        if ($oldOption === NULL || $oldOption->isAnswered()) {
+                            Zend_Debug::dump('no old option || is andwered');
+                            Zend_Debug::dump('create new option');
+                            $option = My_Model::get('Options')->createRow();
+                        }
+                        else {
+                            Zend_Debug::dump('use old option');
+                            $option = $oldOption;
+                            $isNewOption = false;
+                        }
+
+                        $option->updateFromArray($optionContents[$i]);
+
+                        // archive old if exist
+                        if ($oldOption !== NULL && $isNewOption) {
+                            Zend_Debug::dump('archive old option');
+                            $oldOption->id_otazka = NULL;
+                            $oldOption->revize = $option->getid_moznost();
+                            $oldOption->save();
+                        }
+                    }
                 }
             }
-	}
+            else {
+                Zend_Debug::dump($form->getMessages());
+                Zend_Debug::dump('Invalid');
 
-	public function resultAction() {		
-            $this->view->title = 'Test results';
-	}
+                $flash = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
+                $flash->clearMessages();
+                $flash->addMessage('Question form is not valid.');
+            }
+        }
 
-        private function transformTechnologies($arr)
-	{
-		$rVal = array();
-		foreach ($arr as $row) {
-			$rVal[$row->id_technologie] = $row->nazev;
-		}
-		return $rVal;
-	}
-        
-        private function transformSeniorities($arr)
-	{
-		$rVal = array();
-		foreach ($arr as $row) {
-			$rVal[$row->id_seniorita] = $row->nazev;
-		}
-		return $rVal;
-	}
+        // redirect to test edit page
+        $this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'edit', 'id' => $testId ), 'default', true);
+    }
 
+    private function loadOptionsFromFormValues($formValues, $questionId)
+    {
+        $content = array();
 
+        $option = array();
+        $option["obsah"] = $formValues['odpovedA'];
+        $option["spravnost"] = $formValues['checkA'];
+        $option["id_otazka"] = $questionId;
+        $content[] = $option;
+
+        $option = array();
+        $option["obsah"] = $formValues['odpovedB'];
+        $option["spravnost"] = $formValues['checkB'];
+        $option["id_otazka"] = $questionId;
+        $content[] = $option;
+
+        $option = array();
+        $option["obsah"] = $formValues['odpovedC'];
+        $option["spravnost"] = $formValues['checkC'];
+        $option["id_otazka"] = $questionId;
+        $content[] = $option;
+
+        $option = array();
+        $option["obsah"] = $formValues['odpovedD'];
+        $option["spravnost"] = $formValues['checkD'];
+        $option["id_otazka"] = $questionId;
+        $content[] = $option;
+
+        return $content;
+    }
+
+    private function transformTechnologies($arr)
+    {
+        $rVal = array();
+        foreach ($arr as $row) {
+            $rVal[$row->id_technologie] = $row->nazev;
+        }
+        return $rVal;
+    }
+
+    private function transformSeniorities($arr)
+    {
+        $rVal = array();
+        foreach ($arr as $row) {
+            $rVal[$row->id_seniorita] = $row->nazev;
+        }
+        return $rVal;
+    }
 }
