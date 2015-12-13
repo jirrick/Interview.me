@@ -2,8 +2,8 @@
   <!-- Message. Default to the left -->
   <div class="direct-chat-msg <?php if ($m['right']) { echo 'right'; } ?>">
     <div class="direct-chat-info clearfix">
-      <span class="direct-chat-name pull-left"><? echo $m['name'] ?></span>
-      <span class="direct-chat-timestamp pull-right"><? echo $m['date'] ?></span>
+      <span class="direct-chat-name pull-left"><?php echo $m['name'] ?></span>
+      <span class="direct-chat-timestamp pull-right"><?php echo $m['date'] ?></span>
     </div>
     <!-- /.direct-chat-info -->
     <?php if ($m['avatarBase64'] !== NULL) { ?>
@@ -12,7 +12,7 @@
       <img class="direct-chat-img" src="<?php echo $this->baseUrl() . "/dist/img/avatar5.png"; ?>" alt="message user image">
     <?php } ?>
     <div class="direct-chat-text">
-      <? echo $m['text'] ?>
+      <?php echo $m['text'] ?>
     </div>
     <!-- /.direct-chat-text -->
   </div>
