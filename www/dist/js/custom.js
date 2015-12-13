@@ -58,6 +58,9 @@ $(function() {
             }
         });
     };
-    waitForMessage();
+    if ($('.direct-chat').length > 0) {
+  		waitForMessage();
+	}
+    
 
 });

@@ -261,9 +261,11 @@ class CandidateController extends My_Controller_Action {
 
 	private function sendMessage($messageString, $candidateId)
 	{
+		$user = $this->getUser();
+
 		// Message is not empty
-		if (!empty($messageString)) {
-			$user = $this->getUser();
+		if (!empty($messageString) && $user !== NULL) {
+			
 
 			date_default_timezone_set('Europe/Prague');
 			$now = date("Y-n-j H:i:s");
@@ -297,7 +299,10 @@ class CandidateController extends My_Controller_Action {
 			$message['text'] = $m->gettext();
 			$message['date'] = str_replace('-', '.', $m->getdatum_vytvoreni());
 			$message['name'] = $creator->getjmeno() . ' ' . $creator->getprijmeni();
-			$message['right'] = $creator->getid_uzivatel() == $currentUser->getid_uzivatel();
+
+			if ($currentUser !== NULL) {
+				$message['right'] = $creator->getid_uzivatel() == $currentUser->getid_uzivatel();
+			}
 
 			$avatar = $creator->getFoto();
 			if ($avatar !== NULL) {
