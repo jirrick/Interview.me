@@ -197,8 +197,8 @@ class TestController extends My_Controller_Action {
                 }
 
                 // ### SAVE/UPDATE QUESTION ###
-                $oldQuestion;
-                $question;
+                $oldQuestion = null;
+                $question = null;
                 $isNewQuestion = true;
 
                 if ($questionId === NULL) {
@@ -211,9 +211,8 @@ class TestController extends My_Controller_Action {
                 else {
                     // load existing
                     $oldQuestion = My_Model::get('Questions')->getById($questionId);
-
-                    if ($oldQuestion === NULL || $oldQuestion->isAnswered()) {
-                        Zend_Debug::dump('no old question || is anwered');
+                    if ($oldQuestion === NULL || ($oldQuestion->isAnswered() && strcmp($formValues['otazka'], $oldQuestion->getobsah()) !== 0)) {
+                        Zend_Debug::dump('no old question || (is anwered && changed question)');
                         Zend_Debug::dump('Create question');
                         $question = My_Model::get('Questions')->createRow();
                     }
@@ -244,8 +243,10 @@ class TestController extends My_Controller_Action {
 
                 // ### SAVE/UPDATE OPTIONS ###
                 $optionContents = $this->loadOptionsFromFormValues($formValues, $questionId);
-                $existingOptions = $question->getOptions();
-
+                if ($oldQuestion !== NULL) {
+                    $existingOptions = $oldQuestion->getOptions();
+                }
+                            
                 // question is new or existing options are empty
                 if ($isNewQuestion || empty($existingOptions)) {
                     Zend_Debug::dump('is new question || no existing options');
@@ -265,14 +266,20 @@ class TestController extends My_Controller_Action {
                         $oldOption = $existingOptions[$i];
                         $option;
                         $isNewOption = true;
+                        
+                        // pokud nebyla moznost zmenena, jde se na dalsi
+                        if (strcmp($optionContents[$i]["obsah"], $existingOptions[$i]->obsah) == 0 && $optionContents[$i]["spravnost"] === $existingOptions[$i]->spravnost){
+                            Zend_Debug::dump('no change');
+                            continue; 
+                        }
 
                         if ($oldOption === NULL || $oldOption->isAnswered()) {
-                            Zend_Debug::dump('no old option || is andwered');
+                            Zend_Debug::dump('no old option || (is answered && changed)');
                             Zend_Debug::dump('create new option');
                             $option = My_Model::get('Options')->createRow();
                         }
                         else {
-                            Zend_Debug::dump('use old option');
+                            Zend_Debug::dump('not answered, use old option');
                             $option = $oldOption;
                             $isNewOption = false;
                         }
@@ -287,7 +294,7 @@ class TestController extends My_Controller_Action {
                             $oldOption->save();
                         }
                     }
-                }
+                }             
             }
             else {
                 Zend_Debug::dump($form->getMessages());
