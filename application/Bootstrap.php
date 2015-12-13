@@ -155,13 +155,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         );
 
         $router->addRoute(
-                'questionEdit',
-                new Zend_Controller_Router_Route('question-edit',
-                        array('controller' => 'question',
-                            'action' => 'edit'))
-        );
-        
-        $router->addRoute(
                 'login',
                 new Zend_Controller_Router_Route('login',
                         array('controller' => 'admin',
@@ -182,22 +175,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                             'action' => 'registration'))
         );
         
-        $router->addRoute(
-                'questionEdit',
-                new Zend_Controller_Router_Route('question/:testId/edit',
-                        array('controller' => 'question',
-                            'action' => 'edit'),
-                        array('testId' => '\d+'))
-        );
-        
-       $router->addRoute(
-                'questionDelete',
-                new Zend_Controller_Router_Route('questionDelete',
-                        array('controller' => 'question',
-                            'action' => 'delete'))
-        );
-        
-
     }
 
     /**
