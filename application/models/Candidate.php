@@ -76,7 +76,7 @@ class Candidate extends My_Db_Table_Row {
      */
     public function getLastResult() {   
         $depTable = new Assignments();
-        $depRows = $this->findDependentRowset($depTable, null, $depTable->select()->order('id_prirazeny_test DESC')->where('otevren = ?', '0'));
+        $depRows = $this->findDependentRowset($depTable, null, $depTable->select()->order('datum_vyplneni DESC')->where('otevren = ?', '0'));
         if ($depRows->count() > 0){
             return $depRows[0]->gethodnoceni();
         } 

@@ -220,7 +220,8 @@ class AssignmentController extends My_Controller_Action {
 				
 				// zneplatnit odkaz a upravit status
 				$assignment->setotevren(false);
-				$assignment->sethodnoceni($result);		
+				$assignment->sethodnoceni($result);
+				$assignment->setdatum_vyplneni(date("Y-n-j"));		
 				$statuses = new Statuses();
 				$statusID = $statuses->getStatusID('SUBMITTED');
 				$assignment -> setid_status($statusID);
@@ -260,10 +261,16 @@ class AssignmentController extends My_Controller_Action {
 		
 		$this->view->messages = $this->_helper->flashMessenger->getMessages();
 			
-		//pro kandidata nastavi jiny view
+		//muze zobrazit pouze admin, vsechny ostatni poslat pryc
 		$auth = Zend_Auth::getInstance();
 		if ($auth->hasIdentity()) {
-			$this->_helper->viewRenderer('detail-internal');
+			if (!$this->getUser()->admin){
+				$this->_helper->flashMessenger->addMessage("ERROR: Only administrator can access details of submitted test.");
+				$this->_helper->redirector->gotoRoute(array('controller' => 'assignment',
+															'action' => 'index'),
+															'default',
+															true);
+			};
 		} else {
 			$this->_helper->flashMessenger->addMessage("ERROR: Invalid action.");
 			$this->_helper->redirector->gotoRoute(array('controller' => 'assignment',
@@ -272,7 +279,10 @@ class AssignmentController extends My_Controller_Action {
 														true);
 		}
 		
+		$this->_helper->viewRenderer('detail-internal');
+		
 		$this->view->title = 'Detail of submitted test';
+		$this->view->assignment = $assignment;
 		$this->view->test = My_Model::get('Tests')->getById($assignment->getid_test());
 		$this->view->status = My_Model::get('Statuses')->getById($assignment->getid_status());
 		$candidate = My_Model::get('Candidates')->getById($assignment->getid_kandidat());

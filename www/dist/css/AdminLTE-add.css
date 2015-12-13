@@ -136,3 +136,25 @@ textarea.dd-test {
 } 
 
 .mar10{ margin:10px }
+
+.positive-positive{
+	/* kandidat vyplnil spravne */
+	color: green;
+}
+
+.positive-negative{
+	/* kandidat vyplnil spatne */
+	color: red;
+}
+
+.negative-positive{
+	/* kandidat nevyplnil a ani nemel vyplnit */
+	color: black;
+}
+
+.negative-negative{
+	/* kandidat nevyplnil ale mel vyplnit */
+	color: blue;
+}
+
+
