@@ -157,4 +157,27 @@ textarea.dd-test {
 	color: blue;
 }
 
+.box-clearbord{
+	border-
+}
 
+#fillTest label{
+	font-size: 16px;
+	font-weight: bold !important;
+	margin-top: 10px;
+}
+
+#fillTest dd{
+	margin-left:10px;
+}
+
+#fillTest #Submit-element{
+	margin-left:0px !important;
+	margin-top: -20px;
+}
+
+#fillTest dd label{
+	font-size: 14px;
+	font-weight: normal !important;
+	margin-top: 0px !important;
+}

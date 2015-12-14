@@ -128,9 +128,46 @@ textarea.dd-test {
 } 
 
 #odpovedA-element input,
-#odpovedB-element, 
-#odpovedC-element,
-#odpovedD-element
+#odpovedB-element input, 
+#odpovedC-element input,
+#odpovedD-element input
 {
 	width: 450px;
 } 
+
+.mar10{ margin:10px }
+
+.positive-positive{
+	/* kandidat vyplnil spravne */
+	color: green;
+}
+
+.positive-negative{
+	/* kandidat vyplnil spatne */
+	color: red;
+}
+
+.negative-positive{
+	/* kandidat nevyplnil a ani nemel vyplnit */
+	color: black;
+}
+
+.negative-negative{
+	/* kandidat nevyplnil ale mel vyplnit */
+	color: blue;
+}
+
+.box-clearbord{
+	border-
+}
+
+#fillTest label{
+	font-size: 16px;
+	font-weight: bold !important;
+	margin-top: 10px;
+}
+
+#fillTest dd label{
+	font-size: 14px;
+	font-weight: normal !important;
+}

@@ -111,9 +111,72 @@ input[type=checkbox]{
 	margin:10px !important;
 }
 .dd-chc{
-	margin-top:15px !important;
+	margin-top:16px !important;
 }
 textarea.dd-test {
 	height:150px !important;
 }
-#odpovedA-element, #checkA-label, #odpovedB-element, #checkB-label, #odpovedC-element,#checkC-label, #odpovedD-element,#checkD-label{float:left;} 
+#odpovedA-element,
+#checkA-label, 
+#odpovedB-element, 
+#checkB-label, 
+#odpovedC-element,
+#checkC-label, 
+#odpovedD-element,
+#checkD-label{
+	float:left;
+} 
+
+#odpovedA-element input,
+#odpovedB-element input, 
+#odpovedC-element input,
+#odpovedD-element input
+{
+	width: 450px;
+} 
+
+.mar10{ margin:10px }
+
+.positive-positive{
+	/* kandidat vyplnil spravne */
+	color: green;
+}
+
+.positive-negative{
+	/* kandidat vyplnil spatne */
+	color: red;
+}
+
+.negative-positive{
+	/* kandidat nevyplnil a ani nemel vyplnit */
+	color: black;
+}
+
+.negative-negative{
+	/* kandidat nevyplnil ale mel vyplnit */
+	color: blue;
+}
+
+.box-clearbord{
+	border-
+}
+
+#fillTest label{
+	font-size: 16px;
+	font-weight: bold !important;
+	margin-top: 10px;
+}
+
+#fillTest dd{
+	margin-left:10px;
+}
+
+#fillTest dd #Submit-element{
+	margin-left:0px !important;
+}
+
+#fillTest dd label{
+	font-size: 14px;
+	font-weight: normal !important;
+	margin-top: 0px !important;
+}

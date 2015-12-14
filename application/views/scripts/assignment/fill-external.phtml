@@ -20,12 +20,14 @@ Kandidatovi umozni vyplnit a odeslat test.
       </div>
     <?php } }; ?>
 
-    <div class="col-md-12">
+    <div class="col-md-6">
       <h1 class="main-h1"><?php echo $this->escape($this->title); ?></h1>
-
+      <div class="box box-primary box-clearbord">
+        <div class="box-body box-profile">
       <!-- Test fill form -->
     <?php echo $this->form; ?>
-    
+        </div>
+      </div>
       <div class="callout callout-warning" id="error-box"></div>
       
 <?php      
