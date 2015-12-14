@@ -137,14 +137,29 @@ textarea.dd-test {
 
 .mar10{ margin:10px }
 
+
 .positive-positive{
 	/* kandidat vyplnil spravne */
 	color: green;
+	font-weight: bolder;
+}
+
+.positive-positive:after {
+	content: ' \f00c';
+   font-family: FontAwesome;
+   font-weight: normal;
 }
 
 .positive-negative{
 	/* kandidat vyplnil spatne */
 	color: red;
+	font-weight: bolder;
+}
+
+.positive-negative:after, .negative-negative:after {
+	content: ' \f00d';
+   font-family: FontAwesome;
+   font-weight: normal;
 }
 
 .negative-positive{
@@ -154,7 +169,8 @@ textarea.dd-test {
 
 .negative-negative{
 	/* kandidat nevyplnil ale mel vyplnit */
-	color: blue;
+	color: orange;
+	font-weight: bolder;
 }
 
 .box-clearbord{
