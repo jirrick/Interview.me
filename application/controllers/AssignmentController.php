@@ -136,13 +136,8 @@ class AssignmentController extends My_Controller_Action {
 															true);
 			}
 			
-			//pro kandidata nastavi jiny view
-			$auth = Zend_Auth::getInstance();
-			if (!$auth->hasIdentity()) {
-				$this->_helper->viewRenderer('fill-external');
-			} else {
-				$this->_helper->viewRenderer('fill-internal');
-			}	
+			//nastavi jiny view
+			$this->_helper->viewRenderer('fill-external');
 			
 			//vyplnit test
 			$this->view->title = 'Test in progress';
@@ -150,6 +145,13 @@ class AssignmentController extends My_Controller_Action {
 			$this->view->test = $test;
 			$candidate = My_Model::get('Candidates')->getById($assignment->getid_kandidat());
 			$this->view->candidate = $candidate->getFullName();
+			
+			//ulozi timestamp zahajeni testu
+			date_default_timezone_set('Europe/Prague');
+			$now = date("Y-n-j H:i:s");
+			$assignment->setdatum_zahajeni($now);
+			$assignment->save();
+				
 			// Creates form instance
 			$form = new TestFillForm(array('testId' => $test->getid_test(),));
 			$form->setAction($this->view->url(array('controller' => 'assignment', 'action' => 'submit', 'link' => $link), 'default', true));
@@ -216,12 +218,17 @@ class AssignmentController extends My_Controller_Action {
 					}
 				}
 				
+				//vypocet spravnosti
 				$result = (int) round(($count_correct / $count_all) * 100);
+				
+				// ulozeni data odevzdani
+				date_default_timezone_set('Europe/Prague');
+				$now = date("Y-n-j H:i:s");
+				$assignment->setdatum_vyplneni($now);
 				
 				// zneplatnit odkaz a upravit status
 				$assignment->setotevren(false);
-				$assignment->sethodnoceni($result);
-				$assignment->setdatum_vyplneni(date("Y-n-j"));		
+				$assignment->sethodnoceni($result);		
 				$statuses = new Statuses();
 				$statusID = $statuses->getStatusID('SUBMITTED');
 				$assignment -> setid_status($statusID);

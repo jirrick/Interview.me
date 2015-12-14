@@ -26,6 +26,16 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, tak jak je vyplnil kandidat
          <h4><?php echo $this->escape($message); ?></h4>
       </div>
     <?php } }; ?>
+    
+    <?php 
+    // zjednodussi a prevede jednodimenzionalni pole na multidimenzionalni
+    $array = $this->assignment->getResponses(); 
+    $questions = array();
+    foreach ($array as $row)
+    {
+      $questions[$row['id_otazka']][$row['id_moznost']] = $row;
+    } 
+    ?>
 
     <div class="col-md-6">
         <div class="box box-primary min-420">
@@ -47,7 +57,7 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, tak jak je vyplnil kandidat
               </li>
               <li class="list-group-item min-42">
                 <div class="flleft min-100"><b>Questions: </b></div>
-                <div class="flleft"><a><?php echo $this->escape($this->test->getpocet_otazek()); ?></a></div>
+                <div class="flleft"><a><?php echo $this->escape(count($questions)); ?></a></div>
               </li>
               <li class="list-group-item min-42">
                 <div class="flleft min-100"><b>Status: </b></div>
@@ -73,15 +83,6 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, tak jak je vyplnil kandidat
               <h4 class="test-h4">Responses:</h4>
               
               <?php 
-              
-              // zjednodussi a prevede jednodimenzionalni pole na multidimenzionalni
-              $array = $this->assignment->getResponses(); 
-              $questions = array();
-              foreach ($array as $row)
-              {
-                $questions[$row['id_otazka']][$row['id_moznost']] = $row;
-              }
-              
               // projde pole pres otazky
               foreach($questions as $que_id => $que_value){
                 $que = My_Model::get('Questions')->getById($que_id);?>
