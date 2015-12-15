@@ -22,7 +22,11 @@ Kandidatovi umozni vyplnit a odeslat test.
 
     <div class="col-md-6">
       <h1 class="main-h1"><?php echo $this->escape($this->title); ?></h1>
-      <div class="box box-primary box-clearbord">
+      <div class="callout callout-info">
+        <h4><?php echo $this->test->nazev;?></h4>
+        <p><?php echo $this->test->popis;?></p>
+      </div>  
+      <div class="box box-primary box-clearbord">  
         <div class="box-body box-profile">
       <!-- Test fill form -->
     <?php echo $this->form; ?>
