@@ -1,0 +1,62 @@
+  <?php /* FILL - EXTERNAL
+Kandidatovi umozni vyplnit a odeslat test.
+(Musi byt JS validace testu, kvuli EULE mi nefunguje http vraceni predvyplneneho formulare)
+*/?>
+
+<!-- Content Header (Page header) -->
+  <section class="content-header">  
+    <img class="own-logo" src="<?php echo $this->baseUrl() . "/dist/img/logo-black.png"; ?>" alt="logo" />
+  </section>
+
+  <!-- Main content -->
+  <section class="content"> 
+    <div class="row">
+     
+     <?php if (count($this->messages)){ ?>
+    <!-- flashMesenger -->
+    <?php foreach ($this->messages as $message) { ?>
+      <div class="callout callout-info">
+         <h4><?php echo $this->escape($message); ?></h4>
+      </div>
+    <?php } }; ?>
+
+    <div class="col-md-6">
+      <h1 class="main-h1"><?php echo $this->escape($this->title); ?></h1>
+      <div class="callout callout-info">
+        <h4><?php echo $this->test->nazev;?></h4>
+        <p><?php echo $this->test->popis;?></p>
+      </div>  
+      <div class="box box-primary box-clearbord">  
+        <div class="box-body box-profile">
+      <!-- Test fill form -->
+    <?php echo $this->form; ?>
+        </div>
+      </div>
+      <div class="callout callout-warning" id="error-box"></div>
+      
+<?php      
+// haluz konstrukce, ktera vypise tenhle skript na konec souboru        
+$script = <<<'JS'
+$('#fillTest').validate({
+submitHandler: function(form) {
+$("#submit").attr('disabled', 'disabled');
+form.submit();
+},
+showErrors: function(errorMap, errorList) {
+$("#error-box").html("You must select at least one option for each question.");
+},
+onchange: true,         
+wrapper: "p"
+});
+
+jQuery.validator.addClassRules("question", {
+required: true,
+minlength: 1
+});
+JS;
+$this->InlineScript()->appendScript($script, $type = 'text/javascript');   
+?>  
+
+      </div>
+    </div><!-- /.row (main row) -->
+  </section><!-- /.content -->

@@ -62,8 +62,26 @@ class Candidate extends My_Db_Table_Row {
         return $this->getjmeno()." ".$this->getprijmeni();
     }
     
-	
-	
+    /**
+     * Vrati rowset s prirazenymi testy
+     *
+     */
+     public function getAssignedTests() {
+        return $this->findDependentRowset('Assignments');
+    }
+    
+	/**
+     * Vrati vysledek posledniho testu
+     *
+     */
+    public function getLastResult() {   
+        $depTable = new Assignments();
+        $depRows = $this->findDependentRowset($depTable, null, $depTable->select()->order('datum_vyplneni DESC')->where('otevren = ?', '0'));
+        if ($depRows->count() > 0){
+            return $depRows[0]->gethodnoceni();
+        } 
+        return -1;
+    }
 	
 }
 	

@@ -15,16 +15,11 @@ class User extends My_Db_Table_Row {
     }
     
      /**
-     * Reference
-     * 
-     * @var array
+     * Vrati instanci Photo
+     *
      */
-    protected $_referenceMap = array (  
-        'Photo' => array(
-           'columns' => array ('id_fotografie'), 
-           'refTableClass' => 'Photos', 
-           'refColumns' => array ('id_foto')
-        ), 
-    );
+    public function getFoto() {
+        return $this->findParentRow('Photos');
+    }
 }
 	

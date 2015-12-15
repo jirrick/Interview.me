@@ -43,20 +43,11 @@ class Assignments extends My_Db_Table  {
         ), 
         'Candidate' => array(
            'columns' => array ('id_kandidat'), 
-           'refTableClass' => 'Candidatess', 
+           'refTableClass' => 'Candidates', 
            'refColumns' => array ('id_kandidat')
         ), 
     );
     
-    /**
-     * Ziska z DB vsechny testy pro daneho uzivatele
-     *
-     */
-    public function getAssignedTests($id_kandidat){
-        $select = $this->select()->where('id_kandidat = ?', $id_kandidat);
-        return $this->fetchAll($select);
-    } 
-
     /**
      * Ziska z DB objekt podle odkazu
      *

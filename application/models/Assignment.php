@@ -23,11 +23,19 @@ class Assignment extends My_Db_Table_Row {
     }
 	
 	/**
-     * Vrati instanci testu
+     * Vrati instanci testu - predlohy
      *
      */
     public function getTest() {
         return $this->findParentRow('Tests');
+    }
+    
+    /**
+     * Vrati rowset s odpovedmi uchazece
+     *
+     */
+     public function getResponses() {
+        return $this->findDependentRowset('Responses');
     }
 }
 	

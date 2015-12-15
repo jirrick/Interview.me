@@ -1,3 +1,7 @@
+  <?php /* TEST - EXTERNAL
+Pro kandidaty jsou zobrazeny zakladni udaje otestu a podminky, se kterymi musi souhlasit, aby mohl absolvovat test.
+*/?>
+  
   <!-- Content Header (Page header) -->
   <section class="content-header">  
     <img class="own-logo" src="<?php echo $this->baseUrl() . "/dist/img/logo-black.png"; ?>" alt="logo" />
@@ -15,31 +19,45 @@
       </div>
     <?php } }; ?>
 
-    <div class="col-md-8">
+    <div class="col-md-4">
       <h1 class="main-h1"><?php echo $this->escape($this->title); ?></h1>
-        <div class="box box-primary min-420">
-          <div class="box-body box-profile">
-            <ul class="list-group list-group-unbordered">
-              <li class="list-group-item min-42">
-                <div class="flleft min-100"><b>Test: </b></div>
-                <div class="flleft"><a><?php echo $this->escape($this->test); ?></a></div>
-              </li>
-              <li class="list-group-item min-42">
-                <div>
-                  <div class="flleft min-100"><b>Candidate: </b></div>
-                  <div class="flleft"><a><?php echo $this->escape($this->candidate); ?></a></div>
-                </div>
-              </li>
-            </ul>
-
-            <div class="row">
-              <div class="col-xs-6">
-                <form action="<?php echo $this->url(array('controller' => 'assignment',
-                                                    'action' => 'submit' )); ?>"
-                              method="post"><input type="submit" class="btn btn-success" value="Submit test"/>
-            </div>
-          </div>
+      <div class="box box-primary box-clearbord">
+        <div class="box-body box-profile">
+          <ul class="list-group list-group-unbordered">
+            <li class="list-group-item min-42">
+              <div class="flleft min-100"><b>Test: </b></div>
+              <div class="flleft"><a><?php echo $this->escape($this->test->getnazev()); ?></a></div>
+            </li>
+            <li class="list-group-item min-42">
+              <div>
+                <div class="flleft min-100"><b>Candidate: </b></div>
+                <div class="flleft"><a><?php echo $this->escape($this->candidate); ?></a></div>
+              </div>
+            </li>
+            <li class="list-group-item min-42">
+              <div class="flleft min-100"><b>Time alotted: </b></div>
+              <div class="flleft"><a><?php echo $this->escape($this->test->getpocet_minut()); ?></a></div>
+            </li>
+            <li class="list-group-item min-42">
+              <div class="flleft min-100"><b>Questions: </b></div>
+              <div class="flleft"><a><?php echo $this->escape($this->test->getpocet_otazek()); ?></a></div>
+            </li>
+          </ul>
         </div>
       </div>
-    </div><!-- /.row (main row) -->
+    </div>
+    <div class="col-md-6">
+      <form action="<?php echo $this->url(array('controller' => 'assignment', 'action' => 'test' )); ?>" method="post">
+        <h2>EULA</h2>
+        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam erat volutpat. Curabitur vitae diam non enim vestibulum interdum. Duis pulvinar. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Fusce tellus odio, dapibus id fermentum quis, suscipit id erat. Nullam sapien sem, ornare ac, nonummy non, lobortis a enim. In convallis. Etiam dictum tincidunt diam. Integer lacinia. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor. Vivamus luctus egestas leo. Nullam sapien sem, ornare ac, nonummy non, lobortis a enim. Aliquam ante. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Maecenas libero.</p>
+        
+        <p>Proin pede metus, vulputate nec, fermentum fringilla, vehicula vitae, justo. Praesent vitae arcu tempor neque lacinia pretium. Pellentesque pretium lectus id turpis. Fusce aliquam vestibulum ipsum. Etiam bibendum elit eget erat. Donec ipsum massa, ullamcorper in, auctor et, scelerisque sed, est. Maecenas fermentum, sem in pharetra pellentesque, velit turpis volutpat ante, in pharetra metus odio a lectus. In rutrum. Curabitur vitae diam non enim vestibulum interdum. Fusce tellus odio, dapibus id fermentum quis, suscipit id erat. Sed elit dui, pellentesque a, faucibus vel, interdum nec, diam. Duis pulvinar. Nullam justo enim, consectetuer nec, ullamcorper ac, vestibulum in, elit.</p>
+        <input type="checkbox" name="eula" value="agree"><b>Yes, I agree</b><br><br>              
+        <input type="submit" class="btn btn-success" value="Start the test"/>
+     </form>
+    </div>
+  </div>
+
   </section><!-- /.content -->
+
+

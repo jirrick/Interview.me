@@ -85,7 +85,7 @@
               </li>
               <li class="list-group-item min-42">
                 <div>
-                  <div class="flleft min-100"><b>Technology: </b></div>
+                  <div class="flleft min-100"><b>Tech/Field: </b></div>
                   <?php foreach ($this->candidate->getTechnologies() as $technology) {  ?>    
                   <div class="flleft"><a><?php echo $technology->getnazev(); ?></a>,&nbsp;</div>
                   <?php }  ?> 
@@ -115,6 +115,51 @@
             </div>
           </div>
         </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="col-md-12">
+        <!-- DIRECT CHAT -->
+        <div class="box box-primary direct-chat direct-chat-warning">      
+          <div class="box-header with-border ">
+            <h3 class="box-title">Direct Chat</h3>
+            <!-- /.box-header -->
+            <div class="box-body">
+
+              <!-- Direct caht message-->
+              <div class="direct-chat-messages">
+                <?php foreach ($this->chatMessages as $m) { ?>
+                  <!-- Message. Default to the left -->
+                  <div class="direct-chat-msg <?php if ($m['right']) { echo 'right'; } ?>">
+                    <div class="direct-chat-info clearfix">
+                      <span class="direct-chat-name pull-left"><? echo $m['name'] ?></span>
+                      <span class="direct-chat-timestamp pull-right"><? echo $m['date'] ?></span>
+                    </div>
+                    <!-- /.direct-chat-info -->
+                    <?php if ($m['avatarBase64'] !== NULL) { ?>
+                    <?php echo '<img class="direct-chat-img" src="data:image/gif;base64,' . $m['avatarBase64'] . '"  />'?>
+                    <?php } else { ?>
+                      <img class="direct-chat-img" src="<?php echo $this->baseUrl() . "/dist/img/avatar5.png"; ?>" alt="message user image">
+                    <?php } ?>
+                    <div class="direct-chat-text">
+                      <? echo $m['text'] ?>
+                    </div>
+                    <!-- /.direct-chat-text -->
+                  </div>
+                  <!-- /.direct-chat-msg -->
+                <?php } ?>
+              </div>
+              <!--/.direct-chat-messages-->
+
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+              <?php echo $this->messageForm; ?>
+            </div>
+            <!-- /.box-footer-->
+          </div>
+          <!--/.direct-chat -->
         </div>
 
         <div class="clearfix"></div>
@@ -235,20 +280,36 @@ $this->InlineScript()->appendScript($script, $type = 'text/javascript');
                     <th>Assigned by</th>
                     <th>Assigned on</th>
                     <th>Status</th>
-                    <th>Link</th>
+                    <th>Result</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody> 
            <!-- Test list ITEM -->   
-           <?php foreach ($this->assigned_tests as $test) {  ?> 
+           <?php 
+            $statuses = new Statuses();
+            $assigned = $statuses->getStatusID('ASSIGNED');
+            
+            foreach ($this->assigned_tests as $test) {  ?> 
               <tr>
                 <td><?php echo $test->getTest()->getnazev(); ?></td>
                 <td><?php echo $test->getCreator()->getFullName(); ?></td>
                 <td><?php $datum = new Zend_Date($test->getdatum_prirazeni()); 
                     echo $datum->get(Zend_Date::DATE_MEDIUM)?></td>
                 <td><?php echo $test->getStatus()->getnazev(); ?></td>
-                <td>
-                  <a href="<?php echo $this->url(array('controller' => 'assignment', 'action' => 'test', 'link' => $test->getodkaz(), 'id' => null, )); ?>">Go to test</a>  
+                <td><?php if ($test->gethodnoceni() > 0){
+                  echo $test->gethodnoceni() . ' %';
+                } else {
+                  echo '-- %';
+                } ?></td>
+                <td><?php 
+                  if($test->getStatus()->getid_status() == $assigned) {
+                    //pokud je prirazeno, tak se zobrazuje odkaz na test?> 
+                    <a href="<?php echo $this->url(array('controller' => 'assignment', 'action' => 'test', 'link' => $test->getodkaz(), 'id' => null, )); ?>">Test link</a>  
+                  <?php } else {
+                    //jinak odkaz na vyplneny test?> 
+                    <a href="<?php echo $this->url(array('controller' => 'assignment', 'action' => 'detail', 'link' => $test->getodkaz(), 'id' => null, ));?>"><button type="button" class="btn btn-success btn-sm">Detail</button></a>  
+                  <?php } ?> 
                 </td>
               </tr>
               <?php }  //END foreach $test?> 
@@ -265,6 +326,7 @@ $('#assigned-tests-list').DataTable( {
 responsive: true,
 columnDefs: [
 { responsivePriority: 1, targets: 0 },
+{ responsivePriority: 2, targets: -3 },
 { responsivePriority: 2, targets: -2 },
 { responsivePriority: 1, targets: -1 },
 { bSortable: false, aTargets: -1 }

@@ -1,5 +1,5 @@
-<?php /* TEST - INTERNAL
-Pro prihlasene uzivatele je zobrazen seznam otazek, ktere by se nabidly kandidatovi k vyplneni.
+<?php /* DETAIL - INTERNAL
+Pro prihlasene uzivatele je zobrazen seznam otazek, tak jak je vyplnil kandidat
 */?>
 
 <!-- Content Wrapper. Contains page content -->
@@ -26,6 +26,16 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, ktere by se nabidly kandidat
          <h4><?php echo $this->escape($message); ?></h4>
       </div>
     <?php } }; ?>
+    
+    <?php 
+    // zjednodussi a prevede jednodimenzionalni pole na multidimenzionalni
+    $array = $this->assignment->getResponses(); 
+    $questions = array();
+    foreach ($array as $row)
+    {
+      $questions[$row['id_otazka']][$row['id_moznost']] = $row;
+    } 
+    ?>
 
     <div class="col-md-6">
         <div class="box box-primary min-420">
@@ -47,34 +57,69 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, ktere by se nabidly kandidat
               </li>
               <li class="list-group-item min-42">
                 <div class="flleft min-100"><b>Questions: </b></div>
-                <div class="flleft"><a><?php echo $this->escape($this->test->getpocet_otazek()); ?></a></div>
+                <div class="flleft"><a><?php echo $this->escape(count($questions)); ?></a></div>
               </li>
               <li class="list-group-item min-42">
                 <div class="flleft min-100"><b>Status: </b></div>
                 <div class="flleft"><a><?php echo $this->escape($this->status->getnazev()); ?></a></div>
               </li>
+              <li class="list-group-item min-42">
+                <div class="flleft min-100"><b>Sumbitted: </b></div>
+                <div class="flleft"><a><?php echo $this->escape($this->assignment->getdatum_vyplneni()); ?></a></div>
+              </li>
+              <li class="list-group-item min-42">
+                <div class="flleft min-100"><b>Result: </b></div>
+                <div class="flleft"><a><?php echo $this->escape($this->assignment->gethodnoceni()); ?>%</a></div>
+              </li>
             </ul>
           </div>
         </div>
       </div>
-     
+       
       <div class="col-md-6">
         <div class="box box-primary">
           <div class="box-header with-border">
             <div class="row">
-              <h4 class="test-h4">Questions:</h4>
-              <?php foreach ($this->test->getQuestions() as $q) { ?>
+              <h4 class="test-h4">Responses:</h4>
+              
+              <?php 
+              // projde pole pres otazky
+              foreach($questions as $que_id => $que_value){
+                $que = My_Model::get('Questions')->getById($que_id);?>
               <div class="col-xs-12">
-                <h4><?php echo $q->getobsah(); ?></h4>
-                <?php echo $q->getkomentar(); ?>
+                <h4><?php echo $que->getobsah(); ?></h4>
+                <?php echo $que->getkomentar(); ?>
               <ul style="list-style-type: upper-alpha">
-                <?php foreach ($q->getOptions() as $o) { ?>
+                <?php 
+                // projde pole pres moznosti
+                foreach ($que_value as $opt_id => $opt_value) { 
+                  $opt = My_Model::get('Options')->getById($opt_id);?>
                 <li>
-                  <?php if ($o->getspravnost())  { echo '<b style="color:green;">'; } ?>
-                  <?php echo $o->getobsah(); ?>
-                  <?php if ($o->getspravnost())  { echo "</b>"; } ?>
+                  <?php if ($opt_value['vyplneno'])  {
+                    if ($opt_value['spravne']) 
+                    // kandidat vyplnil spravne
+                    {
+                      echo '<span class="positive-positive">';
+                    } else 
+                    // kandidat vyplnil spatne
+                    {
+                      echo '<span class="positive-negative">';
+                    }
+                  } else {
+                    if ($opt_value['spravne']) 
+                    // kandidat nevyplnil a ani nemel vyplnit
+                    {
+                      echo '<span class="negative-positive">';
+                    } else 
+                    // kandidat nevyplnil ale mel vyplnit
+                    {
+                      echo '<span class="negative-negative">';
+                    }
+                  }
+                  echo $opt->getobsah(); 
+                  echo '</span>'; ?>
                   <br>
-                  <?php echo $o->getkomentar(); ?>
+                  <?php echo $opt->getkomentar(); ?>
                 </li>
                 <?php } ?>  
               </ul>
