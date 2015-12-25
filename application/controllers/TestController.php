@@ -215,7 +215,8 @@ class TestController extends My_Controller_Action {
                 // update question with new data
                 $questionValues = array(
                     "id_test"  => $testId,
-                    "obsah" =>  $formValues['otazka']
+                    "obsah" =>  $formValues['otazka'],
+                    "id_jazyk" => (strcmp($formValues['otazkalang'], '0') != 0 ? $formValues['otazkalang'] : null)
                 );
                 $question->updateFromArray($questionValues);
 
@@ -296,16 +297,17 @@ class TestController extends My_Controller_Action {
         }
 
         // redirect to test edit page
-        $this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'edit', 'id' => $testId ), 'default', true);
+        //$this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'edit', 'id' => $testId ), 'default', true);
     }
 
     private function loadOptionsFromFormValues($formValues, $questionId)
-    {
+    {     
         $content = array();
         
         $question = array();
         foreach($formValues as $key => $val){
-            //odpoved - musi byt ve formulari pred check
+            //musi byt v poradi jako ve formulari (hlavne posledni akce, ktera uzavira element)!!!
+            //odpoved
             if (stripos($key, 'odpoved') !== FALSE){
                 $option['obsah'] = $val;
                 $option['id_otazka'] = $questionId;
@@ -313,6 +315,10 @@ class TestController extends My_Controller_Action {
             //check
             if (stripos($key, 'check') !== FALSE){
                 $option['spravnost'] = $val;
+            }
+            //language
+            if (stripos($key, 'language') !== FALSE){
+                if (strcmp($val, '0') != 0) $option['id_jazyk'] = $val;
                 $content[] = $option;
                 $option = array();
             }

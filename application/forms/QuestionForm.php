@@ -7,13 +7,20 @@
 class QuestionForm extends Zend_Form
 {
     private $_question = null;
+    private $_languages = array();
     
     public function __construct(array $params = array())
     {
         $this->_question = My_Model::get('Questions')->getById($params['questionId']);
+        
+        $languages = My_Model::get('Languages')->fetchAll();
+        $this->_languages[0] = "None";
+        foreach ($languages as $l){
+            $this->_languages[$l->getid_jazyk()] = $l->getnazev();
+        }
+               
         parent::__construct();
     }
-   
    
     /**
      * Inicializace formulare
@@ -34,8 +41,16 @@ class QuestionForm extends Zend_Form
         } else {
             $name->setValue($this->_question->getobsah());
         }
+        $this->addElement($name);
         
-    	$this->addElement($name);
+        $language = $this->createElement('select', 'otazkalang', array(
+                    'name' => 'otazkalang',
+                    'class' => '',
+                    'value' => ($this->_question === null ? 0 : $this->_question->getid_jazyk()),
+                    'multiOptions' => $this->_languages
+                ));
+        
+        $this->addElement($language);
         
         if($this->_question === null){
             $optionsNames = array('A', 'B', 'C', 'D');
@@ -52,6 +67,13 @@ class QuestionForm extends Zend_Form
                     'name' => 'check' . $optionsNames[$i],
                     'class' => 'dd-chc',
                     'disableHidden' => true
+                ));
+                
+                $this->addElement('select', 'language' . $optionsNames[$i], array(
+                    'name' => 'language' . $optionsNames[$i],
+                    'class' => '',
+                    'value' => 0,
+                    'multiOptions' => $this->_languages
                 ));
             }      
             
@@ -74,6 +96,14 @@ class QuestionForm extends Zend_Form
                     'class' => 'dd-chc',
                     'disableHidden' => true
                 ));
+                
+                $this->addElement('select', 'language' . $optionsNames[$i], array(
+                    'name' => 'language' . $optionsNames[$i],
+                    'class' => '',
+                    'value' => $o->getid_jazyk(),
+                    'multiOptions' => $this->_languages
+                ));
+                
                 $i++;
             } 
         }
