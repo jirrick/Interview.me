@@ -6,6 +6,15 @@
  */
 class QuestionForm extends Zend_Form
 {
+    private $_question = null;
+    
+    public function __construct(array $params = array())
+    {
+        $this->_question = My_Model::get('Questions')->getById($params['questionId']);
+        parent::__construct();
+    }
+   
+   
     /**
      * Inicializace formulare
      *
@@ -19,67 +28,57 @@ class QuestionForm extends Zend_Form
     	$name->addFilter('StringTrim');
     	$name->setRequired(true);
     	$name->setAttrib('class', 'form-control dd-test'); 
-    	$name->setAttrib('placeholder', 'Question');
     	$name->removeDecorator('Label');
+        if($this->_question === null){
+            $name->setAttrib('placeholder', 'Question');
+        } else {
+            $name->setValue($this->_question->getobsah());
+        }
+        
     	$this->addElement($name);
         
-           
-        //A
-        $this->addElement('text', 'odpovedA', array(
-            'placeholder' => 'A',
-            'class' => 'input dd-test',
-            'required' => true,
-            'label' => false,
-            'filters' => array('StringTrim')
-        ));
+        if($this->_question === null){
+            $optionsNames = array('A', 'B', 'C', 'D');
+            for ($i = 0; $i < 4; $i++) {
+                $this->addElement('text', 'odpoved' . $optionsNames[$i], array(
+                    'placeholder' => $optionsNames[$i],
+                    'class' => 'input dd-test',
+                    'required' => true,
+                    'label' => false,
+                    'filters' => array('StringTrim')
+                ));
+                
+                $this->addElement('checkbox', 'check' . $optionsNames[$i], array(
+                    'name' => 'check' . $optionsNames[$i],
+                    'class' => 'dd-chc',
+                    'disableHidden' => true
+                ));
+            }      
+            
+        } else {
+            $optionsNames = array('A', 'B', 'C', 'D');
+            $i = 0;
+            $options = $this->_question->getOptions();
+            foreach ($options as $o) {
+                $this->addElement('text', 'odpoved' . $optionsNames[$i], array(
+                    'value' => $o->getobsah(),
+                    'class' => 'input dd-test',
+                    'required' => true,
+                    'label' => false,
+                    'filters' => array('StringTrim')
+                ));
+                
+                $this->addElement('checkbox', 'check' . $optionsNames[$i], array(
+                    'value' => $o->getspravnost(),
+                    'name' => 'check' . $optionsNames[$i],
+                    'class' => 'dd-chc',
+                    'disableHidden' => true
+                ));
+                $i++;
+            } 
+        }
         
-        $this->addElement('checkbox', 'checkA', array(
-            'name' => 'checkA',
-            'class' => 'dd-chc',
-            'disableHidden' => true
-        ));
         
-        //B        
-        $this->addElement('text', 'odpovedB', array(
-            'placeholder' => 'B',
-            'class' => 'input dd-test',
-            'required' => true,
-            'filters' => array('StringTrim')
-        ));
-        
-        $this->addElement('checkbox', 'checkB', array(
-            'name' => 'checkB',
-            'class' => 'dd-chc',
-            'disableHidden' => true
-        ));
-        
-        //C        
-        $this->addElement('text', 'odpovedC', array(
-            'placeholder' => 'C',
-            'class' => 'input dd-test',
-            'required' => true,
-            'filters' => array('StringTrim')
-        ));
-        
-        $this->addElement('checkbox', 'checkC', array(
-            'name' => 'checkC',
-            'class' => 'dd-chc',
-            'disableHidden' => true
-        ));
-        
-        //D
-        $this->addElement('text', 'odpovedD', array(
-            'placeholder' => 'D',
-            'class' => 'input dd-test',
-            'required' => true,
-            'filters' => array('StringTrim')
-        ));
-                         
-        $this->addElement('checkbox', 'checkD', array(
-            'name' => 'checkD',
-            'class' => 'dd-chc',
-            'disableHidden' => true
-        ));
         
         //submit button
         $button = $this->createElement('submit', 'Add');

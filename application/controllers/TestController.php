@@ -107,19 +107,8 @@ class TestController extends My_Controller_Action {
 
             $questionForms = array();
             foreach ($questions as $q) {
-                $questionForm = new QuestionForm();
+                $questionForm = new QuestionForm(array('questionId' => $q->getid_otazka(),));
                 $questionForm->setAction($this->view->url(array('controller' => 'test', 'action' => 'save-question', 'testId' => $testId, 'questionId' => $q->getid_otazka()), 'default', true));
-
-                $questionForm->getElement('otazka')->setValue($q->getobsah());
-
-                $options = $q->getOptions();
-
-                $optionsNames = array('A', 'B', 'C', 'D');
-                for ($i = 0 ; $i < count($options) ; $i++) {
-                    $questionForm->getElement('odpoved' . $optionsNames[$i])->setValue($options[$i]->getobsah());
-                    $questionForm->getElement('check' . $optionsNames[$i])->setValue($options[$i]->getspravnost());
-                }
-
                 $questionForms[] = $questionForm;
             }
 
@@ -186,7 +175,7 @@ class TestController extends My_Controller_Action {
                 $formValues = $form->getValues();
 
                 //check if at least one option is checked
-                if($formValues['checkA'] == false && $formValues['checkB'] == false && $formValues['checkC'] == false && $formValues['checkD'] == false) {
+                if($this->checkAtLeastOneTrue($formValues)) {
                     $flash = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
                     $flash->clearMessages();
                     $flash->addMessage('At least one option have to be right.');
@@ -340,6 +329,15 @@ class TestController extends My_Controller_Action {
 
         return $content;
     }
+    
+    private function checkAtLeastOneTrue($formValues)
+    {
+       Zend_Debug::dump($formValues);
+       return false;
+       // $formValues['checkA'] == false && $formValues['checkB'] == false && $formValues['checkC'] == false && $formValues['checkD'] == false
+    }
+    
+    
 
     private function transformTechnologies($arr)
     {
