@@ -175,7 +175,7 @@ class TestController extends My_Controller_Action {
                 $formValues = $form->getValues();
 
                 //check if at least one option is checked
-                if($this->checkAtLeastOneTrue($formValues)) {
+                if($this->checkAllFalse($formValues)) {
                     $flash = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
                     $flash->clearMessages();
                     $flash->addMessage('At least one option have to be right.');
@@ -302,39 +302,36 @@ class TestController extends My_Controller_Action {
     private function loadOptionsFromFormValues($formValues, $questionId)
     {
         $content = array();
-
-        $option = array();
-        $option["obsah"] = $formValues['odpovedA'];
-        $option["spravnost"] = $formValues['checkA'];
-        $option["id_otazka"] = $questionId;
-        $content[] = $option;
-
-        $option = array();
-        $option["obsah"] = $formValues['odpovedB'];
-        $option["spravnost"] = $formValues['checkB'];
-        $option["id_otazka"] = $questionId;
-        $content[] = $option;
-
-        $option = array();
-        $option["obsah"] = $formValues['odpovedC'];
-        $option["spravnost"] = $formValues['checkC'];
-        $option["id_otazka"] = $questionId;
-        $content[] = $option;
-
-        $option = array();
-        $option["obsah"] = $formValues['odpovedD'];
-        $option["spravnost"] = $formValues['checkD'];
-        $option["id_otazka"] = $questionId;
-        $content[] = $option;
-
+        
+        $question = array();
+        foreach($formValues as $key => $val){
+            //odpoved - musi byt ve formulari pred check
+            if (stripos($key, 'odpoved') !== FALSE){
+                $option['obsah'] = $val;
+                $option['id_otazka'] = $questionId;
+            }
+            //check
+            if (stripos($key, 'check') !== FALSE){
+                $option['spravnost'] = $val;
+                $content[] = $option;
+                $option = array();
+            }
+        }
         return $content;
     }
     
-    private function checkAtLeastOneTrue($formValues)
+    private function checkAllFalse($formValues)
     {
-       Zend_Debug::dump($formValues);
-       return false;
-       // $formValues['checkA'] == false && $formValues['checkB'] == false && $formValues['checkC'] == false && $formValues['checkD'] == false
+       $allfalse = TRUE;
+       foreach($formValues as $key => $val){   
+            //check
+            if (stripos($key, 'check') !== FALSE){
+                if ($val == TRUE) {
+                    $allfalse = FALSE;
+                };
+            }
+        }
+       return $allfalse;
     }
     
     
