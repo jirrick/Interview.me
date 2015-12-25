@@ -62,14 +62,21 @@
               <h4 class="test-h4">Questions:</h4>
               <?php foreach ($this->questions as $q) { ?>
               <div class="col-xs-12">
-                <h4><?php echo $q->order . ") " . $q->question->getobsah(); ?></h4>
+                <span class="question-number"><?php echo $q->order . ") "?></span>
+                <?php $language = $q->question->getLanguage();
+                if ($language === null) {
+                    ?><span class="question-title"><?php echo $this->escape($q->question->getobsah());?></span> <?php
+                } else {
+                    ?><code class="language-<?php echo $language->getkod(); ?>"><?php echo $this->escape($q->question->getobsah()); ?></code> <?php
+                } ?>
+                
                 <?php echo $q->question->getkomentar(); ?>
               <ul style="list-style-type: upper-alpha">
                 <?php foreach ($q->options as $o) { ?>
                 <li>
-                  <?php if ($o->getspravnost())  { echo '<b style="color:green;">'; } ?>
+                  <?php if ($o->getspravnost())  { echo '<span class="positive-positive">'; } ?>
                   <?php echo $o->getobsah(); ?>
-                  <?php if ($o->getspravnost())  { echo "</b>"; } ?>
+                  <?php if ($o->getspravnost())  { echo "</span>"; } ?>
                   <br>
                   <?php echo $o->getkomentar(); ?>
                 </li>

@@ -32,6 +32,11 @@ class Options extends My_Db_Table  {
            'refTableClass' => 'Questions', 
            'refColumns' => array ('id_otazka')
         ), 
+        'Language' => array(
+           'columns' => array ('id_jazyk'), 
+           'refTableClass' => 'Languages', 
+           'refColumns' => array ('id_jazyk')
+        ), 
     );   
      
 
