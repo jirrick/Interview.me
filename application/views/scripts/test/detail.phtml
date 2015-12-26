@@ -75,11 +75,11 @@
                 <?php foreach ($q->options as $o) { ?>
                 <li>
                   <?php if ($o->getspravnost())  { echo '<span class="positive-positive">'; } ?>
-                  <?php $olanguage = $o->getLanguage();
-                    if ($olanguage === null) {
+                  <?php 
+                    if ($language === null) {
                         ?><span class="option-text"><?php echo $this->escape($o->getobsah());?></span> <?php
                     } else {
-                        ?><code class="language-<?php echo $olanguage->getkod(); ?>"><?php echo $this->escape($o->getobsah()); ?></code> <?php
+                        ?><code class="language-<?php echo $language->getkod(); ?>"><?php echo $this->escape($o->getobsah()); ?></code> <?php
                     } ?>
                   <?php if ($o->getspravnost())  { echo "</span>"; } ?>
                   <br>

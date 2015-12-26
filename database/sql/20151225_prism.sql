@@ -19,11 +19,6 @@ INSERT INTO `jazyk` (`kod`, `nazev`) VALUES
 ('swift', 'Swift')
 ;
 
-ALTER TABLE `moznost` ADD `id_jazyk` INT NULL DEFAULT NULL AFTER `revize`;
-ALTER TABLE moznost ADD CONSTRAINT FK_moznost_jazyk 
-	FOREIGN KEY (id_jazyk) REFERENCES jazyk (id_jazyk)
-;
-
 ALTER TABLE `otazka` ADD `id_jazyk` INT NULL DEFAULT NULL AFTER `revize`;
 ALTER TABLE otazka ADD CONSTRAINT FK_otazka_jazyk
 	FOREIGN KEY (id_jazyk) REFERENCES jazyk (id_jazyk)

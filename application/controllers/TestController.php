@@ -297,7 +297,7 @@ class TestController extends My_Controller_Action {
         }
 
         // redirect to test edit page
-        //$this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'edit', 'id' => $testId ), 'default', true);
+        $this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'edit', 'id' => $testId ), 'default', true);
     }
 
     private function loadOptionsFromFormValues($formValues, $questionId)
@@ -311,7 +311,6 @@ class TestController extends My_Controller_Action {
             if (stripos($key, 'odpoved') !== FALSE){
                 $option['obsah'] = $val;
                 $option['id_otazka'] = $questionId;
-                if (strcmp($formValues['language'], '0') != 0) $option["id_jazyk"] = $formValues['language'];
             }
             //check
             if (stripos($key, 'check') !== FALSE){
