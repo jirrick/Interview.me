@@ -200,7 +200,11 @@ class TestController extends My_Controller_Action {
                 else {
                     // load existing
                     $oldQuestion = My_Model::get('Questions')->getById($questionId);
-                    if ($oldQuestion === NULL || ($oldQuestion->isAnswered() && strcmp($formValues['otazka'], $oldQuestion->getobsah()) !== 0)) {
+                                       
+                    if ($oldQuestion === NULL ||
+                             ($oldQuestion->isAnswered()
+                              && (strcmp($formValues['otazka'], $oldQuestion->getobsah()) !== 0
+                                    || strcmp($formValues['language'], strval($oldQuestion->getid_jazyk())) !== 0 ))) {
                         Zend_Debug::dump('no old question || (is anwered && changed question)');
                         Zend_Debug::dump('Create question');
                         $question = My_Model::get('Questions')->createRow();
@@ -258,7 +262,8 @@ class TestController extends My_Controller_Action {
                         $isNewOption = true;
                         
                         // pokud nebyla moznost zmenena, jde se na dalsi
-                        if (strcmp($optionContents[$i]["obsah"], $existingOptions[$i]->obsah) == 0 && $optionContents[$i]["spravnost"] === $existingOptions[$i]->spravnost){
+                        if (strcmp($optionContents[$i]["obsah"], $existingOptions[$i]->obsah) == 0
+                                && $optionContents[$i]["spravnost"] === $existingOptions[$i]->spravnost){
                             Zend_Debug::dump('no change');
                             continue; 
                         }

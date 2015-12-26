@@ -85,9 +85,14 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, tak jak je vyplnil kandidat
               <?php 
               // projde pole pres otazky
               foreach($questions as $que_id => $que_value){
-                $que = My_Model::get('Questions')->getById($que_id);?>
+                $que = My_Model::get('Questions')->getById($que_id);
+                $language = $que->getLanguage(); ?>
               <div class="col-xs-12">
-                <h4><?php echo $que->getobsah(); ?></h4>
+                 <?php if ($language === null) {
+                    ?><span class="question-text"><?php echo $this->escape($que->getobsah());?></span> <?php
+                  } else {
+                    ?><code class="language-<?php echo $language->getkod(); ?>"><?php echo $this->escape($que->getobsah()); ?></code> <?php
+                  } ?>
                 <?php echo $que->getkomentar(); ?>
               <ul style="list-style-type: upper-alpha">
                 <?php 
@@ -116,7 +121,11 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, tak jak je vyplnil kandidat
                       echo '<span class="negative-negative">';
                     }
                   }
-                  echo $opt->getobsah(); 
+                  if ($language === null) {
+                    ?><span class="option-text"><?php echo $this->escape($opt->getobsah());?></span> <?php
+                  } else {
+                    ?><code class="language-<?php echo $language->getkod(); ?>"><?php echo $this->escape($opt->getobsah()); ?></code> <?php
+                  }
                   echo '</span>'; ?>
                   <br>
                   <?php echo $opt->getkomentar(); ?>
