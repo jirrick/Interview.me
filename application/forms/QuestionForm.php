@@ -43,8 +43,8 @@ class QuestionForm extends Zend_Form
         }
         $this->addElement($name);
         
-        $language = $this->createElement('select', 'otazkalang', array(
-                    'name' => 'otazkalang',
+        $language = $this->createElement('select', 'language', array(
+                    'name' => 'language',
                     'class' => '',
                     'value' => ($this->_question === null ? 0 : $this->_question->getid_jazyk()),
                     'multiOptions' => $this->_languages
@@ -68,13 +68,6 @@ class QuestionForm extends Zend_Form
                     'class' => 'dd-chc',
                     'disableHidden' => true
                 ));
-                
-                $this->addElement('select', 'language' . $optionsNames[$i], array(
-                    'name' => 'language' . $optionsNames[$i],
-                    'class' => '',
-                    'value' => 0,
-                    'multiOptions' => $this->_languages
-                ));
             }      
             
         } else {
@@ -95,15 +88,7 @@ class QuestionForm extends Zend_Form
                     'name' => 'check' . $optionsNames[$i],
                     'class' => 'dd-chc',
                     'disableHidden' => true
-                ));
-                
-                $this->addElement('select', 'language' . $optionsNames[$i], array(
-                    'name' => 'language' . $optionsNames[$i],
-                    'class' => '',
-                    'value' => $o->getid_jazyk(),
-                    'multiOptions' => $this->_languages
-                ));
-                
+                ));                
                 $i++;
             } 
         }

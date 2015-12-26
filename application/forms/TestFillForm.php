@@ -23,9 +23,9 @@ class TestFillForm extends Zend_Form
         foreach ($questions as $q) { 
             $element = new Zend_Form_Element_MultiCheckbox($q->getid_otazka());
             $element->setLabel($q->getobsah());
-            $element->addDecorator('Label',array('placement' => 'prepend'));
             $element->class = 'question';
             $element->setRequired(true);
+            $element->setDecorators(array(array('ViewScript', array('viewScript'=>'MultiCheckbox.php'))));
             $options = $q->getOptions();
             foreach ($options as $o) { 
                  $element->addMultiOption($o->getid_moznost(), $o->getobsah());

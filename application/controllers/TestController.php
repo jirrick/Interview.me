@@ -216,7 +216,7 @@ class TestController extends My_Controller_Action {
                 $questionValues = array(
                     "id_test"  => $testId,
                     "obsah" =>  $formValues['otazka'],
-                    "id_jazyk" => (strcmp($formValues['otazkalang'], '0') != 0 ? $formValues['otazkalang'] : null)
+                    "id_jazyk" => (strcmp($formValues['language'], '0') != 0 ? $formValues['language'] : null)
                 );
                 $question->updateFromArray($questionValues);
 
@@ -311,14 +311,11 @@ class TestController extends My_Controller_Action {
             if (stripos($key, 'odpoved') !== FALSE){
                 $option['obsah'] = $val;
                 $option['id_otazka'] = $questionId;
+                if (strcmp($formValues['language'], '0') != 0) $option["id_jazyk"] = $formValues['language'];
             }
             //check
             if (stripos($key, 'check') !== FALSE){
                 $option['spravnost'] = $val;
-            }
-            //language
-            if (stripos($key, 'language') !== FALSE){
-                if (strcmp($val, '0') != 0) $option['id_jazyk'] = $val;
                 $content[] = $option;
                 $option = array();
             }
