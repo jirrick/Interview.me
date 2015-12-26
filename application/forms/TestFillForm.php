@@ -18,18 +18,18 @@ class TestFillForm extends Zend_Form
     {
         $this->setMethod(self::METHOD_POST);
         $this->setName('fillTest');
-        
+          
         $questions = $this->_test->getQuestions();
-        foreach ($questions as $q) { 
+        foreach ($questions as $q) {
             $element = new Zend_Form_Element_MultiCheckbox($q->getid_otazka());
             $element->setLabel($q->getobsah());
             $element->class = 'question';
             $element->setRequired(true);
-            $element->setDecorators(array(array('ViewScript', array('viewScript'=>'MultiCheckbox.php'))));
             $options = $q->getOptions();
             foreach ($options as $o) { 
                  $element->addMultiOption($o->getid_moznost(), $o->getobsah());
             }
+            $element->setDecorators(array(array('ViewScript', array('viewScript'=>'MultiCheckbox.php', 'languageId'=>$q->getid_jazyk()))));
             $this->addElement($element);
         }
         
