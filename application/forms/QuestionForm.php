@@ -7,11 +7,13 @@
 class QuestionForm extends Zend_Form
 {
     private $_question = null;
+    private $_count = -1;
     private $_languages = array();
     
     public function __construct(array $params = array())
     {
         $this->_question = My_Model::get('Questions')->getById($params['questionId']);
+        if (intval($params['count']) > -1 ) $this->_count = intval($params['count']);
         
         $languages = My_Model::get('Languages')->fetchAll();
         $this->_languages[0] = "None";
@@ -52,10 +54,12 @@ class QuestionForm extends Zend_Form
         
         $this->addElement($language);
         
-        if($this->_question === null){
-            $optionsNames = array('A', 'B', 'C', 'D');
-            for ($i = 0; $i < 4; $i++) {
-                $this->addElement('text', 'odpoved' . $optionsNames[$i], array(
+        if($this->_question === null){ // tvorba prazdnych poli
+            $optionsNames = array('', 'A', 'B', 'C', 'D', 'E');
+            $count = (($this->_count > -1 && $this->_count <=5) ? $this->_count : 3);
+            
+            for ($i = 1; $i <= $count; $i++) {
+                $this->addElement('text', 'odpoved' . strval($i), array(
                     'placeholder' => $optionsNames[$i],
                     'class' => 'input dd-test',
                     'required' => true,
@@ -63,19 +67,21 @@ class QuestionForm extends Zend_Form
                     'filters' => array('StringTrim')
                 ));
                 
-                $this->addElement('checkbox', 'check' . $optionsNames[$i], array(
-                    'name' => 'check' . $optionsNames[$i],
+                $this->addElement('checkbox', 'check' . strval($i), array(
                     'class' => 'dd-chc',
                     'disableHidden' => true
                 ));
-            }      
+            }
+            // hidden element pocet otazek
+            $this->addElement('hidden', 'count', array(
+            'value' => $count
+            ));      
             
-        } else {
-            $optionsNames = array('A', 'B', 'C', 'D');
-            $i = 0;
+        } else { // naplneni poli podle existujicich dat
+            $i = 1;
             $options = $this->_question->getOptions();
             foreach ($options as $o) {
-                $this->addElement('text', 'odpoved' . $optionsNames[$i], array(
+                $this->addElement('text', 'odpoved' . strval($i), array(
                     'value' => $o->getobsah(),
                     'class' => 'input dd-test',
                     'required' => true,
@@ -83,17 +89,18 @@ class QuestionForm extends Zend_Form
                     'filters' => array('StringTrim')
                 ));
                 
-                $this->addElement('checkbox', 'check' . $optionsNames[$i], array(
+                $this->addElement('checkbox', 'check' . strval($i), array(
                     'value' => $o->getspravnost(),
-                    'name' => 'check' . $optionsNames[$i],
                     'class' => 'dd-chc',
                     'disableHidden' => true
                 ));                
                 $i++;
-            } 
+            }
+            // hidden element pocet otazek
+            $this->addElement('hidden', 'count', array(
+            'value' => ($i - 1)
+            ));  
         }
-        
-        
         
         //submit button
         $button = $this->createElement('submit', 'Add');

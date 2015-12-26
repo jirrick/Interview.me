@@ -112,7 +112,7 @@ class TestController extends My_Controller_Action {
                 $questionForms[] = $questionForm;
             }
 
-            $newQuestionForm = new QuestionForm();
+            $newQuestionForm = new QuestionForm(array('count' => 3,));;
             $newQuestionForm->setAction($this->view->url(array('controller' => 'test', 'action' => 'save-question', 'testId' => $testId), 'default', true));
 
             $questionForms[] = $newQuestionForm;
@@ -166,9 +166,10 @@ class TestController extends My_Controller_Action {
             // load params
             $testId = $this->getParam('testId');
             $questionId = $this->getParam('questionId');
-
             $test = My_Model::get('Tests')->getById($testId);
-            $form = new QuestionForm(array('testId' => $testId));  
+            
+            $count = (($formValues['language'] > -1 && $formValues['language'] <=5) ? $formValues['language'] : 3);
+            $form = new QuestionForm(array('count' => $count));  
 
             if ($form->isValid($this->_request->getPost())) {
 
