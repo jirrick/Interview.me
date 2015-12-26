@@ -12,8 +12,8 @@ class QuestionForm extends Zend_Form
     
     public function __construct(array $params = array())
     {
-        $this->_question = My_Model::get('Questions')->getById($params['questionId']);
-        if (intval($params['count']) > -1 ) $this->_count = intval($params['count']);
+        if (array_key_exists('questionId', $params)) $this->_question = My_Model::get('Questions')->getById($params['questionId']);
+        if (array_key_exists('count', $params) && intval($params['count']) > -1 ) $this->_count = intval($params['count']);
         
         $languages = My_Model::get('Languages')->fetchAll();
         $this->_languages[0] = "None";
@@ -33,7 +33,7 @@ class QuestionForm extends Zend_Form
     {
         $this->setMethod(self::METHOD_POST);
         
-        $name = $this->createElement('text', 'otazka');
+        $name = $this->createElement('textarea', 'otazka');
     	$name->addFilter('StringTrim');
     	$name->setRequired(true);
     	$name->setAttrib('class', 'form-control dd-test'); 
