@@ -112,25 +112,10 @@
 
    <script type="text/javascript">
 
-$(document).ready(function() {
-
-    $("#addElement").click(
-        function() {
-            ajaxAddField();
-        }
-    );
-
-    $("#removeElement").click(
-        function() {
-            removeField();
-        }
-    );
-    }
-);
-
 // Retrieve new element's html from controller
-function ajaxAddField() {
-    var id = (parseInt($("#count").val()) + 1);
+function ajaxAddField(par) {
+    var parent = $("form[name=" + par + "]")
+    var id = (parseInt(parent.find("#count").val()) + 1);
     $.ajax(
     {
         type: "POST",
@@ -139,10 +124,10 @@ function ajaxAddField() {
         success: function(newElement) {
 
         // Insert new element before the Add button
-        $("#addElement-label").before(newElement);
+        parent.find("#addElement-label").before(newElement);
         
         // Store id
-        $("#count").val(id);
+        parent.find("#count").val(id);
         }
     }
     );

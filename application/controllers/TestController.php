@@ -108,11 +108,13 @@ class TestController extends My_Controller_Action {
             $questionForms = array();
             foreach ($questions as $q) {
                 $questionForm = new QuestionForm(array('questionId' => $q->getid_otazka(),));
+                $questionForm->setName('q' + strval($q->getid_otazka()));
                 $questionForm->setAction($this->view->url(array('controller' => 'test', 'action' => 'save-question', 'testId' => $testId, 'questionId' => $q->getid_otazka()), 'default', true));
                 $questionForms[] = $questionForm;
             }
 
             $newQuestionForm = new QuestionForm(array('count' => 3,));;
+            $newQuestionForm->setName('new');
             $newQuestionForm->setAction($this->view->url(array('controller' => 'test', 'action' => 'save-question', 'testId' => $testId), 'default', true));
 
             $questionForms[] = $newQuestionForm;

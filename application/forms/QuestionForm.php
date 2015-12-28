@@ -54,7 +54,8 @@ class QuestionForm extends Zend_Form
         
         $this->addElement($language);
         
-        if($this->_question === null){ // tvorba prazdnych poli
+        if($this->_question === null){ 
+            // ----------------------------------------- tvorba prazdnych poli
             $optionsNames = array('', 'A', 'B', 'C', 'D', 'E', 'F');
             $count = (($this->_count > -1 && $this->_count <=6) ? $this->_count : 3);
             
@@ -72,12 +73,26 @@ class QuestionForm extends Zend_Form
                     'disableHidden' => true
                 ));
             }
+            
+            //add remove buttons
+            $this->addElement('button', 'addElement', array(
+            'label' => 'Add option',
+            'onclick' => 'ajaxAddField("new")'
+            ));
+
+            $this->addElement('button', 'removeElement', array(
+            'label' => 'Remove option',
+            'onclick' => 'ajaxRemoveField("new")'
+            ));
+            
             // hidden element pocet otazek
             $this->addElement('hidden', 'count', array(
             'value' => $count
             ));      
             
-        } else { // naplneni poli podle existujicich dat
+        } else { 
+            
+            // -------------------------------------------  naplneni poli podle existujicich dat
             $i = 1;
             $options = $this->_question->getOptions();
             foreach ($options as $o) {
@@ -96,20 +111,26 @@ class QuestionForm extends Zend_Form
                 ));                
                 $i++;
             }
+            
+            $name = 'q' + strval($this->_question->getid_otazka());
+            
+            //add remove buttons
+            $this->addElement('button', 'addElement', array(
+            'label' => 'Add option',
+            'onclick' => 'ajaxAddField("'.$name.'")'
+            ));
+
+            $this->addElement('button', 'removeElement', array(
+            'label' => 'Remove option',
+            'onclick' => 'ajaxAddField("'.$name.'")'
+            ));
+                    
             // hidden element pocet otazek
             $this->addElement('hidden', 'count', array(
             'value' => ($i - 1)
             ));  
         }
-        
-         $this->addElement('button', 'addElement', array(
-    'label' => 'Add option'
-    ));
 
-    $this->addElement('button', 'removeElement', array(
-    'label' => 'Remove option',
-    ));
-        
     //submit button
     $button = $this->createElement('submit', 'Add');
     $button->setAttrib('class', 'btn btn-success btn-md dd-test');
