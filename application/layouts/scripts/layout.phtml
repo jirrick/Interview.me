@@ -110,5 +110,61 @@
 
     <?php echo $this->InlineScript(); ?>
 
+   <script type="text/javascript">
+
+$(document).ready(function() {
+
+    $("#addElement").click(
+        function() {
+            ajaxAddField();
+        }
+    );
+
+    $("#removeElement").click(
+        function() {
+            removeField();
+        }
+    );
+    }
+);
+
+// Retrieve new element's html from controller
+function ajaxAddField() {
+    var id = (parseInt($("#count").val()) + 1);
+    $.ajax(
+    {
+        type: "POST",
+        url: "<?=$this->url(array('action' => 'addfield', 'format' => 'html'));?>",
+        data: "newid=" + id,
+        success: function(newElement) {
+
+        // Insert new element before the Add button
+        $("#addElement-label").before(newElement);
+        
+        // Store id
+        $("#count").val(id);
+        }
+    }
+    );
+}
+
+function removeField() {
+    
+    // Get the last used id
+    var lastId = $("#count").val();
+
+    // Build the attribute search string.  This will match the last added  dt and dd elements.  
+    // Specifically, it matches any element where the id begins with 'newName<int>-'.
+    searchString = '*[id^=newName' + lastId + '-]';
+
+    // Remove the elements that match the search string.
+    $(searchString).remove()
+
+    // Decrement and store id
+    $("#count").val(--lastId);
+}
+</script>
+
+
   </body>
 </html>

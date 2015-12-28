@@ -168,21 +168,24 @@ class TestController extends My_Controller_Action {
             $questionId = $this->getParam('questionId');
             $test = My_Model::get('Tests')->getById($testId);
             
-            $count = (($formValues['language'] > -1 && $formValues['language'] <=5) ? $formValues['language'] : 3);
+            $rawcount = intval($this->getParam('count'));
+            $count = (($rawcount > -1 && $rawcount  <=5) ? $rawcount : 3);
             $form = new QuestionForm(array('count' => $count));  
 
             if ($form->isValid($this->_request->getPost())) {
 
                 $formValues = $form->getValues();
+                Zend_Debug::dump($formValues);
 
                 //check if at least one option is checked
                 if($this->checkAllFalse($formValues)) {
                     $flash = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
                     $flash->clearMessages();
                     $flash->addMessage('At least one option have to be right.');
+                    Zend_Debug::dump('at least one has to be right');
 
                     // redirect to test edit page
-                    $this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'edit', 'id' => $testId ), 'default', true);
+                   // $this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'edit', 'id' => $testId ), 'default', true);
                     return;
                 }
 
@@ -253,41 +256,52 @@ class TestController extends My_Controller_Action {
                     }
                 }
                 else {
-                    Zend_Debug::dump('!(is new question || no existing options)');
-
+                    Zend_Debug::dump('!(is new question || no existing options)');                 
+                    
+                    $newcount = count($optionContents);
+                    $oldcount = count($existingOptions);
+                    
                     // update existing options with given content
-                    for ($i = 0 ; $i < count($existingOptions) ; $i++) {
-
-                        $oldOption = $existingOptions[$i];
-                        $option;
-                        $isNewOption = true;
+                    for ($i = 0 ; $i < $newcount ; $i++) {
                         
-                        // pokud nebyla moznost zmenena, jde se na dalsi
-                        if (strcmp($optionContents[$i]["obsah"], $existingOptions[$i]->obsah) == 0
-                                && $optionContents[$i]["spravnost"] === $existingOptions[$i]->spravnost){
-                            Zend_Debug::dump('no change');
-                            continue; 
-                        }
+                        if ($i < $oldcount) {
+                            // pokud je novy pocet otazek mensi nez puvodni, tak se porovnavaji se starymi moznostmi                        
+                            // pokud nebyla moznost zmenena, jde se na dalsi
+                            if (strcmp($optionContents[$i]["obsah"], $existingOptions[$i]->obsah) == 0
+                                    && $optionContents[$i]["spravnost"] === $existingOptions[$i]->spravnost){
+                                Zend_Debug::dump('no change');
+                                continue; 
+                            }
+                            
+                            $oldOption = $existingOptions[$i];
+                            $option;
+                            $isNewOption = true;
 
-                        if ($oldOption === NULL || $oldOption->isAnswered()) {
-                            Zend_Debug::dump('no old option || (is answered && changed)');
-                            Zend_Debug::dump('create new option');
+                            if ($oldOption === NULL || $oldOption->isAnswered()) {
+                                Zend_Debug::dump('no old option || (is answered && changed)');
+                                Zend_Debug::dump('create new option');
+                                $option = My_Model::get('Options')->createRow();
+                            }
+                            else {
+                                Zend_Debug::dump('not answered, use old option');
+                                $option = $oldOption;
+                                $isNewOption = false;
+                            }
+
+                            $option->updateFromArray($optionContents[$i]);
+
+                            // archive old if exist
+                            if ($oldOption !== NULL && $isNewOption) {
+                                Zend_Debug::dump('archive old option');
+                                $oldOption->id_otazka = NULL;
+                                $oldOption->revize = $option->getid_moznost();
+                                $oldOption->save();
+                            }
+                        } else {
+                            // pokud je moznosti vic, tak se pridavaji rovnou dalsi
+                            Zend_Debug::dump('add new option');
                             $option = My_Model::get('Options')->createRow();
-                        }
-                        else {
-                            Zend_Debug::dump('not answered, use old option');
-                            $option = $oldOption;
-                            $isNewOption = false;
-                        }
-
-                        $option->updateFromArray($optionContents[$i]);
-
-                        // archive old if exist
-                        if ($oldOption !== NULL && $isNewOption) {
-                            Zend_Debug::dump('archive old option');
-                            $oldOption->id_otazka = NULL;
-                            $oldOption->revize = $option->getid_moznost();
-                            $oldOption->save();
+                            $option->updateFromArray($optionContents[$i]);
                         }
                     }
                 }             
@@ -303,8 +317,37 @@ class TestController extends My_Controller_Action {
         }
 
         // redirect to test edit page
-        $this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'edit', 'id' => $testId ), 'default', true);
+        //$this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'edit', 'id' => $testId ), 'default', true);
     }
+    
+    public function addfieldAction() {     
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(TRUE);
+        
+        $postData = $this->getRequest()->getPost();
+        $id = 0;
+        if (array_key_exists('newid', $postData)) $id = intval($postData['newid']);
+        
+        if ($id > 0 && $id <=6) {
+            $optionsNames = array('', 'A', 'B', 'C', 'D', 'E', 'F');
+            $form = new QuestionForm(); 
+            $odpoved = $form->createElement('text', 'odpoved' . strval($id), array(
+                            'placeholder' => $optionsNames[$id],
+                            'class' => 'input dd-test',
+                            'required' => true,
+                            'label' => false,
+                            'filters' => array('StringTrim')
+                            ));
+                        
+            $check = $form->createElement('checkbox', 'check' . strval($id), array(
+                            'class' => 'dd-chc',
+                            'disableHidden' => true
+                            ));
+            echo $odpoved->__toString();
+            echo $check->__toString();
+        }
+    }
+
 
     private function loadOptionsFromFormValues($formValues, $questionId)
     {     

@@ -125,7 +125,9 @@ textarea.dd-test {
 #odpoved4-element,
 #check4-label,
 #odpoved5-element,
-#check5-label{
+#check5-label,
+#odpoved6-element,
+#check6-label{
 	float:left;
 } 
 
@@ -133,7 +135,8 @@ textarea.dd-test {
 #odpoved2-element input, 
 #odpoved3-element input,
 #odpoved4-element input,
-#odpoved5-element input
+#odpoved5-element input,
+#odpoved6-element input
 {
 	width: 450px;
 } 

@@ -55,8 +55,8 @@ class QuestionForm extends Zend_Form
         $this->addElement($language);
         
         if($this->_question === null){ // tvorba prazdnych poli
-            $optionsNames = array('', 'A', 'B', 'C', 'D', 'E');
-            $count = (($this->_count > -1 && $this->_count <=5) ? $this->_count : 3);
+            $optionsNames = array('', 'A', 'B', 'C', 'D', 'E', 'F');
+            $count = (($this->_count > -1 && $this->_count <=6) ? $this->_count : 3);
             
             for ($i = 1; $i <= $count; $i++) {
                 $this->addElement('text', 'odpoved' . strval($i), array(
@@ -102,10 +102,18 @@ class QuestionForm extends Zend_Form
             ));  
         }
         
-        //submit button
-        $button = $this->createElement('submit', 'Add');
-    	$button->setAttrib('class', 'btn btn-success btn-md dd-test');
-    	$this->addElement($button);
+         $this->addElement('button', 'addElement', array(
+    'label' => 'Add option'
+    ));
+
+    $this->addElement('button', 'removeElement', array(
+    'label' => 'Remove option',
+    ));
+        
+    //submit button
+    $button = $this->createElement('submit', 'Add');
+    $button->setAttrib('class', 'btn btn-success btn-md dd-test');
+    $this->addElement($button);
     }
 
 }
