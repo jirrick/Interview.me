@@ -108,7 +108,7 @@ class TestController extends My_Controller_Action {
             $questionForms = array();
             foreach ($questions as $q) {
                 $questionForm = new QuestionForm(array('questionId' => $q->getid_otazka(),));
-                $questionForm->setName('q' + strval($q->getid_otazka()));
+                $questionForm->setName('q' . strval($q->getid_otazka()));
                 $questionForm->setAction($this->view->url(array('controller' => 'test', 'action' => 'save-question', 'testId' => $testId, 'questionId' => $q->getid_otazka()), 'default', true));
                 $questionForms[] = $questionForm;
             }
@@ -305,6 +305,14 @@ class TestController extends My_Controller_Action {
                             $option = My_Model::get('Options')->createRow();
                             $option->updateFromArray($optionContents[$i]);
                         }
+                    }
+                    
+                    // archive removed options
+                    for ($i = $newcount ; $i < $oldcount ; $i++) {
+                        Zend_Debug::dump('archive unused options');
+                        $oldOption = $existingOptions[$i];
+                        $oldOption->id_otazka = NULL;
+                        $oldOption->save();  
                     }
                 }             
             }

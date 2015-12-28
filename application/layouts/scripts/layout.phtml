@@ -133,20 +133,21 @@ function ajaxAddField(par) {
     );
 }
 
-function removeField() {
+function removeField(par) {
+    var parent = $("form[name=" + par + "]")
     
     // Get the last used id
-    var lastId = $("#count").val();
+    var id = parseInt(parent.find("#count").val());
+    
+    if (id > 0) {
 
-    // Build the attribute search string.  This will match the last added  dt and dd elements.  
-    // Specifically, it matches any element where the id begins with 'newName<int>-'.
-    searchString = '*[id^=newName' + lastId + '-]';
-
-    // Remove the elements that match the search string.
-    $(searchString).remove()
+    parent.find("[id|=odpoved" + id.toString() + "]").remove();
+    parent.find("[id|=check" + id.toString() + "]").remove();
 
     // Decrement and store id
-    $("#count").val(--lastId);
+    parent.find("#count").val(--id);
+    
+    }
 }
 </script>
 
