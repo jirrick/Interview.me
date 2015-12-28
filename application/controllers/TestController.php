@@ -171,7 +171,7 @@ class TestController extends My_Controller_Action {
             $test = My_Model::get('Tests')->getById($testId);
             
             $rawcount = intval($this->getParam('count'));
-            $count = (($rawcount > -1 && $rawcount  <=5) ? $rawcount : 3);
+            $count = (($rawcount > -1 && $rawcount  <=6) ? $rawcount : 3);
             $form = new QuestionForm(array('count' => $count));  
 
             if ($form->isValid($this->_request->getPost())) {
@@ -327,7 +327,7 @@ class TestController extends My_Controller_Action {
         }
 
         // redirect to test edit page
-        //$this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'edit', 'id' => $testId ), 'default', true);
+        $this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'edit', 'id' => $testId ), 'default', true);
     }
     
     public function addfieldAction() {     
