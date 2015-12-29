@@ -187,7 +187,7 @@ class TestController extends My_Controller_Action {
                     Zend_Debug::dump('at least one has to be right');
 
                     // redirect to test edit page
-                   // $this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'edit', 'id' => $testId ), 'default', true);
+                    $this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'edit', 'id' => $testId ), 'default', true);
                     return;
                 }
 
