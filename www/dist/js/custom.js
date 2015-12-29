@@ -1,3 +1,55 @@
+// Retrieve new element's html from controller
+function ajaxAddField(par, requrl) {
+    var parent = $("form[name=" + par + "]")
+    var id = (parseInt(parent.find("#count").val()) + 1);
+        
+    $.ajax(
+    {
+        type: "POST",
+        url: requrl,
+        data: "newid=" + id,
+        success: function(newElement) {
+        // Insert new element before the Add button
+        parent.find("#addElement-label").before(newElement);      
+        // Store id
+        parent.find("#count").val(id);
+        }
+    }
+    );
+    
+    // add extra field when there are no options (cant be only one option)
+    if (id++ == 1) {
+        $.ajax(
+        {
+            type: "POST",
+            url: requrl,
+            data: "newid=" + id,
+            success: function(newElement) {
+            // Insert new element before the Add button
+            parent.find("#addElement-label").before(newElement);      
+            // Store id
+            parent.find("#count").val(id);
+            }
+        }
+        );
+    }
+}
+
+//Remove element from from
+function removeField(par) {
+    var parent = $("form[name=" + par + "]")   
+    // Get the last used id
+    var id = parseInt(parent.find("#count").val());
+    
+    if (id > 0) {
+        // Remove old shit
+        parent.find("[id|=odpoved" + id.toString() + "]").remove();
+        parent.find("[id|=check" + id.toString() + "]").remove();
+        // Decrement and store id
+        parent.find("#count").val(--id);
+    }
+}
+
 $(function() {
 	
 	// CHAT
@@ -62,5 +114,4 @@ $(function() {
   		waitForMessage();
 	}
     
-
 });

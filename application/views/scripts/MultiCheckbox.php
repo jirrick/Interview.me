@@ -8,10 +8,11 @@
 ?>
 
 <fieldset class="mar10">
+    <div class="question-separator">Question</div>
     <?php if ($language === null) { ?>
         <span class="question-text"><?php echo $this->escape($label);?></span> <?php
     } else {
-        ?><code class="language-<?php echo $language->getkod(); ?>"><?php echo $this->escape($label); ?></code> <?php
+        ?><pre><code class="language-<?php echo $language->getkod(); ?>"><?php echo $this->escape($label); ?></code></pre> <?php
     } ?>
     
     <br/>
