@@ -9,9 +9,6 @@ class CandidateController extends My_Controller_Action {
 
 		$this->_helper->ajaxContext
                         ->addActionContext('detail', 'html')
-                        ->addActionContext('edit-advanced-informations', 'html')
-                        ->addActionContext('save-advanced-informations', 'html')
-                        ->addActionContext('detail-advanced-informations', 'html')
                         ->initContext('html');
 	}
 
@@ -280,29 +277,6 @@ class CandidateController extends My_Controller_Action {
 			$newMessage->datum_vytvoreni = $now;
 
 			$newMessage->save();
-		}
-	}
-
-	public function detailAdvancedInformationsAction()
-	{
-		// Handles send message action
-		if ($this->_request->isPost()) {
-		}
-	}
-
-	public function editAdvancedInformationsAction()
-	{
-		// Handles send message action
-		if ($this->_request->isPost()) {
-
-		}
-	}
-
-	public function saveAdvancedInformationsAction()
-	{
-		// Handles send message action
-		if ($this->_request->isPost()) {
-			
 		}
 	}
 

@@ -110,12 +110,27 @@
                 <a href="<?php echo $this->url(array('controller' => 'candidate', 'action' => 'index', 'id' => NULL)); ?>"><button type="button" class="btn btn-default ">Back</button></a>
               </div>
               <div class="col-xs-6 text-right">
+                
+                <a id="show-ai" href="<?php echo $this->url(array('controller' => 'candidate', 'id' => $this->candidate->getid_kandidat(), 'action' => 'edit-advanced-informations')); ?>"><button type="button" class="btn btn-success">Create AI</button></a>
+
+                <a id="replace-ai" href="<?php echo $this->url(array('controller' => 'candidate', 'id' => $this->candidate->getid_kandidat(), 'action' => 'edit-advanced-informations')); ?>"><button type="button" class="btn btn-success">Switch edit AI</button></a>
+
+                <a id="replace-ai" href="<?php echo $this->url(array('controller' => 'candidate', 'id' => $this->candidate->getid_kandidat(), 'action' => 'save-advanced-informations')); ?>"><button type="button" class="btn btn-success">Save AI</button></a>
+
+                <a id="hide-ai" href="#"><button type="button" class="btn btn-success">Hide AI</button></a>
+
+                <a id="show-ai" href="<?php echo $this->url(array('controller' => 'candidate', 'id' => $this->candidate->getid_kandidat(), 'action' => 'edit-advanced-informations')); ?>"><button type="button" class="btn btn-success">Show edit AI</button></a>
+
                 <a href="<?php echo $this->url(array('controller' => 'candidate', 'id' => $this->candidate->getid_kandidat(), 'action' => 'edit')); ?>"><button type="button" class="btn btn-success">Edit Profile</button></a>
               </div>
             </div>
           </div>
         </div>
         </div>
+
+        <div class="clearfix"></div>
+
+        <div id="advanced-informatios-place"></div>
 
         <div class="clearfix"></div>
 
