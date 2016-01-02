@@ -19,9 +19,9 @@ class AdvancedInformationsHasInterviewers extends My_Db_Table  {
      * @var array
      */
     protected $_referenceMap = array (
-      'AdvancedInfromation' => array(
+      'AdvancedInformation' => array(
            'columns' => array ('id_pokrocile_informace'), 
-           'refTableClass' => 'AdvancedInfromations', 
+           'refTableClass' => 'AdvancedInformations', 
            'refColumns' => array ('id_pokrocile_informace')
         ),
         'User' => array(

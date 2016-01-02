@@ -153,7 +153,7 @@ class CandidateForm extends Zend_Form
     		array(
     			array(
     				'ViewScript',
-    				array('viewScript' => 'candidate/formLayout.phtml',
+    				array('viewScript' => 'candidate/candidateFormLayout.phtml',
     					)
     				)
     			)

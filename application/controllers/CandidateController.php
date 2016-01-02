@@ -227,6 +227,16 @@ class CandidateController extends My_Controller_Action {
 		$candidateId = $this->_request->getParam('id');
 		if (!empty($candidateId)) {
 			$candidate = My_Model::get('Candidates')->getById($candidateId);
+
+
+			if ($candidate !== null) {
+				$advancedInfoId = $candidate->getid_pokrocile_informace();
+
+				if (!empty($advancedInfoId)) {
+					$advancedInfo = My_Model::get('AdvancedInformations')->getById($advancedInfoId);
+					$this->view->advancedInformations = $advancedInfo;
+				}
+			}
 		}
 
 		if ($candidate === null) {
@@ -285,24 +295,167 @@ class CandidateController extends My_Controller_Action {
 
 	public function detailAdvancedInformationsAction()
 	{
-		// Handles send message action
-		if ($this->_request->isPost()) {
+		$candidateId = $this->_request->getParam('id');
+		if (!empty($candidateId)) {
+			$candidate = My_Model::get('Candidates')->getById($candidateId);
+		}
+
+		if (!empty($candidateId)) {
+			$candidate = My_Model::get('Candidates')->getById($candidateId);
+
+			if ($candidate !== null) {
+				$advancedInfoId = $candidate->getid_pokrocile_informace();
+
+				if (!empty($advancedInfoId)) {
+					$advancedInfo = My_Model::get('AdvancedInformations')->getById($advancedInfoId);
+					$this->view->advancedInformations = $advancedInfo;
+				}
+			}
 		}
 	}
 
 	public function editAdvancedInformationsAction()
 	{
-		// Handles send message action
-		if ($this->_request->isPost()) {
+		$candidateId = $this->_request->getParam('id');
 
+		$form = new AdvancedInformationsForm();
+		$form->setAction($this->view->url(array('controller' => 'candidate', 'action' => 'save-advanced-informations', 'id' => $candidateId), 'default', true));
+		$this->view->advancedInformationsForm = $form;
+		
+		if (!empty($candidateId)) {
+			$candidate = My_Model::get('Candidates')->getById($candidateId);
+
+			if ($candidate !== null) {
+				$advancedInfoId = $candidate->getid_pokrocile_informace();
+
+				if (!empty($advancedInfoId)) {
+					$advancedInfo = My_Model::get('AdvancedInformations')->getById($advancedInfoId);
+					$this->view->advancedInformations = $advancedInfo;
+				}
+			}
+		}
+
+		// Advanced informations exists
+		if ($advancedInfo !== null) {
+			$this->fillAIFormWithData($form, $advancedInfo);
+
+			$advancedInfosData = $advancedInfo->get_data();
+			$advancedInfosData['datum_pohovoru'] = $this->transformDateToFormFormat($advancedInfosData['datum_pohovoru']);
+			$advancedInfosData['datum_pristiho_kontaktu'] = $this->transformDateToFormFormat($advancedInfosData['datum_pristiho_kontaktu']);
+			$advancedInfosData['datum_zahajeni'] = $this->transformDateToFormFormat($advancedInfosData['datum_zahajeni']);
+
+			$form->setDefaults($advancedInfosData);
+		}
+		else {
+			$this->fillAIFormWithData($form, NULL);
 		}
 	}
 
 	public function saveAdvancedInformationsAction()
 	{
-		// Handles send message action
+		$candidateId = $this->_request->getParam('id');
+		
+		if (!empty($candidateId)) {
+			$candidate = My_Model::get('Candidates')->getById($candidateId);
+
+			if ($candidate !== null) {
+				$advancedInfoId = $candidate->getid_pokrocile_informace();
+
+				if (!empty($advancedInfoId)) {
+					$advancedInfo = My_Model::get('AdvancedInformations')->getById($advancedInfoId);
+				}
+			}
+		}
+
+		// ########################### POST ###########################
+		// Handles save action
+
 		if ($this->_request->isPost()) {
-			
+			$formValues = $this->_request->getParam('formValues');
+
+			if ($formValues === NULL) {
+				return;
+			}
+
+			// Sets null to empty fields
+			$nullCount = 0;
+			foreach ($formValues as $vKey => $vValue) {
+				if (!is_array($vValue) && strlen($vValue) === 0) {
+					$formValues[$vKey] = null;
+					$nullCount++;
+				}
+			}
+
+			// Clicked save button but form wasn't filled. (form contains two selects —› two fields aren't empty).
+			if (count($formValues) - $nullCount == 2) {
+				return;
+			}
+
+			// Transforms date to DB format
+			if (!empty($formValues['datum_pohovoru'])) {
+				$formValues['datum_pohovoru'] = $this->transformDateToDbFormat($formValues['datum_pohovoru']);
+			}
+			if (!empty($formValues['datum_pristiho_kontaktu'])) {
+				$formValues['datum_pristiho_kontaktu'] = $this->transformDateToDbFormat($formValues['datum_pristiho_kontaktu']);
+			}
+			if (!empty($formValues['datum_zahajeni'])) {
+				$formValues['datum_zahajeni'] = $this->transformDateToDbFormat($formValues['datum_zahajeni']);
+			}
+
+			// Creates new AI if doesn't exist
+			$isNewAi = false;
+			if ($advancedInfo === null) {
+				$isNewAi = true;
+				$advancedInfo = My_Model::get('AdvancedInformations')->createRow();
+			}
+
+			// Extracts perzonalista_informace
+			$newInterviewersIds = $formValues["perzonalista_informace["];
+			unset($formValues['perzonalista_informace']);		
+
+			// Updates AI
+			$advancedInfo->updateFromArray($formValues);		
+
+			$aiHasInterviewers = My_Model::get('AdvancedInformationsHasInterviewers');
+			$oldAiHasInterviewers = $aiHasInterviewers->fetchAll($aiHasInterviewers->select()->where('id_pokrocile_informace = ?', $advancedInfo->getid_pokrocile_informace()));
+
+			// Deletes perzonalista_informace objects
+			foreach ($oldAiHasInterviewers as $x) {
+				$deleteOld = true;
+
+				for ($i = 0 ; $i < count($newInterviewersIds) ; $i++) {
+					// Relation still exists
+					if ($x->id_uzivatel === $newInterviewersIds[$i]) {
+						$deleteOld = false;
+						unset($newInterviewersIds[$i]);
+						break;
+					}
+				}
+
+				// Removes object, that doesn't exist (after update)
+				if($deleteOld) {
+					$x->delete();
+				}
+			}
+
+			// Creates objects perzonalista_informace
+			if ($newInterviewersIds !== NULL) {
+				foreach ($newInterviewersIds as $x) {
+					$new = $aiHasInterviewers->createRow();
+					$new->id_pokrocile_informace = $advancedInfo->getid_pokrocile_informace();
+					$new->id_uzivatel = $x;
+					$new->save();
+				}
+			}
+
+			// Assigns AI id to candidate
+			if ($isNewAi) {
+				$candidate->id_pokrocile_informace = $advancedInfo->id_pokrocile_informace;
+				$candidate->save();
+			}
+
+			// Assigns AI into view
+			$this->view->advancedInformations = $advancedInfo;
 		}
 	}
 
@@ -381,6 +534,30 @@ class CandidateController extends My_Controller_Action {
 		}
 	}
 
+	private function fillAIFormWithData($form, $advancedInfos)
+	{
+		// Loads data from database
+		$contracts = My_Model::get('Contracts')->fetchAll();
+		$currencies = My_Model::get('Currencies')->fetchAll();
+		$users = My_Model::get('Users')->fetchAll();
+		
+		// Fills form selects and multiselect data
+		$form->id_uvazek->setMultiOptions($this->transformContracts($contracts));
+		$form->id_mena->setMultiOptions($this->transformCurrencies($currencies));
+		$form->perzonalista_informace->setMultiOptions($this->transformUsers($users));
+
+		if ($advancedInfos !== NULL) {
+			$interviewers = $advancedInfos->getInterviewers();
+			if (!empty($interviewers)) {
+				$interviewersDefault = array();
+				for ($i = 0 ; $i < count($interviewers) ; $i++) {
+					$interviewersDefault[$i] = $interviewers[$i]->getid_uzivatel();
+				}
+				$form->perzonalista_informace->setValue($interviewersDefault);
+			}
+		}
+	}
+
 	private function transformDateToDbFormat($dateString)
 	{
 		$components = explode("/", $dateString);
@@ -389,6 +566,9 @@ class CandidateController extends My_Controller_Action {
 
 	private function transformDateToFormFormat($dateString)
 	{
+		if (strlen($dateString) == 0) {
+			return "";
+		}
 		$components = explode("-", $dateString);
 		return $components[1]."/".$components[2]."/".$components[0];
 	}
@@ -425,6 +605,33 @@ class CandidateController extends My_Controller_Action {
 		$rVal = array();
 		foreach ($arr as $row) {
 			$rVal[$row->id_seniorita] = $row->nazev;
+		}
+		return $rVal;
+	}
+
+	private function transformContracts($arr)
+	{
+		$rVal = array();
+		foreach ($arr as $row) {
+			$rVal[$row->id_uvazek] = $row->nazev;
+		}
+		return $rVal;
+	}
+
+	private function transformCurrencies($arr)
+	{
+		$rVal = array();
+		foreach ($arr as $row) {
+			$rVal[$row->id_mena] = $row->kod_meny;
+		}
+		return $rVal;
+	}
+
+	private function transformUsers($arr)
+	{
+		$rVal = array();
+		foreach ($arr as $row) {
+			$rVal[$row->id_uzivatel] = $row->getjmeno()." ".$row->getprijmeni();
 		}
 		return $rVal;
 	}

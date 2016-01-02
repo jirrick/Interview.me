@@ -70,4 +70,15 @@ ADD FOREIGN KEY (`id_pokrocile_informace`) REFERENCES `pokrocile_informace` (`id
 ALTER TABLE `uzivatel_pokrocile_informace`
 RENAME TO `perzonalista_pokrocile_informace`;
 
+ALTER TABLE `pokrocile_informace`
+CHANGE `datum_pohovoru` `datum_pohovoru` date NULL AFTER `id_pokrocile_informace`,
+CHANGE `datum_pristiho_kontaktu` `datum_pristiho_kontaktu` date NULL AFTER `mzda`;
+
+ALTER TABLE `perzonalista_pokrocile_informace`
+ADD `id_perzonalista_pokrocile_informace` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY;
+
+ALTER TABLE `pokrocile_informace`
+CHANGE `vzdelani` `vzdelani` varchar(200) COLLATE 'utf8_czech_ci' NULL AFTER `datum_pohovoru`,
+CHANGE `idealni_pozice` `idealni_pozice` varchar(200) COLLATE 'utf8_czech_ci' NULL AFTER `shrnuti_pohovoru`;
+
 -- 2015-12-30 09:19:02
