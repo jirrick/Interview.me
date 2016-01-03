@@ -295,6 +295,11 @@ class CandidateController extends My_Controller_Action {
 
 	public function detailAdvancedInformationsAction()
 	{
+		// Only for administrators
+		if (!$this->getUser()->isAdmin()) {
+			return;
+		}
+
 		$candidateId = $this->_request->getParam('id');
 		if (!empty($candidateId)) {
 			$candidate = My_Model::get('Candidates')->getById($candidateId);
@@ -316,6 +321,11 @@ class CandidateController extends My_Controller_Action {
 
 	public function editAdvancedInformationsAction()
 	{
+		// Only for administrators
+		if (!$this->getUser()->isAdmin()) {
+			return;
+		}
+
 		$candidateId = $this->_request->getParam('id');
 
 		$form = new AdvancedInformationsForm();
@@ -353,6 +363,11 @@ class CandidateController extends My_Controller_Action {
 
 	public function saveAdvancedInformationsAction()
 	{
+		// Only for administrators
+		if (!$this->getUser()->isAdmin()) {
+			return;
+		}
+		
 		$candidateId = $this->_request->getParam('id');
 		
 		if (!empty($candidateId)) {

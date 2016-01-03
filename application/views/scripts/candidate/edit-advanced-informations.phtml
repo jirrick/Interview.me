@@ -1,4 +1,6 @@
-<div class="col-md-12">
-	<!-- EDIT ADVANCED INFORMATIONS -->
-	<?php echo $this->advancedInformationsForm; ?>
-</div>
+<?php if ($this->user->isAdmin()) { ?>
+	<div class="col-md-12">
+		<!-- EDIT ADVANCED INFORMATIONS -->
+		<?php echo $this->advancedInformationsForm; ?>
+	</div>
+<?php } ?>
