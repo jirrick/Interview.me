@@ -47,7 +47,7 @@ CREATE TABLE `pokrocile_informace` (
 DROP TABLE IF EXISTS `uvazek`;
 CREATE TABLE `uvazek` (
   `id_uvazek` int(11) NOT NULL AUTO_INCREMENT,
-  `nazev` varchar(100) CHARACTER SET utf16 COLLATE utf16_czech_ci NOT NULL,
+  `nazev` varchar(100) CHARACTER SET utf8 COLLATE utf8_czech_ci NOT NULL,
   PRIMARY KEY (`id_uvazek`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
@@ -80,5 +80,24 @@ ADD `id_perzonalista_pokrocile_informace` int(11) NOT NULL AUTO_INCREMENT PRIMAR
 ALTER TABLE `pokrocile_informace`
 CHANGE `vzdelani` `vzdelani` varchar(200) COLLATE 'utf8_czech_ci' NULL AFTER `datum_pohovoru`,
 CHANGE `idealni_pozice` `idealni_pozice` varchar(200) COLLATE 'utf8_czech_ci' NULL AFTER `shrnuti_pohovoru`;
+
+INSERT INTO  `mena` (
+`id_mena` ,
+`nazev` ,
+`kod_meny`
+)
+VALUES
+(NULL , NULL ,  'EUR'),
+(NULL , NULL ,  'CZK'),
+(NULL , NULL ,  'USD');
+
+INSERT INTO  `uvazek` (
+`id_uvazek` ,
+`nazev` 
+)
+VALUES
+(NULL , 'HPP'),
+(NULL , 'Agency'),
+(NULL , 'Contractor');
 
 -- 2015-12-30 09:19:02
