@@ -1,0 +1,157 @@
+<div class="col-md-12">
+	<!-- DETAIL ADVANCED INFORMATIONS -->
+	<div class="box box-primary">
+		<div class="box-header">
+			<h3 class="box-title">Advanced Informations</h3>
+
+			<div class="box-tools pull-right">
+				
+			</div>
+        </div>
+        <?php if ($this->advancedInformations === NULL) { ?>
+        	
+        <?php } else { ?>
+			<!-- /.box-header -->
+			<div class="col-md-4">
+				<ul class="list-group list-group-unbordered">
+					<li class="list-group-item min-42">
+						<b>Date of interview: </b>
+						<a class="pull-right"><?php echo $this->advancedInformations->getdatum_pohovoru() ?></a>
+					</li>
+
+					<li class="list-group-item min-42">
+						<div class="flleft min-100"><b>Interviewed by: </b></div>
+						<?php foreach ($this->advancedInformations->getInterviewers() as $u) {  ?>    
+		                  <div class="flright"><a><?php echo $u->getjmeno()." ".$u->getprijmeni(); ?></a>,&nbsp;</div>
+	                	<?php }  ?> 
+					</li>
+
+					<li class="list-group-item min-42">
+						<b>Education: </b>
+						<a class="pull-right"><?php echo $this->advancedInformations->getvzdelani() ?></a>
+					</li>
+
+					<li class="list-group-item min-42 border-b-n">
+						<div>
+							<div class="flleft min-100"><b>Motivation to change: </b></div>
+							<div class="flright max-w-can"><a><?php echo $this->advancedInformations->getmotivace() ?></a></div>
+						</div>
+					</li>
+
+					<li class="list-group-item min-42 border-b-n">
+						<div>
+							<div class="flleft min-100"><b>Kind of work preferred: </b></div>
+							<div class="flright max-w-can"><a><?php echo $this->advancedInformations->getpreferovana_prace() ?></a></div>
+						</div>
+					</li>
+
+					<li class="list-group-item min-42 border-b-n">
+						<div>
+							<div class="flleft min-100"><b>Ambitions: </b></div>
+							<div class="flright max-w-can"><a><?php echo $this->advancedInformations->getambice() ?></a></div>
+						</div>
+					</li>
+
+					<li class="list-group-item min-42">
+						<b>Languages: </b>
+						<a class="pull-right"><?php echo $this->advancedInformations->getjazyky() ?></a>
+					</li>
+
+					<li class="list-group-item min-42">
+						<b>Travelling: </b>
+						<a class="pull-right"><?php echo $this->advancedInformations->getcestovani() ?></a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="col-md-4">
+				<ul class="list-group list-group-unbordered">
+					<li class="list-group-item min-42 border-b-n">
+						<div>
+							<div class="flleft min-100"><b>Pluses/minuses: </b></div>
+							<div class="flright max-w-can"><a><?php echo $this->advancedInformations->getplusy_minusy() ?></a></div>
+						</div>
+					</li>
+
+					<li class="list-group-item min-42 border-b-n">
+						<div>
+							<div class="flleft min-100"><b>Team work experience: </b></div>
+							<div class="flright max-w-can"><a><?php echo $this->advancedInformations->getzkusenosti_v_tymu() ?></a></div>
+						</div>
+					</li>
+
+					<li class="list-group-item min-42 border-b-n">
+						<div>
+							<div class="flleft min-100"><b>Domain/Areas of work: </b></div>
+							<div class="flright max-w-can"><a><?php echo $this->advancedInformations->getpracovni_misto() ?></a></div>
+						</div>
+					</li>
+
+					<li class="list-group-item min-42 border-b-n">
+						<div>
+							<div class="flleft min-100"><b>Skills and technologies (KnowHow): </b></div>
+							<div class="flright max-w-can"><a><?php echo $this->advancedInformations->getknowhow() ?></a></div>
+						</div>
+					</li>
+
+					<li class="list-group-item min-42 border-b-n">
+						<div>
+							<div class="flleft min-100"><b>Other informations: </b></div>
+							<div class="flright max-w-can"><a><?php echo $this->advancedInformations->getdalsi_informace() ?></a></div>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+			<div class="col-md-4">
+				<ul class="list-group list-group-unbordered">
+					<li class="list-group-item min-42 border-b-n">
+						<div>
+							<div class="flleft min-100"><b>Summary of the interview: </b></div>
+							<div class="flright max-w-can"><a><?php echo $this->advancedInformations->getshrnuti_pohovoru() ?></a></div>
+						</div>
+					</li>
+
+					<li class="list-group-item min-42">
+						<b>Ideal for position/project: </b>
+						<a class="pull-right"><?php echo $this->advancedInformations->getidealni_pozice() ?></a>
+					</li>
+
+					<li class="list-group-item min-42">
+						<b>Possible starting date: </b>
+						<a class="pull-right"><?php echo $this->advancedInformations->getdatum_zahajeni() ?></a>
+					</li>
+
+					<li class="list-group-item min-42">
+						<b>Form of contract: </b>
+						<a class="pull-right"><?php echo $this->advancedInformations->getContract()->getnazev() ?></a>
+					</li>
+
+					<li class="list-group-item min-42">
+						<b>Salary: </b>
+						<a class="pull-right"><?php
+							echo $this->advancedInformations->getmzda() . " " . $this->advancedInformations->getCurrency()->getkod_meny()
+						?></a>
+					</li>
+
+					<li class="list-group-item min-42">
+						<b>Next contact date: </b>
+						<a class="pull-right"><?php echo $this->advancedInformations->getdatum_pristiho_kontaktu() ?></a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="clearfix"></div>
+		<?php } ?>
+	
+		<!-- /.box-body -->
+		<div class="box-footer">
+			<div class="col-md-12 text-right">
+				<a class="replace-ai" href="<?php echo $this->url(array('controller' => 'candidate', 'action' => 'edit-advanced-informations')); ?>"><button type="button" class="btn btn-success"><?php if ($this->advancedInformations === NULL) { echo 'Create'; } else { echo 'Edit'; } ?></button></a>
+			</div>
+
+			<div class="clearfix"></div>
+		</div>
+		<!-- /.box-footer-->
+	</div>
+</div>
