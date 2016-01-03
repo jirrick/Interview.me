@@ -1,0 +1,107 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      <?php echo $this->escape($this->title); ?>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="<?php echo $this->baseUrl() . "/"; ?>"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active"><?php echo $this->escape($this->title); ?></li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    
+    <?php if (count($this->messages)){ ?>
+    <!-- flashMesenger -->
+    <?php foreach ($this->messages as $message) { ?>
+      <div class="callout callout-info">
+         <h4><?php echo $this->escape($message); ?></h4>
+      </div>
+    <?php } }; ?>
+    
+    
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box box-primary">
+          <div class="box-header">
+            <a href="<?php echo $this->url(array('controller' => 'candidate', 'action' => 'create')); ?>"><button type="submit" class="btn btn-success">TODO: Add new Candidate</button></a>
+          </div><!-- /.box-header -->
+          
+          <!-- User list HEADER-->
+          <?php if (count($this->users) > 0) {?>
+           <div class="box-body">
+              <table id="users-list" class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <!--<th>ID</th>-->
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th class="text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody> 
+           <!-- User list ITEM -->   
+           <?php foreach ($this->users as $user) {  ?> 
+              <tr>
+                <td><?php echo $user->getFullName(); ?></td>
+                <td>
+                    <?php if ($user->isAdmin()) { ?>
+                    <i class="fa fa-rocket"></i>&nbsp;&nbsp;Administrator
+                    <?php } else { ?> 
+                    <i class="fa fa-edit"></i>&nbsp;&nbsp;Reviewer
+                    <?php } ?>
+                </td>
+                <td class="text-right">
+                    <?php if ($user->isAdmin()) { ?>
+                        <a class="replace-users-list" href="<?php echo $this->url(array('controller' => 'user', 'id' => $user->getid_uzivatel(), 'action' => 'toggleAdminRole')); ?>"><button type="button" class="btn btn-default btn-sm"><i class="fa fa-magic"></i>&nbsp;&nbsp;Make reviewer</button></a>  
+                    <?php } else { ?> 
+                        <a class="replace-users-list" href="<?php echo $this->url(array('controller' => 'user', 'id' => $user->getid_uzivatel(), 'action' => 'toggleAdminRole')); ?>"><button type="button" class="btn btn-default btn-sm"><i class="fa fa-magic"></i>&nbsp;&nbsp;Make administrator</button></a>  
+                    <?php } ?>
+
+                    <a class="delete-user" href="<?php echo $this->url(array('controller' => 'user', 'id' => $user->getid_uzivatel(), 'action' => 'delete')); ?>"><button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</button></a>
+
+                    <a href="<?php echo $this->url(array('controller' => 'user', 'id' => $user->getid_uzivatel(), 'action' => 'detail')); ?>"><button type="button" class="btn btn-success btn-sm"><i class="fa fa-smile-o"></i>&nbsp;&nbsp;Detail</button></a>  
+                </td>
+              </tr>
+              <?php }  //END foreach $user?> 
+              </tbody>
+            </table>
+            </div><!-- /.box-body --> 
+          <?php 
+          // end of table
+ 
+// haluz konstrukce, ktera vypise tenhle skript na konec souboru        
+$script = <<<'JS'
+$(document).ready(function() {
+$('#users-list').DataTable( {
+responsive: false,
+columnDefs: [
+{ responsivePriority: 1, targets: 0 },
+{ responsivePriority: 2, targets: 2 },
+{ responsivePriority: 1, targets: -1 },
+{ bSortable: false, aTargets: -1 }
+] });
+} );
+JS;
+$this->InlineScript()->appendScript($script, $type = 'text/javascript');
+    
+          } else { ?>
+          
+          <!-- Candidate list EMPTY --> 
+          <div class="box-body">
+            <div class="callout callout-info">
+                <h4>There are no users to show</h4>
+                <p>Enter new users to hide this annoying message :)</p>
+            </div>
+          </div>
+        <?php } //END candidate list EMPTY ?>
+          
+        </div><!-- /.box -->
+      </div>
+    </div><!-- /.row (main row) -->    
+  </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
