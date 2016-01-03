@@ -203,3 +203,12 @@ textarea.dd-test {
 	font-weight: normal !important;
 	margin-top: 0px !important;
 }
+
+.list-group-item {
+	border: none;
+}
+
+.list-group-item {
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 0;
+}

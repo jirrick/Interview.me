@@ -66,6 +66,7 @@ $(function() {
 	$(document).on('click', '#advanced-informations-form #saveButton', function () {
 		// Shows loading
 		$('#advanced-informations-form div.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+		$('#base-advanced-informations div.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
 
 		// Binds submit action
 		$('#advanced-informations-form').submit(function() {
@@ -97,14 +98,26 @@ $(function() {
 			delete formValues['saveButton'];
 			delete formValues[''];
 
+			// Calls save action in controller
 			$.post($(this).attr("action"), { 'formValues' : formValues }, function(data) {
 				replaceAdvancedInformations(data);
+			});
+
+			// Refreshes base advanced informations
+			$.get($(this).attr("action").replace('save-advanced-informations', 'base-advanced-informations'), null , function(data) {
+				// Removes loading
+				$('#base-advanced-informations div.box .overlay').remove();
+
+				// Shows new content
+				var baseAi = $('#base-advanced-informations-ajax-place');
+				if ($(baseAi).length > 0) {
+					$(baseAi).html(data);
+				}
 			});
 			
 			return false;
 		});
 	});
-
 
 	// Show
 	function showAdvancedInformations(html) {

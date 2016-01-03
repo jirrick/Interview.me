@@ -9,6 +9,7 @@ class CandidateController extends My_Controller_Action {
 
 		$this->_helper->ajaxContext
                         ->addActionContext('detail', 'html')
+                        ->addActionContext('base-advanced-informations', 'html')
                         ->addActionContext('edit-advanced-informations', 'html')
                         ->addActionContext('save-advanced-informations', 'html')
                         ->addActionContext('detail-advanced-informations', 'html')
@@ -290,6 +291,32 @@ class CandidateController extends My_Controller_Action {
 			$newMessage->datum_vytvoreni = $now;
 
 			$newMessage->save();
+		}
+	}
+
+	public function baseAdvancedInformationsAction()
+	{
+		// Only for administrators
+		if (!$this->getUser()->isAdmin()) {
+			return;
+		}
+
+		$candidateId = $this->_request->getParam('id');
+		if (!empty($candidateId)) {
+			$candidate = My_Model::get('Candidates')->getById($candidateId);
+		}
+
+		if (!empty($candidateId)) {
+			$candidate = My_Model::get('Candidates')->getById($candidateId);
+
+			if ($candidate !== null) {
+				$advancedInfoId = $candidate->getid_pokrocile_informace();
+
+				if (!empty($advancedInfoId)) {
+					$advancedInfo = My_Model::get('AdvancedInformations')->getById($advancedInfoId);
+					$this->view->advancedInformations = $advancedInfo;
+				}
+			}
 		}
 	}
 
