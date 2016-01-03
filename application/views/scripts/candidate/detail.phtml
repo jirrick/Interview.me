@@ -110,7 +110,9 @@
                 <a href="<?php echo $this->url(array('controller' => 'candidate', 'action' => 'index', 'id' => NULL)); ?>"><button type="button" class="btn btn-default ">Back</button></a>
               </div>
               <div class="col-xs-6 text-center">
-                <a class="show-ai" href="<?php echo $this->url(array('controller' => 'candidate', 'id' => $this->candidate->getid_kandidat(), 'action' => 'detail-advanced-informations')); ?>"><button type="button" class="btn btn-default">Show Advanced Informations</button></a>
+                <?php if ($this->user->isAdmin()) { ?>
+                  <a class="show-ai" href="<?php echo $this->url(array('controller' => 'candidate', 'id' => $this->candidate->getid_kandidat(), 'action' => 'detail-advanced-informations')); ?>"><button type="button" class="btn btn-default">Show Advanced Informations</button></a>
+                <?php } ?>
               </div>
               <div class="col-xs-3 text-right">
                 <a href="<?php echo $this->url(array('controller' => 'candidate', 'id' => $this->candidate->getid_kandidat(), 'action' => 'edit')); ?>"><button type="button" class="btn btn-success">Edit Profile</button></a>
