@@ -9,6 +9,7 @@ class CandidateController extends My_Controller_Action {
 
 		$this->_helper->ajaxContext
                         ->addActionContext('detail', 'html')
+                        ->addActionContext('base-advanced-informations', 'html')
                         ->addActionContext('edit-advanced-informations', 'html')
                         ->addActionContext('save-advanced-informations', 'html')
                         ->addActionContext('detail-advanced-informations', 'html')
@@ -40,7 +41,6 @@ class CandidateController extends My_Controller_Action {
 			$candidateData = $candidate->get_data();
 
 			$candidateData['datum_narozeni'] = $this->transformDateToFormFormat($candidateData['datum_narozeni']);
-			$candidateData['datum_pohovoru'] = $this->transformDateToFormFormat($candidateData['datum_pohovoru']);
 
 			$this->fillFormWithData($form, $candidate);
 			$form->setDefaults($candidateData);
@@ -91,8 +91,7 @@ class CandidateController extends My_Controller_Action {
 
 					// Converts dates into DB format
 					$formValues['datum_narozeni'] = $this->transformDateToDbFormat($formValues['datum_narozeni']);
-					$formValues['datum_pohovoru'] = $this->transformDateToDbFormat($formValues['datum_pohovoru']);
-
+					
 					// Adds photo id
 					if (!empty($photo)) {
 						$formValues['id_foto'] = $photo->getid_foto();
@@ -290,6 +289,32 @@ class CandidateController extends My_Controller_Action {
 			$newMessage->datum_vytvoreni = $now;
 
 			$newMessage->save();
+		}
+	}
+
+	public function baseAdvancedInformationsAction()
+	{
+		// Only for administrators
+		if (!$this->getUser()->isAdmin()) {
+			return;
+		}
+
+		$candidateId = $this->_request->getParam('id');
+		if (!empty($candidateId)) {
+			$candidate = My_Model::get('Candidates')->getById($candidateId);
+		}
+
+		if (!empty($candidateId)) {
+			$candidate = My_Model::get('Candidates')->getById($candidateId);
+
+			if ($candidate !== null) {
+				$advancedInfoId = $candidate->getid_pokrocile_informace();
+
+				if (!empty($advancedInfoId)) {
+					$advancedInfo = My_Model::get('AdvancedInformations')->getById($advancedInfoId);
+					$this->view->advancedInformations = $advancedInfo;
+				}
+			}
 		}
 	}
 
