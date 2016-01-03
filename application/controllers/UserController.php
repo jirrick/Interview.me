@@ -8,7 +8,9 @@ class UserController extends My_Controller_Action {
 		$this->view->user = $this->getUser();
 
 		$this->_helper->ajaxContext
-                        ->addActionContext('detail', 'html')
+                        ->addActionContext('delete', 'html')
+                        ->addActionContext('toggle-admin-role', 'html')
+                        ->addActionContext('isAdmin', 'html')
                         ->initContext('html');
 	}
 
@@ -19,6 +21,50 @@ class UserController extends My_Controller_Action {
 		
 		$this->view->users = $users;
 		$this->view->title = 'Users';
+	}
+
+	public function isAdminAction()
+	{
+		// Disables view script call
+		$this->_helper->viewRenderer->setNoRender(true);
+
+		// Disables layout to action mapping
+		$this->_helper->layout->disableLayout();
+
+		echo $this->getUser()->isAdmin() ? '1' : '0';
+	}
+
+	public function deleteAction() 
+	{
+		if ($this->getUser()->isAdmin()) {
+			$userId = $this->_request->getParam('id');
+			if (!empty($userId)) {
+				$user = My_Model::get('Users')->getById($userId);
+				if ($user !== NULL) {
+					$user->delete();
+				}
+			}
+		}
+
+		$users = My_Model::get('Users')->fetchAll();
+		$this->view->users = $users;
+	}
+
+	public function toggleAdminRoleAction() 
+	{
+		if ($this->getUser()->isAdmin()) {
+			$userId = $this->_request->getParam('id');
+			if (!empty($userId)) {
+				$user = My_Model::get('Users')->getById($userId);
+				if ($user !== NULL) {
+					$user->setadmin($user->getadmin() == 0 ? 1 : 0);
+					$user->save();
+				}
+			}
+		}
+
+		$users = My_Model::get('Users')->fetchAll();
+		$this->view->users = $users;
 	}
 
 	//public function editAction()

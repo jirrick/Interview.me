@@ -70,6 +70,7 @@ $(function() {
 	}
 
 	// ADVANCED INFORMATIONS
+
 	$(document).on('click', '#advanced-informations-form #saveButton', function () {
 		// Shows loading
 		$('#advanced-informations-form div.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
@@ -235,6 +236,45 @@ $(function() {
 		$(this).addClass('show-ai');
 
 		hideAdvancedInformations();
+		return false;
+	});
+
+	// USERS
+
+	function replaceUserPlace(url) {
+		var askPermissionUrl = url.replace(/\/user\/.*$/, '/user/is-admin');
+		$.get(askPermissionUrl, function(result) {
+			if (result == '0') {
+				alert("You aren't permitted to do this action!");
+			}
+			else {
+				$.post(url, function(data) {
+					$('#users-list-ajax-place').html(data);
+
+					$('#users-list').DataTable( {
+						responsive: false,
+						columnDefs: [
+							{ responsivePriority: 1, targets: 0 },
+							{ responsivePriority: 2, targets: 2 },
+							{ responsivePriority: 1, targets: -1 },
+							{ bSortable: false, aTargets: -1 }
+					] });
+				});
+			}
+		});
+	}
+
+	$(document).on('click', '.replace-users-list', function(){
+		var url = $(this).attr('href');
+		replaceUserPlace(url);
+		return false;
+	});
+
+	$(document).on('click', '.delete-user', function(){
+		if (confirm("Are you sure?")) {
+			var url = $(this).attr('href');
+			replaceUserPlace(url);
+		}
 		return false;
 	});
 });
