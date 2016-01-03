@@ -22,7 +22,7 @@
 					<li class="list-group-item min-42">
 						<div class="flleft min-100"><b>Interviewed by: </b></div>
 						<?php foreach ($this->advancedInformations->getInterviewers() as $u) {  ?>    
-		                  <div class="flright"><a><?php echo $u->getjmeno()." ".$u->getprijmeni(); ?></a>,&nbsp;</div>
+		                  <div class="flright"><a><?php echo $u->getFullName(); ?></a>,&nbsp;</div>
 	                	<?php }  ?> 
 					</li>
 
