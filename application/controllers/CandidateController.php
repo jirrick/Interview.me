@@ -41,7 +41,6 @@ class CandidateController extends My_Controller_Action {
 			$candidateData = $candidate->get_data();
 
 			$candidateData['datum_narozeni'] = $this->transformDateToFormFormat($candidateData['datum_narozeni']);
-			$candidateData['datum_pohovoru'] = $this->transformDateToFormFormat($candidateData['datum_pohovoru']);
 
 			$this->fillFormWithData($form, $candidate);
 			$form->setDefaults($candidateData);
@@ -92,8 +91,7 @@ class CandidateController extends My_Controller_Action {
 
 					// Converts dates into DB format
 					$formValues['datum_narozeni'] = $this->transformDateToDbFormat($formValues['datum_narozeni']);
-					$formValues['datum_pohovoru'] = $this->transformDateToDbFormat($formValues['datum_pohovoru']);
-
+					
 					// Adds photo id
 					if (!empty($photo)) {
 						$formValues['id_foto'] = $photo->getid_foto();

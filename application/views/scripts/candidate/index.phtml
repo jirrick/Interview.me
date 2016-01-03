@@ -40,7 +40,6 @@
                     <!--<th>ID</th>-->
                     <th>Surname</th>
                     <th>Firstname</th>
-                    <th>Interview</th>
                     <th>Technology</th>
                     <th>Last result</th>
                     <th>Status</th>
@@ -54,8 +53,6 @@
                 <!--<td><?php echo $candidate->getid_kandidat(); ?></td>-->
                 <td><?php echo $candidate->getprijmeni(); ?></td>
                 <td><?php echo $candidate->getjmeno(); ?></td>
-                <td><?php $datum = new Zend_Date($candidate->getdatum_pohovoru()); 
-                    echo $datum->get(Zend_Date::DATE_MEDIUM)?></td>
                 <td><?php $technologie = $candidate->getTechnologies();
                       $tech = array();
                       foreach ($technologie as $t) {

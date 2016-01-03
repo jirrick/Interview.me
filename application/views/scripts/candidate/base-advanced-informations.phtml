@@ -1,40 +1,17 @@
 <?php if ($this->user->isAdmin()) { ?>
     <div class="col-md-3" id="base-advanced-informations">
-        <div class="box box-primary min-420">
-          <div class="box-body box-profile">
-            <div id="base-advanced-informations-ajax-place">
-              <?php if ($this->advancedInformations !== NULL) { ?>
-              <ul class="list-group list-group-unbordered">
-                <li class="list-group-item min-42">
-                  <b>Date of interview: </b>
-                  <a class="pull-right"><?php echo $this->advancedInformations->getdatum_pohovoru() ?></a>
-                </li>
+      <div class="box box-primary min-420">
+        <div class="box-body box-profile">
+          <div id="base-advanced-informations-ajax-place">
+            <?= $this->render('candidate/base-advanced-informations.ajax.phtml'); ?>
+          </div>
 
-                <li class="list-group-item min-42">
-                  <div class="flleft min-100"><b>Interviewed by: </b></div>
-                  <?php foreach ($this->advancedInformations->getInterviewers() as $u) {  ?>    
-                            <div class="flright"><a><?php echo $u->getFullName(); ?></a>,&nbsp;</div>
-                          <?php }  ?> 
-                </li>
-
-                <li class="list-group-item min-42">
-                  <b>Education: </b>
-                  <a class="pull-right"><?php echo $this->advancedInformations->getvzdelani() ?></a>
-                </li>
-                <li class="list-group-item min-42">
-                  <b>Next contact date: </b>
-                  <a class="pull-right"><?php echo $this->advancedInformations->getdatum_pristiho_kontaktu() ?></a>
-                </li>
-              </ul>
-              <?php } ?>
-            </div>
-
-            <div class="row">
-              <div class="col-xs-12 text-center">
-                  <a class="show-ai" href="<?php echo $this->url(array('controller' => 'candidate', 'id' => $this->candidate->getid_kandidat(), 'action' => 'detail-advanced-informations')); ?>"><button type="button" class="btn btn-default">Show Advanced Informations</button></a>
-              </div>
+          <div class="row">
+            <div class="col-xs-12 text-center">
+                <a class="show-ai" href="<?php echo $this->url(array('controller' => 'candidate', 'id' => $this->candidate->getid_kandidat(), 'action' => 'detail-advanced-informations')); ?>"><button type="button" class="btn btn-default">Show Advanced Informations</button></a>
             </div>
           </div>
         </div>
-    </div>
+      </div>
+  </div>
 <?php } ?>

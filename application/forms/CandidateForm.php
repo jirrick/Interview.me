@@ -59,16 +59,6 @@ class CandidateForm extends Zend_Form
 
     	// ################## SECOND COLUMN ##################
 
-    	// Date of interview (datum_pohovoru)
-    	// Date picker
-    	$interviewDate = $this->createElement('text', 'datum_pohovoru');
-    	$interviewDate->addFilter('StringTrim');
-    	$interviewDate->setRequired(true);
-    	$interviewDate->setAttrib('class', array('form-control','date-picker'));  
-    	$interviewDate->removeDecorator('Label');
-    	$interviewDate->setAttrib('placeholder', 'Date of interview');
-    	$this->addElement($interviewDate);
-
     	// Status (id_status)
     	// Select box
     	$status = new Zend_Form_Element_Select('id_status');

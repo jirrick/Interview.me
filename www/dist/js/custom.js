@@ -1,5 +1,14 @@
 $(function() {
 	
+	function nl2br() {
+		$('.nl2br').each(function(){
+			var html = $(this).html();
+			$(this).html(html.replace(/\n/g, "<br />"));
+		});
+	}
+
+	nl2br();
+
 	// CHAT
 	// Send message
 	$('#message-form').submit(function() {
@@ -27,8 +36,6 @@ $(function() {
 			$('.direct-chat .direct-chat-messages').animate({ scrollTop: scrollTop}, 600);	
 		});
 	}
-
-
 
 	// Database 'hook'
 	function waitForMessage()
@@ -124,8 +131,9 @@ $(function() {
 		var placeholder = $('#advanced-informations-place');
 
 		$(placeholder).html(html);
-			$( ".date-picker" ).datepicker({ dateFormat: 'yy-mm-dd' });
-			$('#perzonalista_informace').select2();
+		$( ".date-picker" ).datepicker({ dateFormat: 'yy-mm-dd' });
+		$('#perzonalista_informace').select2();
+		nl2br();
 
 		var div = $(placeholder).children();
 		var height = $(div).height();
@@ -172,7 +180,8 @@ $(function() {
 			$(placeholder).html(html);
 			$( ".date-picker" ).datepicker({ dateFormat: 'yy-mm-dd' });
 			$('#perzonalista_informace').select2();
-			
+			nl2br();
+
 			var div = $(placeholder).children();
 			$(div).css('opacity', '0');
 			$(div).css('top', '-20px');
