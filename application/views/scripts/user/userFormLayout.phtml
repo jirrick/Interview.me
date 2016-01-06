@@ -37,6 +37,13 @@
 						<?php echo $this->element->email; ?>
 					</div>
 
+					<?php if ($this->element->heslo) { ?>
+						<div class="form-group">
+							<label for="prijmeni">Heslo</label>
+							<?php echo $this->element->heslo; ?>
+						</div>
+					<?php } ?>
+
 					<div class="row">
 						<div class="col-xs-6">
 							<?php echo $this->element->closeButton; ?>

@@ -5,7 +5,15 @@ class CandidateController extends My_Controller_Action {
 
 	public function init()
 	{
-		$this->view->user = $this->getUser();
+		$user = $this->getUser();
+		if ($user !== NULL) {
+			$this->view->user = $user;
+        	$avatar = $user->getFoto();
+			if ($avatar !== NULL) {
+				$base64 = base64_encode($avatar->getfoto());
+				$this->view->avatarBase64 = $base64;
+			}
+        }
 
 		$this->_helper->ajaxContext
                         ->addActionContext('detail', 'html')
@@ -27,6 +35,13 @@ class CandidateController extends My_Controller_Action {
 
 	public function editAction()
 	{
+		// Only for administrators
+		if (!$this->getUser() || !$this->getUser()->isAdmin()) {
+			// Redirects to candidate list
+			$this->_helper->redirector->gotoRoute(array('controller' => 'candidate', 'action' => 'index'), 'default', true);
+			return;
+		}
+
 		$candidateId = $this->_request->getParam('id');
 
 		// Creates form instance
@@ -295,7 +310,7 @@ class CandidateController extends My_Controller_Action {
 	public function baseAdvancedInformationsAction()
 	{
 		// Only for administrators
-		if (!$this->getUser()->isAdmin()) {
+		if (!$this->getUser() || !$this->getUser()->isAdmin()) {
 			return;
 		}
 
@@ -321,7 +336,7 @@ class CandidateController extends My_Controller_Action {
 	public function detailAdvancedInformationsAction()
 	{
 		// Only for administrators
-		if (!$this->getUser()->isAdmin()) {
+		if (!$this->getUser() || !$this->getUser()->isAdmin()) {
 			return;
 		}
 
@@ -347,7 +362,7 @@ class CandidateController extends My_Controller_Action {
 	public function editAdvancedInformationsAction()
 	{
 		// Only for administrators
-		if (!$this->getUser()->isAdmin()) {
+		if (!$this->getUser() || !$this->getUser()->isAdmin()) {
 			return;
 		}
 
@@ -389,7 +404,7 @@ class CandidateController extends My_Controller_Action {
 	public function saveAdvancedInformationsAction()
 	{
 		// Only for administrators
-		if (!$this->getUser()->isAdmin()) {
+		if (!$this->getUser() || !$this->getUser()->isAdmin()) {
 			return;
 		}
 		

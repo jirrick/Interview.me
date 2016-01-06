@@ -1,6 +1,6 @@
 <?php
 
-class AdminController extends Zend_Controller_Action {
+class AdminController extends My_Controller_Action {
     
     public function init() {
         
@@ -15,6 +15,13 @@ class AdminController extends Zend_Controller_Action {
     }
 
     public function registrationAction() {
+        // Only for administrators
+        if (!$this->getUser() || !$this->getUser()->isAdmin()) {
+            // Redirects
+            $this->_helper->redirector->gotoRoute(array('controller' => 'admin', 'action' => 'login'), 'default', true);
+            return;
+        }
+
         $this->view->title = 'Registrace administrátora';
     
         $form = new RegistrationForm();

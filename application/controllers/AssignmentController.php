@@ -4,9 +4,16 @@ class AssignmentController extends My_Controller_Action {
 	
 	public function init()
 	{
-        $this->view->user = $this->getUser();
-		
-		if ($this->getUser() === null) {
+        $user = $this->getUser();
+		if ($user !== NULL) {
+			$this->view->user = $user;
+        	$avatar = $user->getFoto();
+			if ($avatar !== NULL) {
+				$base64 = base64_encode($avatar->getfoto());
+				$this->view->avatarBase64 = $base64;
+			}
+        }
+        else {
             $this->_helper->layout->setLayout('basic');
         }
     }

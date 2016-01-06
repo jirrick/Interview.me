@@ -5,7 +5,15 @@ class UserController extends My_Controller_Action {
 
 	public function init()
 	{
-		$this->view->user = $this->getUser();
+		$user = $this->getUser();
+		if ($user !== NULL) {
+			$this->view->user = $user;
+        	$avatar = $user->getFoto();
+			if ($avatar !== NULL) {
+				$base64 = base64_encode($avatar->getfoto());
+				$this->view->avatarBase64 = $base64;
+			}
+        }
 
 		$this->_helper->ajaxContext
                         ->addActionContext('delete', 'html')
@@ -16,6 +24,11 @@ class UserController extends My_Controller_Action {
 
 	public function indexAction() 
 	{
+		// Only for administrators
+		if (!$this->getUser() || !$this->getUser()->isAdmin()) {
+			return;
+		}
+
 		$users = My_Model::get('Users')->fetchAll();
 		$this->view->messages = $this->_helper->flashMessenger->getMessages();
 		
@@ -36,7 +49,8 @@ class UserController extends My_Controller_Action {
 
 	public function deleteAction() 
 	{
-		if ($this->getUser()->isAdmin()) {
+		// Only for administrators
+		if (!(!$this->getUser() || !$this->getUser()->isAdmin())) {
 			$userId = $this->_request->getParam('id');
 			if (!empty($userId)) {
 				$user = My_Model::get('Users')->getById($userId);
@@ -52,7 +66,8 @@ class UserController extends My_Controller_Action {
 
 	public function toggleAdminRoleAction() 
 	{
-		if ($this->getUser()->isAdmin()) {
+		// Only for administrators
+		if (!(!$this->getUser() || !$this->getUser()->isAdmin())) {
 			$userId = $this->_request->getParam('id');
 			if (!empty($userId)) {
 				$user = My_Model::get('Users')->getById($userId);
@@ -73,6 +88,13 @@ class UserController extends My_Controller_Action {
 		$this->view->messages = $this->_helper->flashMessenger->getMessages();
 
 		$userId = $this->_request->getParam('id');
+
+		if ($this->getUser()->getid_uzivatel() !== $userId && !$this->getUser()->isAdmin()) {
+			// Redirects
+			$this->_helper->redirector->gotoRoute(array('controller' => 'candidate', 'action' => 'index'), 'default', true);
+			return;
+		}
+
 		if (!empty($userId)) {
 			$user = My_Model::get('Users')->getById($userId);
 
@@ -97,6 +119,13 @@ class UserController extends My_Controller_Action {
 		$this->view->form = $form;
 
 		$userId = $this->_request->getParam('id');
+
+		if ($this->getUser()->getid_uzivatel() !== $userId && !$this->getUser()->isAdmin()) {
+			// Redirects
+			$this->_helper->redirector->gotoRoute(array('controller' => 'candidate', 'action' => 'index'), 'default', true);
+			return;
+		}
+
 		if (!empty($userId)) {
 			$user = My_Model::get('Users')->getById($userId);
 
@@ -149,6 +178,13 @@ class UserController extends My_Controller_Action {
 
 					if ($user === NULL) {
 						$user = My_Model::get('Users')->createRow();
+					}
+
+					if (!empty($formValues["heslo"])) {
+						$formValues["heslo"] = sha1("interview".$formValues["heslo"]);
+					}
+					else {
+						unset($formValues["heslo"]);
 					}
 
 					$user->updateFromArray($formValues);
