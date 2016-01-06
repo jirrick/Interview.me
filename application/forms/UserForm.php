@@ -57,6 +57,18 @@ class UserForm extends Zend_Form
         $lastName->removeDecorator('Label');
         $this->addElement($lastName);
 
+        //heslo
+        $pass = $this->createElement('password', 'heslo');
+        $pass->setAttrib('class', 'form-control');
+        $pass->setAttrib('placeholder', 'Password');
+        $pass->removeDecorator('Label');
+
+        $login = Zend_Auth::getInstance()->getIdentity();
+        $user = My_Model::get('Users')->getUserByEmail($login);
+        if ($user !== NULL) {
+            $this->addElement($pass);
+        }
+
 		// ###################### BUTTON ######################
 
         $close = new Zend_Form_Element_Submit('closeButton');
