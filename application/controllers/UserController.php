@@ -99,12 +99,12 @@ class UserController extends My_Controller_Action {
 			$user = My_Model::get('Users')->getById($userId);
 
 			if ($user !== NULL) {
-				$this->view->user = $user;
+				$this->view->detailuser = $user;
 
 				$avatar = $user->getFoto();
 				if ($avatar !== NULL) {
 					$base64 = base64_encode($avatar->getfoto());
-					$this->view->avatarBase64 = $base64;
+					$this->view->detailavatarBase64 = $base64;
 				}
 			}
 		}

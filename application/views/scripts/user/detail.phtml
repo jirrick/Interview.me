@@ -30,8 +30,8 @@
       <div class="col-md-4">
         <div class="box box-primary">
           <div class="box-body box-profile">
-            <?php if ($this->avatarBase64 !== NULL) { ?>
-            <?php echo '<img class="profile-user-img img-responsive img-circle" src="data:image/gif;base64,' . $this->avatarBase64 . '"  />'?>
+            <?php if ($this->detailavatarBase64 !== NULL) { ?>
+            <?php echo '<img class="profile-user-img img-responsive img-circle" src="data:image/gif;base64,' . $this->detailavatarBase64 . '"  />'?>
             <?php } else { ?>
               <img class="profile-user-img img-responsive img-circle" src="<?php echo $this->baseUrl() . "/dist/img/avatar5.png"; ?>" alt="User profile picture">
             <?php } ?>
@@ -45,24 +45,24 @@
             <ul class="list-group list-group-unbordered">
               <li class="list-group-item min-42">
                 <div class="flleft min-100"><b>Firstname: </b></div>
-                <div class="flleft"><a><?php echo $this->user->getjmeno(); ?></a></div>
+                <div class="flleft"><a><?php echo $this->detailuser->getjmeno(); ?></a></div>
               </li>
               <li class="list-group-item min-42">
                 <div>
                   <div class="flleft min-100"><b>Surename: </b></div>
-                  <div class="flleft"><a><?php echo $this->user->getprijmeni(); ?></a></div>
+                  <div class="flleft"><a><?php echo $this->detailuser->getprijmeni(); ?></a></div>
                 </div>
               </li>
               <li class="list-group-item min-42">
                 <div>
                   <div class="flleft min-100"><b>Email: </b></div>
-                  <div class="flleft"><a><?php echo $this->user->getemail(); ?></a></div>
+                  <div class="flleft"><a><?php echo $this->detailuser->getemail(); ?></a></div>
                 </div>
               </li>
               <li class="list-group-item min-42">
                 <div>
                   <div class="flleft min-100"><b>Role: </b></div>
-                  <div class="flleft"><a><?php echo ($this->user->isAdmin() ? 'Administrator' : 'Interviewer') ?></a></div>
+                  <div class="flleft"><a><?php echo ($this->detailuser->isAdmin() ? 'Administrator' : 'Interviewer') ?></a></div>
                 </div>
               </li>
             </ul>
@@ -72,7 +72,7 @@
                 <a href="<?php echo $this->url(array('controller' => 'user', 'action' => 'index', 'id' => NULL)); ?>"><button type="button" class="btn btn-default ">Back</button></a>
               </div>
               <div class="col-xs-6 text-right">
-                <a href="<?php echo $this->url(array('controller' => 'user', 'id' => $this->user->getid_uzivatel(), 'action' => 'edit')); ?>"><button type="button" class="btn btn-success">Edit User</button></a>
+                <a href="<?php echo $this->url(array('controller' => 'user', 'id' => $this->detailuser->getid_uzivatel(), 'action' => 'edit')); ?>"><button type="button" class="btn btn-success">Edit User</button></a>
               </div>
             </div>
           </div>
