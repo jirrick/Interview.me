@@ -17,7 +17,7 @@
 					<ul class="list-group list-group-unbordered">
 						<li class="list-group-item min-42">
 							<b>Date of interview: </b>
-							<a class="pull-right"><?php echo (new Zend_Date($this->advancedInformations->getdatum_pohovoru()))->get(Zend_Date::DATE_MEDIUM) ?></a>
+							<a class="pull-right"><?php $date = new Zend_Date($this->advancedInformations->getdatum_pohovoru()); echo $date->get(Zend_Date::DATE_MEDIUM) ?></a>
 							<div class="clearfix"></div>
 						</li>
 
@@ -117,7 +117,7 @@
 
 						<li class="list-group-item min-42">
 							<b>Possible starting date: </b>
-							<a class="pull-right"><?php echo (new Zend_Date($this->advancedInformations->getdatum_zahajeni()))->get(Zend_Date::DATE_MEDIUM) ?></a>
+							<a class="pull-right"><?php $date = new Zend_Date($this->advancedInformations->getdatum_zahajeni()); echo $date->get(Zend_Date::DATE_MEDIUM) ?></a>
 							<div class="clearfix"></div>
 						</li>
 
@@ -137,7 +137,7 @@
 
 						<li class="list-group-item min-42">
 							<b>Next contact date: </b>
-							<a class="pull-right"><?php echo (new Zend_Date($this->advancedInformations->getdatum_pristiho_kontaktu()))->get(Zend_Date::DATE_MEDIUM) ?></a>
+							<a class="pull-right"><?php $date = new Zend_Date($this->advancedInformations->getdatum_pristiho_kontaktu()); echo $date->get(Zend_Date::DATE_MEDIUM) ?></a>
 							<div class="clearfix"></div>
 						</li>
 					</ul>

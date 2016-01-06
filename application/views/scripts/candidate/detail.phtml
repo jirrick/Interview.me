@@ -39,7 +39,7 @@
             <ul class="list-group list-group-unbordered">
               <li class="list-group-item">
                 <b>Last update: </b>
-                <a class="pull-right"><?php echo (new Zend_Date($this->candidate->getdatum_aktualizace()))->get(Zend_Date::DATE_MEDIUM); ?></a>
+                <a class="pull-right"><?php $date = new Zend_Date($this->candidate->getdatum_aktualizace()); echo $date->get(Zend_Date::DATE_MEDIUM); ?></a>
               </li>
 
               <li class="list-group-item">
@@ -68,7 +68,7 @@
               <li class="list-group-item min-42">
                 <div>
                   <div class="flleft min-100"><b>Birthday: </b></div>
-                  <div class="flleft"><a><?php echo (new Zend_Date($this->candidate->getdatum_narozeni()))->get(Zend_Date::DATE_MEDIUM); ?></a></div>
+                  <div class="flleft"><a><?php $date = new Zend_Date($this->candidate->getdatum_narozeni()); echo $date->get(Zend_Date::DATE_MEDIUM); ?></a></div>
                 </div>
               </li>
               <li class="list-group-item min-42">
