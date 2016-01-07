@@ -197,45 +197,43 @@ class AssignmentController extends My_Controller_Action {
 				// formular validni
 				$this->_helper->viewRenderer('index-external');
 				$values = $form->getValues();
-				
-				// pocitani spravnych
-				$count_all = 0;
-				$count_correct = 0;
-				
+			
 				// projit jednotlive otazky a odpovedi ulozit odpoved do db	
 				foreach($values as $que_id => $que_val){
 					// nacte predpis otazky 
 					$question = My_Model::get('Questions')->getById($que_id);
-					$options = $question->getOptions();
-					
-					foreach($options as $opt){
-						$opt_id = $opt->getid_moznost(); // id moznosti
-						$opt_vyplneno = in_array($opt_id, $que_val); // byla moznost zatrzena uzivatelem
-						$opt_spravne = ($opt_vyplneno == $opt->getspravnost()); // zadal uzivatel spravnou odpoved
-						$count_all++;
-						if ($opt_spravne) $count_correct++;
-						
-						$resp = My_Model::get('Responses')->createRow();
-						$resp->setid_prirazeny_test($assignment->getid_prirazeny_test());
-						$resp->setid_otazka($que_id);
-						$resp->setid_moznost($opt_id);
-						$resp->setvyplneno($opt_vyplneno);
-						$resp->setspravne($opt_spravne);
-						$resp->save();
-					}
+					$options = $question->getOptions();   
+                    
+                    if (count($options) == 0) {
+                        //Otevreny text
+                        $resp = My_Model::get('Responses')->createRow();
+                        $resp->setid_prirazeny_test($assignment->getid_prirazeny_test());
+                        $resp->setslovni_odpoved($que_val);
+                        $resp->setid_otazka($que_id);
+                        $resp->setvyplneno(TRUE);
+                        $resp->save();
+                    } else  {
+                        //ABCD otazka				
+                        foreach($options as $opt){
+                            $opt_id = $opt->getid_moznost(); // id moznosti
+                            $opt_vyplneno = in_array($opt_id, $que_val); // byla moznost zatrzena uzivatelem
+                            $resp = My_Model::get('Responses')->createRow();
+                            $resp->setid_prirazeny_test($assignment->getid_prirazeny_test());
+                            $resp->setid_otazka($que_id);
+                            $resp->setid_moznost($opt_id);
+                            $resp->setvyplneno($opt_vyplneno);
+                            $resp->save();
+                        }
+                    }
 				}
-				
-				//vypocet spravnosti
-				$result = (int) round(($count_correct / $count_all) * 100);
-				
+							
 				// ulozeni data odevzdani
 				date_default_timezone_set('Europe/Prague');
 				$now = date("Y-n-j H:i:s");
 				$assignment->setdatum_vyplneni($now);
 				
 				// zneplatnit odkaz a upravit status
-				$assignment->setotevren(false);
-				$assignment->sethodnoceni($result);		
+				$assignment->setotevren(false);		
 				$statuses = new Statuses();
 				$statusID = $statuses->getStatusID('SUBMITTED');
 				$assignment -> setid_status($statusID);
@@ -248,7 +246,7 @@ class AssignmentController extends My_Controller_Action {
 															true);
 				
 			} else {
-				// nevalidni
+				// nevalidni 
 				$this->_helper->flashMessenger->addMessage("ERROR: Submission not valid.");
 			    $this->_helper->redirector->gotoRoute(array('controller' => 'assignment',
 														'action' => 'test',
