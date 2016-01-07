@@ -403,7 +403,9 @@ class TestController extends My_Controller_Action {
                     $allfalse = FALSE;
                 };
             }
-        }
+       }
+       // povoli otazku bez monosti
+       if (count($formValues) < 4) $allfalse = FALSE;
        return $allfalse;
     }
     

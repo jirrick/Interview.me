@@ -60,7 +60,8 @@
           <div class="box-header with-border">
             <div class="row">
               <h4 class="test-h4">Questions:</h4>
-              <?php foreach ($this->questions as $q) { ?>
+              <?php  // Questions 
+              foreach ($this->questions as $q) { ?>
               <div class="col-xs-12">
                 <span class="question-number"><?php echo $q->order . ") "?></span>
                 <?php $language = $q->question->getLanguage();
@@ -71,7 +72,8 @@
                 } ?>
                 <?php echo $q->question->getkomentar(); ?>
               <ul style="list-style-type: upper-alpha">
-                <?php foreach ($q->options as $o) { ?>
+                <?php //Options
+                foreach ($q->options as $o) { ?>
                 <li>
                   <?php if ($o->getspravnost())  { echo '<span class="positive-positive">'; } ?>
                   <?php 
@@ -84,7 +86,9 @@
                   <br>
                   <?php echo $o->getkomentar(); ?>
                 </li>
-                <?php } ?>  
+                <?php } ?>
+                <?php //pokud neni zadna moznost - tak se zobrazi textbox
+                if (count($q->options)==0) echo '<input type="text" value="Open question" disabled>'; ?>    
               </ul>
               </div>
               <?php } ?>
