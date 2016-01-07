@@ -114,47 +114,5 @@
 
     <?php echo $this->InlineScript(); ?>
 
-   <script type="text/javascript">
-
-// Retrieve new element's html from controller
-function ajaxAddField(par) {
-    var parent = $("form[name=" + par + "]")
-    var id = (parseInt(parent.find("#count").val()) + 1);
-    $.ajax(
-    {
-        type: "POST",
-        url: "<?=$this->url(array('action' => 'addfield', 'format' => 'html'));?>",
-        data: "newid=" + id,
-        success: function(newElement) {
-
-        // Insert new element before the Add button
-        parent.find("#addElement-label").before(newElement);
-        
-        // Store id
-        parent.find("#count").val(id);
-        }
-    }
-    );
-}
-
-function removeField(par) {
-    var parent = $("form[name=" + par + "]")
-    
-    // Get the last used id
-    var id = parseInt(parent.find("#count").val());
-    
-    if (id > 0) {
-
-    parent.find("[id|=odpoved" + id.toString() + "]").remove();
-    parent.find("[id|=check" + id.toString() + "]").remove();
-
-    // Decrement and store id
-    parent.find("#count").val(--id);
-    
-    }
-}
-</script>
-
-
   </body>
 </html>

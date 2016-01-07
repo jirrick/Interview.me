@@ -195,7 +195,7 @@ class TestController extends My_Controller_Action {
                     Zend_Debug::dump('at least one has to be right');
 
                     // redirect to test edit page
-                   // $this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'edit', 'id' => $testId ), 'default', true);
+                    $this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'edit', 'id' => $testId ), 'default', true);
                     return;
                 }
 
@@ -344,7 +344,7 @@ class TestController extends My_Controller_Action {
         
         $postData = $this->getRequest()->getPost();
         $id = 0;
-        if (array_key_exists('newid', $postData)) $id = intval($postData['newid']);
+        if (array_key_exists('count', $postData)) $id = intval($postData['count']) + 1;
         
         if ($id > 0 && $id <=6) {
             $optionsNames = array('', 'A', 'B', 'C', 'D', 'E', 'F');
@@ -363,6 +363,10 @@ class TestController extends My_Controller_Action {
                             ));
             echo $odpoved->__toString();
             echo $check->__toString();
+        } else {
+            $this->_response->clearBody();
+            $this->_response->clearHeaders();
+            $this->_response->setHttpResponseCode(403);
         }
     }
 

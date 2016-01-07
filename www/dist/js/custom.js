@@ -1,3 +1,39 @@
+// Retrieve new element's html from controller
+jQuery.ajaxAddField = function ajaxAddField(par, requrl) {
+    var parent = $("form[name=" + par + "]")
+    var count = parseInt(parent.find("#count").val());
+       
+    $.ajax(
+    {
+        type: "POST",
+        url: requrl,
+        data: "count=" + count,
+        success: function(newElement) {
+            // Insert new element before the Add button
+            parent.find("#addElement-label").before(newElement);      
+            // Store new id
+            count = count + 1;
+            parent.find("#count").val(count);
+        }
+    }
+    );
+}
+
+//Remove element from from
+jQuery.removeField = function removeField(par) {
+    var parent = $("form[name=" + par + "]")   
+    // Get the last used id
+    var id = parseInt(parent.find("#count").val());
+    
+    if (id > 0) {
+        // Remove old shit
+        parent.find("[id|=odpoved" + id.toString() + "]").remove();
+        parent.find("[id|=check" + id.toString() + "]").remove();
+        // Decrement and store id
+        parent.find("#count").val(--id);
+    }
+}
+
 $(function() {
 	
 	function nl2br() {
@@ -276,5 +312,5 @@ $(function() {
 			replaceUserPlace(url);
 		}
 		return false;
+        });
 	});
-});

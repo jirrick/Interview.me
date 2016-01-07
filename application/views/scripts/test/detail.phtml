@@ -67,9 +67,8 @@
                 if ($language === null) {
                     ?><span class="question-text"><?php echo $this->escape($q->question->getobsah());?></span> <?php
                 } else {
-                    ?><code class="language-<?php echo $language->getkod(); ?>"><?php echo $this->escape($q->question->getobsah()); ?></code> <?php
+                    ?><pre><code class="language-<?php echo $language->getkod(); ?>"><?php echo $this->escape($q->question->getobsah()); ?></code></pre> <?php
                 } ?>
-                
                 <?php echo $q->question->getkomentar(); ?>
               <ul style="list-style-type: upper-alpha">
                 <?php foreach ($q->options as $o) { ?>

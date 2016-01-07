@@ -77,12 +77,12 @@ class QuestionForm extends Zend_Form
             //add remove buttons
             $this->addElement('button', 'addElement', array(
             'label' => 'Add option',
-            'onclick' => 'ajaxAddField("new")'
+            'onclick' => '$.ajaxAddField("new", "'. Zend_Controller_Front::getInstance()->getRouter()->assemble(array('controller' => 'test', 'action' => 'addfield', 'format' => 'html'), null, true) .'")'
             ));
 
             $this->addElement('button', 'removeElement', array(
             'label' => 'Remove option',
-            'onclick' => 'removeField("new")'
+            'onclick' => '$.removeField("new")'
             ));
             
             // hidden element pocet otazek
@@ -117,12 +117,12 @@ class QuestionForm extends Zend_Form
             //add remove buttons
             $this->addElement('button', 'addElement', array(
             'label' => 'Add option',
-            'onclick' => 'ajaxAddField("'.$name.'")'
+            'onclick' => '$.ajaxAddField("'.$name.'", "'. Zend_Controller_Front::getInstance()->getRouter()->assemble(array('controller' => 'test', 'action' => 'addfield', 'format' => 'html'), null, true) .'")'
             ));
 
             $this->addElement('button', 'removeElement', array(
             'label' => 'Remove option',
-            'onclick' => 'removeField("'.$name.'")'
+            'onclick' => '$.removeField("'.$name.'")'
             ));
                     
             // hidden element pocet otazek
