@@ -96,7 +96,7 @@ body {
 .content-wrapper,
 .right-side {
   min-height: 100%;
-  background-color: #ecf0f5;
+  background-color: #f3fbfc;
   z-index: 800;
 }
 .main-footer {
@@ -167,14 +167,14 @@ h6,
 }
 /* General Links */
 a {
-  color: #3c8dbc;
+  color: #ed1848;
 }
 a:hover,
 a:active,
 a:focus {
   outline: none;
   text-decoration: none;
-  color: #72afd2;
+  color: #ed1848;
 }
 /* Page Header */
 .page-header {
@@ -336,7 +336,7 @@ a:focus {
   border-radius: 2px;
 }
 .content-header > .breadcrumb > li > a {
-  color: #444;
+  color: #073453;
   text-decoration: none;
   display: inline-block;
 }
@@ -1526,7 +1526,7 @@ a:focus {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 .box.box-primary {
-  border-top-color: #3c8dbc;
+  border-top-color: #ed1848;
 }
 .box.box-info {
   border-top-color: #00c0ef;
@@ -2226,13 +2226,13 @@ a:focus {
   background-color: #367fa9;
 }
 .btn-success {
-  background-color: #00a65a;
-  border-color: #008d4c;
+  background-color: #ed1848;
+  border-color: #b11035;
 }
 .btn-success:hover,
 .btn-success:active,
 .btn-success.hover {
-  background-color: #008d4c;
+  background-color: #b11035;
 }
 .btn-info {
   background-color: #00c0ef;
@@ -3279,7 +3279,6 @@ table.text-center th {
  */
 .profile-user-img {
   margin: 0 auto;
-  width: 100px;
   padding: 3px;
   border: 3px solid #d2d6de;
 }

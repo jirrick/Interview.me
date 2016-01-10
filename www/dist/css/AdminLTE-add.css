@@ -1,3 +1,20 @@
+body{
+	color: #073453 !important;
+}
+
+.btn-success .btn-success:active {
+	background-color: #ed1848;
+    border-color: #b11035;
+}
+
+table.dataTable.no-footer{
+	border-bottom: 1px solid #073453;
+}
+
+.dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
+    color: #073453;
+}
+
 .own-logo{
 	height: 35px;
 }
@@ -140,11 +157,25 @@ textarea.dd-test {
 .positive-positive{
 	/* kandidat vyplnil spravne */
 	color: green;
+	font-weight: bolder;
+}
+
+.positive-positive:after {
+	content: ' \f00c';
+   font-family: FontAwesome;
+   font-weight: normal;
 }
 
 .positive-negative{
 	/* kandidat vyplnil spatne */
 	color: red;
+	font-weight: bolder;
+}
+
+.positive-negative:after, .negative-negative:after {
+	content: ' \f00d';
+   font-family: FontAwesome;
+   font-weight: normal;
 }
 
 .negative-positive{
@@ -154,7 +185,8 @@ textarea.dd-test {
 
 .negative-negative{
 	/* kandidat nevyplnil ale mel vyplnit */
-	color: blue;
+	color: orange;
+	font-weight: bolder;
 }
 
 .box-clearbord{

@@ -1,3 +1,8 @@
+body{
+	color: #073453 !important;
+}
+
+
 .own-logo{
 	height: 35px;
 }
@@ -140,11 +145,25 @@ textarea.dd-test {
 .positive-positive{
 	/* kandidat vyplnil spravne */
 	color: green;
+	font-weight: bolder;
+}
+
+.positive-positive:after {
+	content: ' \f00c';
+   font-family: FontAwesome;
+   font-weight: normal;
 }
 
 .positive-negative{
 	/* kandidat vyplnil spatne */
 	color: red;
+	font-weight: bolder;
+}
+
+.positive-negative:after, .negative-negative:after {
+	content: ' \f00d';
+   font-family: FontAwesome;
+   font-weight: normal;
 }
 
 .negative-positive{
@@ -154,7 +173,8 @@ textarea.dd-test {
 
 .negative-negative{
 	/* kandidat nevyplnil ale mel vyplnit */
-	color: blue;
+	color: orange;
+	font-weight: bolder;
 }
 
 .box-clearbord{
@@ -171,8 +191,9 @@ textarea.dd-test {
 	margin-left:10px;
 }
 
-#fillTest dd #Submit-element{
-	margin-left:0px;
+#fillTest #Submit-element{
+	margin-left:0px !important;
+	margin-top: -20px;
 }
 
 #fillTest dd label{

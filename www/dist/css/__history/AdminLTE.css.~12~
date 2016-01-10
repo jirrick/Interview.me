@@ -96,7 +96,7 @@ body {
 .content-wrapper,
 .right-side {
   min-height: 100%;
-  background-color: #f3fbfc;
+  background-color: #fbf8e8;
   z-index: 800;
 }
 .main-footer {
@@ -336,7 +336,7 @@ a:focus {
   border-radius: 2px;
 }
 .content-header > .breadcrumb > li > a {
-  color: #073453;
+  color: #444;
   text-decoration: none;
   display: inline-block;
 }
@@ -2226,14 +2226,13 @@ a:focus {
   background-color: #367fa9;
 }
 .btn-success {
-  background-color: #ed1848;
-  border-color: #b11035;
+  background-color: #00a65a;
+  border-color: #008d4c;
 }
 .btn-success:hover,
 .btn-success:active,
 .btn-success.hover {
-  background-color: #b11035;
-  border-color: #b11035;
+  background-color: #008d4c;
 }
 .btn-info {
   background-color: #00c0ef;
