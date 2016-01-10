@@ -27,6 +27,7 @@
 $script = <<<'JS'
 $(document).ready(function () {
     $( ".date-picker" ).datepicker({ dateFormat: 'yy-mm-dd' });
+    $('#kandidat_technologie').select2();
 });
 JS;
 $this->InlineScript()->appendScript($script, $type = 'text/javascript');

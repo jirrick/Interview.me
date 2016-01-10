@@ -21,5 +21,13 @@ class User extends My_Db_Table_Row {
     public function getFoto() {
         return $this->findParentRow('Photos');
     }
+
+    /**
+     * Vrati true, když je uživatel administrátor, jinak vrátí false.
+     *
+     */
+    public function isAdmin() {
+        return $this->getadmin() > 0;
+    }    
 }
 	

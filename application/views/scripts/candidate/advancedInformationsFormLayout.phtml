@@ -1,0 +1,146 @@
+<form action="<?php echo $this->element->getAction(); ?>" method="<?php echo $this->element->getMethod(); ?>" id="advanced-informations-form">
+	
+	<div class="box box-primary">
+		<div class="box-header">
+			<h3 class="box-title">Advanced Informations</h3>
+
+			<div class="box-tools pull-right">
+			</div>
+        </div>
+		<!-- /.box-header -->
+
+		<div class="col-md-4">
+			<div class="form-group">
+				<label>Date of interview:</label>
+				<div class="input-group">
+					<div class="input-group-addon">
+						<i class="fa fa-calendar"></i>
+					</div>
+					<?php echo $this->element->datum_pohovoru; ?>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label>Interviewed by:</label>
+				<?php echo $this->element->perzonalista_informace; ?>
+			</div>
+
+			<div class="form-group">
+				<label>Education:</label>
+				<?php echo $this->element->vzdelani; ?>
+			</div>
+
+			<div class="form-group">
+				<label>Motivation to change:</label>
+				<?php echo $this->element->motivace; ?>
+			</div>
+
+			<div class="form-group">
+				<label>Kind of work preferred:</label>
+				<?php echo $this->element->preferovana_prace; ?>
+			</div>
+
+			<div class="form-group">
+				<label>Ambitions:</label>
+				<?php echo $this->element->ambice; ?>
+			</div>
+
+			<div class="form-group">
+				<label>Languages:</label>
+				<?php echo $this->element->jazyky; ?>
+			</div>
+
+			<div class="form-group">
+				<label>Travelling:</label>
+				<?php echo $this->element->cestovani; ?>
+			</div>
+		</div>
+
+		<div class="col-md-4">
+			<div class="form-group">
+				<label>Pluses/minuses:</label>
+				<?php echo $this->element->plusy_minusy; ?>
+			</div>
+
+			<div class="form-group">
+				<label>Team work experience:</label>
+				<?php echo $this->element->zkusenosti_v_tymu; ?>
+			</div>
+
+			<div class="form-group">
+				<label>Domain/Areas of work:</label>
+				<?php echo $this->element->pracovni_misto; ?>
+			</div>
+
+			<div class="form-group">
+				<label>Skills and technologies (KnowHow):</label>
+				<?php echo $this->element->knowhow; ?>
+			</div>
+
+			<div class="form-group">
+				<label>Other informations:</label>
+				<?php echo $this->element->dalsi_informace; ?>
+			</div>
+		</div>
+
+		<div class="col-md-4">
+			<div class="form-group">
+				<label>Summary of the interview:</label>
+				<?php echo $this->element->shrnuti_pohovoru; ?>
+			</div>
+
+			<div class="form-group">
+				<label>Ideal for position/project:</label>
+				<?php echo $this->element->idealni_pozice; ?>
+			</div>
+
+			<div class="form-group">
+				<label>Possible starting date:</label>
+				<?php echo $this->element->datum_zahajeni; ?>
+			</div>
+
+			<div class="form-group">
+				<label>Form of contract:</label>
+				<?php echo $this->element->id_uvazek; ?>
+			</div>
+
+			<div class="form-group">
+				<label>Salary:</label>
+				<div class="row">
+					<div class="col-xs-9">
+						<?php echo $this->element->mzda; ?>
+					</div>
+					<div class="col-xs-3">
+						<?php echo $this->element->id_mena; ?>
+					</div>
+				</div>
+				
+				
+			</div>
+
+			<div class="form-group">
+				<label>Next contact date:</label>
+				<div class="input-group">
+					<div class="input-group-addon">
+						<i class="fa fa-calendar"></i>
+					</div>
+					<?php echo $this->element->datum_pristiho_kontaktu; ?>
+				</div>
+			</div>
+		</div>
+
+		<div class="clearfix"></div>
+	
+		<!-- /.box-body -->
+		<div class="box-footer">
+			<div class="col-md-12 text-right">
+				<a class="replace-ai" href="<?php echo $this->url(array('controller' => 'candidate', 'action' => 'detail-advanced-informations')); ?>"><button type="button" class="btn btn-default">Cancel</button></a>
+				<?php echo $this->element->saveButton; ?>
+			</div>
+
+			<div class="clearfix"></div>
+		</div>
+		<!-- /.box-footer-->
+	</div>
+
+</form>

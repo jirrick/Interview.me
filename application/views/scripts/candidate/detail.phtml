@@ -30,7 +30,6 @@
       <div class="col-md-4">
         <div class="box box-primary min-420">
           <div class="box-body box-profile">
-            <!-- TODO: IMAGE AVATAR -->
             <?php if ($this->candidateAvatarBase64 !== NULL) { ?>
             <?php echo '<img class="profile-user-img img-responsive img-circle" src="data:image/gif;base64,' . $this->candidateAvatarBase64 . '"  />'?>
             <?php } else { ?>
@@ -40,12 +39,7 @@
             <ul class="list-group list-group-unbordered">
               <li class="list-group-item">
                 <b>Last update: </b>
-                <a class="pull-right"><?php echo $this->candidate->getdatum_aktualizace(); ?></a>
-              </li>
-
-              <li class="list-group-item">
-                <b>Interview: </b>
-                <a class="pull-right"><?php echo $this->candidate->getdatum_pohovoru(); ?></a>
+                <a class="pull-right"><?php $date = new Zend_Date($this->candidate->getdatum_aktualizace()); echo $date->get(Zend_Date::DATE_MEDIUM); ?></a>
               </li>
 
               <li class="list-group-item">
@@ -57,7 +51,7 @@
         </div>
       </div>
 
-      <div class="col-md-8">
+      <div class="col-md-<?php if ($this->user->isAdmin()) { echo 5; } else { echo 8; } ?>">
         <div class="box box-primary min-420">
           <div class="box-body box-profile">
             <ul class="list-group list-group-unbordered">
@@ -74,7 +68,7 @@
               <li class="list-group-item min-42">
                 <div>
                   <div class="flleft min-100"><b>Birthday: </b></div>
-                  <div class="flleft"><a><?php echo $this->candidate->getdatum_narozeni(); ?></a></div>
+                  <div class="flleft"><a><?php $date = new Zend_Date($this->candidate->getdatum_narozeni()); echo $date->get(Zend_Date::DATE_MEDIUM); ?></a></div>
                 </div>
               </li>
               <li class="list-group-item min-42">
@@ -85,7 +79,7 @@
               </li>
               <li class="list-group-item min-42">
                 <div>
-                  <div class="flleft min-100"><b>Technology: </b></div>
+                  <div class="flleft min-100"><b>Tech/Field: </b></div>
                   <?php foreach ($this->candidate->getTechnologies() as $technology) {  ?>    
                   <div class="flleft"><a><?php echo $technology->getnazev(); ?></a>,&nbsp;</div>
                   <?php }  ?> 
@@ -110,56 +104,65 @@
                 <a href="<?php echo $this->url(array('controller' => 'candidate', 'action' => 'index', 'id' => NULL)); ?>"><button type="button" class="btn btn-default ">Back</button></a>
               </div>
               <div class="col-xs-6 text-right">
-                <a href="<?php echo $this->url(array('controller' => 'candidate', 'id' => $this->candidate->getid_kandidat(), 'action' => 'edit')); ?>"><button type="button" class="btn btn-success">Edit Profile</button></a>
+                <?php if ($this->user && $this->user->isAdmin()) { ?>
+                  <a href="<?php echo $this->url(array('controller' => 'candidate', 'id' => $this->candidate->getid_kandidat(), 'action' => 'edit')); ?>"><button type="button" class="btn btn-success">Edit Profile</button></a>
+                <?php } ?>
               </div>
             </div>
           </div>
         </div>
         </div>
+
+        <?= $this->render('candidate/base-advanced-informations.phtml'); ?>
+
+        <div class="clearfix"></div>
+
+        <div id="advanced-informations-place"></div>
 
         <div class="clearfix"></div>
 
         <div class="col-md-12">
-        <!-- DIRECT CHAT -->
-        <div class="box box-primary direct-chat direct-chat-warning">      
-          <div class="box-header with-border ">
-            <h3 class="box-title">Direct Chat</h3>
-            <!-- /.box-header -->
-            <div class="box-body">
+          <!-- DIRECT CHAT -->
+          <div class="box box-primary direct-chat direct-chat-warning">      
+            <div class="box-header with-border ">
+              <h3 class="box-title">Direct Chat</h3>
+              <!-- /.box-header -->
+              <div class="box-body">
 
-              <!-- Direct caht message-->
-              <div class="direct-chat-messages">
-                <?php foreach ($this->chatMessages as $m) { ?>
-                  <!-- Message. Default to the left -->
-                  <div class="direct-chat-msg <?php if ($m['right']) { echo 'right'; } ?>">
-                    <div class="direct-chat-info clearfix">
-                      <span class="direct-chat-name pull-left"><? echo $m['name'] ?></span>
-                      <span class="direct-chat-timestamp pull-right"><? echo $m['date'] ?></span>
+                <!-- Direct caht message-->
+                <div class="direct-chat-messages">
+                  <?php foreach ($this->chatMessages as $m) { ?>
+                    <!-- Message. Default to the left -->
+                    <div class="direct-chat-msg <?php if ($m['right']) { echo 'right'; } ?>">
+                      <div class="direct-chat-info clearfix">
+                        <span class="direct-chat-name pull-left"><? echo $m['name'] ?></span>
+                        <span class="direct-chat-timestamp pull-right"><? echo $m['date'] ?></span>
+                      </div>
+                      <!-- /.direct-chat-info -->
+                      <?php if ($m['avatarBase64'] !== NULL) { ?>
+                      <?php echo '<img class="direct-chat-img" src="data:image/gif;base64,' . $m['avatarBase64'] . '"  />'?>
+                      <?php } else { ?>
+                        <img class="direct-chat-img" src="<?php echo $this->baseUrl() . "/dist/img/avatar5.png"; ?>" alt="message user image">
+                      <?php } ?>
+                      <div class="direct-chat-text">
+                        <? echo $m['text'] ?>
+                      </div>
+                      <!-- /.direct-chat-text -->
                     </div>
-                    <!-- /.direct-chat-info -->
-                    <?php if ($m['avatarBase64'] !== NULL) { ?>
-                    <?php echo '<img class="direct-chat-img" src="data:image/gif;base64,' . $m['avatarBase64'] . '"  />'?>
-                    <?php } else { ?>
-                      <img class="direct-chat-img" src="<?php echo $this->baseUrl() . "/dist/img/avatar5.png"; ?>" alt="message user image">
-                    <?php } ?>
-                    <div class="direct-chat-text">
-                      <? echo $m['text'] ?>
-                    </div>
-                    <!-- /.direct-chat-text -->
-                  </div>
-                  <!-- /.direct-chat-msg -->
-                <?php } ?>
+                    <!-- /.direct-chat-msg -->
+                  <?php } ?>
+                </div>
+                <!--/.direct-chat-messages-->
+
               </div>
-              <!--/.direct-chat-messages-->
-
+              <!-- /.box-body -->
+              <div class="box-footer">
+                <?php echo $this->messageForm; ?>
+              </div>
+              <!-- /.box-footer-->
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-              <?php echo $this->messageForm; ?>
-            </div>
-            <!-- /.box-footer-->
+            <!--/.direct-chat -->
           </div>
-          <!--/.direct-chat -->
         </div>
 
         <div class="clearfix"></div>
