@@ -1,18 +1,12 @@
-<?php /* DETAIL - INTERNAL
-Pro prihlasene uzivatele je zobrazen seznam otazek, tak jak je vyplnil kandidat
+<?php /* DETAIL - EXTERNAL
+Pro prihlasene uzivatele je zobrazen seznam otazek, tak jak je vyplnil kandidat a uzivatel je ohodnoti
 */?>
 
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      <?php echo $this->escape($this->title); ?>
+      <img class="own-logo" src="<?php echo $this->baseUrl() . "/dist/img/logo-black.png"; ?>" alt="logo" />
     </h1>
-    <ol class="breadcrumb">
-      <li><a href="<?php echo $this->baseUrl() . "/"; ?>"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active"><?php echo $this->escape($this->title); ?></li>
-    </ol>
   </section>
 
   <!-- Main content -->
@@ -144,5 +138,3 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, tak jak je vyplnil kandidat
       </div>
     </div><!-- /.row (main row) -->
   </section><!-- /.content -->
-</div><!-- /.content-wrapper -->
-

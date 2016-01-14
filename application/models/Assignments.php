@@ -53,7 +53,7 @@ class Assignments extends My_Db_Table  {
      *
      */
     public function getFromLink($link){
-        $select = $this->select()->where('odkaz = ?', $link);
+        $select = $this->select()->where('odkaz = ? OR kontrola = ?', $link);
         return $this->fetchRow($select);
     } 
 
