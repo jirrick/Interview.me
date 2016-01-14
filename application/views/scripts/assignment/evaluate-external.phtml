@@ -66,6 +66,8 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, tak jak je vyplnil kandidat 
                 <div class="flleft"><a><?php echo $this->escape($this->assignment->gethodnoceni()); ?>%</a></div>
               </li>
             </ul>
+            <!-- Create/Edit form -->
+            <?php echo $this->form; ?>
           </div>
         </div>
       </div>
@@ -83,14 +85,15 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, tak jak je vyplnil kandidat 
                 $language = $que->getLanguage(); ?>
               <div class="col-xs-12">
                  <?php if ($language === null) {
-                    ?><span class="question-text"><?php echo $this->escape($que->getobsah());?></span> <?php
+                    ?><div class="question-text"><?php echo $this->escape($que->getobsah());?></div> <?php
                   } else {
                     ?><pre><code class="language-<?php echo $language->getkod(); ?>"><?php echo $this->escape($que->getobsah()); ?></code></pre> <?php
                   } ?>
                 <?php echo $que->getkomentar(); ?>
-              <div class="question_status">
+              <div class="flleft question_status">
+              <span id="status-q<?php echo $que_id?>"></span>
               </div>
-              <div class="question_options">
+              <div class="flleft question_options">
                 <ul style="list-style-type: upper-alpha">
                     <?php 
                     // projde pole pres moznosti
@@ -108,7 +111,7 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, tak jak je vyplnil kandidat 
                                 ?><code class="language-<?php echo $language->getkod(); ?>"><?php echo $this->escape($opt->getobsah()); ?></code> <?php
                             }
                             //spravnost moznosti
-                            echo '<span class="q'.$que_id.'" style="display: none">'; 
+                            echo '<span id="correct-q'.$que_id.'" style="display: none">'; 
                             if ($opt_value['spravne'])  {
                                echo '<span class="positive-positive">';
                             } else {
@@ -123,10 +126,10 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, tak jak je vyplnil kandidat 
                     } ?>  
                 </ul>
               </div>
-              <div class="question_buttons">
-                    <button id="evaluation-q<?php echo $que_id?>" class="btn btn-block btn-info" onclick='$.showAnswers("<?php echo $que_id?>")'>Evaluation</button> 
-                    <button id="correct-q<?php echo $que_id?>" class="btn btn-block btn-success" onclick='$.evaluateQuestion("<?php echo $que_id?>",true)' style="display: none">Correct</button>
-                    <button id="wrong-q<?php echo $que_id?>" class="btn btn-block btn-danger" onclick='$.evaluateQuestion("<?php echo $que_id?>",false)' style="display: none">Wrong</button> 
+              <div class="flleft question_buttons">
+                    <button id="evaluation-q<?php echo $que_id?>" class="btn btn-sm btn-block btn-info" onclick='$.showAnswers("<?php echo $que_id?>")'>Evaluation</button> 
+                    <button id="correct-q<?php echo $que_id?>" class="btn btn-sm btn-block btn-success" onclick='$.evaluateQuestion("<?php echo $que_id?>",true)' style="display: none">Correct</button>
+                    <button id="wrong-q<?php echo $que_id?>" class="btn btn-sm btn-block btn-danger" onclick='$.evaluateQuestion("<?php echo $que_id?>",false)' style="display: none">Wrong</button> 
               </div>
               </div>
               <?php } ?>

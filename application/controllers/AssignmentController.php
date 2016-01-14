@@ -272,6 +272,11 @@ class AssignmentController extends My_Controller_Action {
 		// kontrola, zda existuje prirazeny test, netestuje se vyplneni (byl uz vyplnen)
 		$link = $this->getParam('link');
 		$assignment = $this->verifyLink($link, FALSE);
+        
+        $form = new TestCommentForm();
+		$assignmentData = $assignment->get_data();
+        $form->setDefaults($assignmentData);
+        $this->view->form = $form;
 		
         //pro kandidata nastavi jiny view
 		$auth = Zend_Auth::getInstance();
@@ -289,6 +294,19 @@ class AssignmentController extends My_Controller_Action {
 		$this->view->status = My_Model::get('Statuses')->getById($assignment->getid_status());
 		$candidate = My_Model::get('Candidates')->getById($assignment->getid_kandidat());
 		$this->view->candidate= $candidate->getFullName();
+        
+        // ########################### POST ###########################
+        // Handles form submission
+        if ($this->_request->isPost()) {
+            if ($form->isValid($this->_request->getPost())) {
+                $formValues = $form->getValues();
+                // Updates test object in DB
+                $assignment->setkomentar($formValues["komentar"]);
+                $assignment->save();
+                            
+                //$this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'edit', 'id' => $test->id_test ), 'default', true);
+            }
+        }
 	
 	}
 }
