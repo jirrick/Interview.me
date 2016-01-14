@@ -222,6 +222,7 @@ class AssignmentController extends My_Controller_Action {
                             $resp->setid_otazka($que_id);
                             $resp->setid_moznost($opt_id);
                             $resp->setvyplneno($opt_vyplneno);
+                            $resp->setspravne($opt_vyplneno == $opt->getspravnost());
                             $resp->save();
                         }
                     }

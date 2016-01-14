@@ -1,3 +1,20 @@
+// Show answers and evaluation buttons
+jQuery.showAnswers = function showAnswers(question_id) {
+    $("button[id=evaluation-q" + question_id + "]").css("display", "none")
+    $("button[id=correct-q" + question_id + "]").css("display", "")
+    $("button[id=wrong-q" + question_id + "]").css("display", "")
+    $("span[class=" + question_id + "]").css("display", "")
+}
+
+// Evaluates question
+jQuery.evaluateQuestion = function evaluateQuestion(question_id, isCorrect) {
+    //hide buttons
+    $("button[id=evaluation-q" + question_id + "]").css("display", "")
+    $("button[id=correct-q" + question_id + "]").css("display", "none")
+    $("button[id=wrong-q" + question_id + "]").css("display", "none")
+    $("span[class=" + question_id + "]").css("display", "none")
+}
+
 // Retrieve new element's html from controller
 jQuery.ajaxAddField = function ajaxAddField(par, requrl) {
     var parent = $("form[name=" + par + "]")
