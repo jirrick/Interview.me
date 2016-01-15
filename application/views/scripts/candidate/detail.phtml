@@ -310,8 +310,8 @@ $this->InlineScript()->appendScript($script, $type = 'text/javascript');
                     //pokud je prirazeno, tak se zobrazuje odkaz na test?> 
                     <a href="<?php echo $this->url(array('controller' => 'assignment', 'action' => 'test', 'link' => $test->getodkaz(), 'id' => null, )); ?>">Test link</a>  
                   <?php } else {
-                    //jinak odkaz na vyplneny test?> 
-                    <a href="<?php echo $this->url(array('controller' => 'assignment', 'action' => 'detail', 'link' => $test->getodkaz(), 'id' => null, ));?>"><button type="button" class="btn btn-success btn-sm">Detail</button></a>  
+                    //jinak odkaz na hodnoceni vyplneneho testu?> 
+                    <a href="<?php echo $this->url(array('controller' => 'assignment', 'action' => 'evaluate', 'link' => $test->getkontrola(), 'id' => null, )); ?>">Evaluation link</a>  
                   <?php } ?> 
                 </td>
               </tr>

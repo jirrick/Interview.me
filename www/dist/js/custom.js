@@ -1,3 +1,48 @@
+// Show answers and evaluation buttons
+jQuery.showAnswers = function showAnswers(question_id) {
+    $("button[id=evaluation-q" + question_id + "]").css("display", "none");
+    $("button[id=correct-q" + question_id + "]").css("display", "");
+    $("button[id=wrong-q" + question_id + "]").css("display", "");
+    $("span[id=correct-q" + question_id + "]").css("display", "");
+}
+
+// Evaluates question
+jQuery.evaluateQuestion = function evaluateQuestion(question_id, isCorrect) {
+    $.ajax(
+    {
+        type: "POST",
+        url: this.href,
+        data: 'question_id='+question_id+'&isCorrect='+isCorrect,
+        success: function(newElement) {
+            //hide buttons
+            $("button[id=evaluation-q" + question_id + "]").css("display", "");
+            $("button[id=correct-q" + question_id + "]").css("display", "none");
+            $("button[id=wrong-q" + question_id + "]").css("display", "none");
+            $("span[id=correct-q" + question_id + "]").css("display", "none");
+            
+            //nastavi stav vlevo od moznosti
+            var status = $("span[id=status-q" + question_id + "]");
+            status.removeClass("positive-positive positive-negative");
+            if (isCorrect) {
+                status.addClass("positive-positive");
+            } else {
+                status.addClass("positive-negative");
+            }
+            
+            //nastavi stavy u moznosti
+            var substatus = $("span[id=subcorrect-q" + question_id + "]");
+            substatus.removeClass("positive-positive positive-negative");
+            if (isCorrect) {
+                substatus.addClass("positive-positive");
+            } else {
+                substatus.addClass("positive-negative");
+            }
+        }
+    }
+    );
+
+}
+
 // Retrieve new element's html from controller
 jQuery.ajaxAddField = function ajaxAddField(par, requrl) {
     var parent = $("form[name=" + par + "]")

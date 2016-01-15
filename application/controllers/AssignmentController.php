@@ -222,15 +222,17 @@ class AssignmentController extends My_Controller_Action {
                             $resp->setid_otazka($que_id);
                             $resp->setid_moznost($opt_id);
                             $resp->setvyplneno($opt_vyplneno);
+                            $resp->setspravne($opt_vyplneno == $opt->getspravnost());
                             $resp->save();
                         }
                     }
 				}
 							
-				// ulozeni data odevzdani
+				// ulozeni data odevzdani, odkaz pro kontrolu
 				date_default_timezone_set('Europe/Prague');
 				$now = date("Y-n-j H:i:s");
 				$assignment->setdatum_vyplneni($now);
+                $assignment->setkontrola(str_shuffle($assignment->getodkaz()));	
 				
 				// zneplatnit odkaz a upravit status
 				$assignment->setotevren(false);		
@@ -265,40 +267,103 @@ class AssignmentController extends My_Controller_Action {
 		}
 	}
 	
-	// zobrazeni detailu testu
-	public function detailAction() {
+	// obrazovka vyhodnoceni (prehodnoceni) testu
+	public function evaluateAction() {
 		// kontrola, zda existuje prirazeny test, netestuje se vyplneni (byl uz vyplnen)
 		$link = $this->getParam('link');
 		$assignment = $this->verifyLink($link, FALSE);
+        
+        $form = new TestCommentForm();
+		$assignmentData = $assignment->get_data();
+        $form->setDefaults($assignmentData);
+        $this->view->form = $form;
 		
-		$this->view->messages = $this->_helper->flashMessenger->getMessages();
-			
-		//muze zobrazit pouze admin, vsechny ostatni poslat pryc
+        //pro kandidata nastavi jiny view
 		$auth = Zend_Auth::getInstance();
 		if ($auth->hasIdentity()) {
-			if (!$this->getUser()->admin){
-				$this->_helper->flashMessenger->addMessage("ERROR: Only administrator can access details of submitted test.");
-				$this->_helper->redirector->gotoRoute(array('controller' => 'assignment',
-															'action' => 'index'),
-															'default',
-															true);
-			};
-		} else {
-			$this->_helper->flashMessenger->addMessage("ERROR: Invalid action.");
-			$this->_helper->redirector->gotoRoute(array('controller' => 'assignment',
-														'action' => 'index'),
-														'default',
-														true);
+			$this->_helper->viewRenderer('evaluate-internal');
+        } else {
+			$this->_helper->viewRenderer('evaluate-external');
 		}
+        
+		$this->view->messages = $this->_helper->flashMessenger->getMessages();
 		
-		$this->_helper->viewRenderer('detail-internal');
-		
-		$this->view->title = 'Detail of submitted test';
+		$this->view->title = 'Evaluation of submitted test';
 		$this->view->assignment = $assignment;
 		$this->view->test = My_Model::get('Tests')->getById($assignment->getid_test());
 		$this->view->status = My_Model::get('Statuses')->getById($assignment->getid_status());
 		$candidate = My_Model::get('Candidates')->getById($assignment->getid_kandidat());
 		$this->view->candidate= $candidate->getFullName();
+        
+        // ########################### POST ###########################
+        // Handles form submission
+        if ($this->_request->isPost()) {
+            if($this->_request->isXmlHttpRequest()){
+                //ajax call request
+                $this->_helper->layout->disableLayout();
+                $this->_helper->viewRenderer->setNoRender(TRUE);
+                
+                $postData = $this->getRequest()->getPost();
+                $question_id = 0;
+                $isCorrect = null;
+                if (array_key_exists('question_id', $postData)) $question_id = intval($postData['question_id']);
+                if (array_key_exists('isCorrect', $postData)) $isCorrect = filter_var ($postData['isCorrect'], FILTER_VALIDATE_BOOLEAN);
+                
+                //check request
+                if ($question_id> 0 & is_bool($isCorrect)) {
+                    // if valid reevaluate
+                    $responses = $assignment->getResponses(); 
+                    foreach($responses as $r){
+                        if ($r->getid_otazka() == $question_id ){
+                            $r->setspravne($isCorrect);
+                            $r->save();
+                        }
+                    }
+                } else {
+                    //deny response when invalid
+                    $this->_response->clearBody();
+                    $this->_response->clearHeaders();
+                    $this->_response->setHttpResponseCode(403);
+                }
+            } else {
+                //form request - Save deetails
+                if ($form->isValid($this->_request->getPost())) {
+                    $formValues = $form->getValues();
+                    // Updates test object in DB
+                    $assignment->setkomentar($formValues["komentar"]);
+                    
+                    // prepocitani spravnych odpovedi - pocita skore pro jednotlive odpovedi, potom se udela prumer
+                    // je to takova haluz, protoze odpovedi nejsou v db rozdelene po otazkach
+                    $last_question_id = 0;
+                    $question_options = 1; //zerodivision hack
+                    $question_options_correct = 0;
+                    $question_score = 0;
+                    $questions_count = 0;
+                    $total_score = 0;
+                    
+                    $responses = $assignment->getResponses(); 
+                    foreach($responses as $r){
+                        //reset count on new question
+                        if ($r->getid_otazka() != $last_question_id) {
+                            $questions_count++; 
+                            $question_score = (int) round(($question_options_correct / $question_options) * 100);
+                            $total_score += $question_score;
+                            $question_options = 0;
+                            $question_options_correct = 0;
+                        }
+                        // count correct answers
+                        $question_options++;
+                        $last_question_id = $r->getid_otazka();
+                        if (filter_var ($r->getspravne(), FILTER_VALIDATE_BOOLEAN)) $question_options_correct++;   
+                    }
+                    
+                    $result = (int) round($total_score/ $questions_count);
+                    $assignment->sethodnoceni($result);	
+                    $assignment->save();	
+                                
+                }
+            }
+        }
 	
 	}
 }
