@@ -356,6 +356,9 @@ class AssignmentController extends My_Controller_Action {
                         $last_question_id = $r->getid_otazka();
                         if (filter_var ($r->getspravne(), FILTER_VALIDATE_BOOLEAN)) $question_options_correct++;   
                     }
+                    //include last question
+                    $question_score = (int) round(($question_options_correct / $question_options) * 100);
+                    $total_score += $question_score;
                     
                     $result = (int) round($total_score/ $questions_count);
                     $assignment->sethodnoceni($result);	

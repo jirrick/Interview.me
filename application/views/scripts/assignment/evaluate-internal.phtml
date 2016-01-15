@@ -37,7 +37,7 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, tak jak je vyplnil kandidat 
     } 
     ?>
 
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="box box-primary min-420">
           <div class="box-body box-profile">
             <ul class="list-group list-group-unbordered">
@@ -72,11 +72,13 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, tak jak je vyplnil kandidat 
                 <div class="flleft"><a><?php echo $this->escape($this->assignment->gethodnoceni()); ?>%</a></div>
               </li>
             </ul>
+            <!-- Create/Edit form -->
+            <?php echo $this->form; ?>
           </div>
         </div>
       </div>
        
-      <div class="col-md-6">
+      <div class="col-md-8">
         <div class="box box-primary">
           <div class="box-header with-border">
             <div class="row">
@@ -89,53 +91,52 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, tak jak je vyplnil kandidat 
                 $language = $que->getLanguage(); ?>
               <div class="col-xs-12">
                  <?php if ($language === null) {
-                    ?><span class="question-text"><?php echo $this->escape($que->getobsah());?></span> <?php
+                    ?><div class="question-text"><?php echo $this->escape($que->getobsah());?></div> <?php
                   } else {
                     ?><pre><code class="language-<?php echo $language->getkod(); ?>"><?php echo $this->escape($que->getobsah()); ?></code></pre> <?php
                   } ?>
                 <?php echo $que->getkomentar(); ?>
-              <ul style="list-style-type: upper-alpha">
-                <?php 
-                // projde pole pres moznosti
-                foreach ($que_value as $opt_id => $opt_value) { 
-                    if ($opt_id == NULL) { // Otevrena odpoved
-                        echo '<textarea disabled>'.$opt_value['slovni_odpoved'].'</textarea>';
-                    } else { // ABCD otazka
-                        $opt = My_Model::get('Options')->getById($opt_id);?>
-                        <li>
-                        <?php if ($opt_value['vyplneno'])  {
-                            if ($opt_value['spravne']) 
-                            // kandidat vyplnil spravne
-                            {
-                            echo '<span class="positive-positive">';
-                            } else 
-                            // kandidat vyplnil spatne
-                            {
-                            echo '<span class="positive-negative">';
+              <div class="flleft question_status">
+              <span id="status-q<?php echo $que_id?>"></span>
+              </div>
+              <div class="flleft question_options">
+                <ul style="list-style-type: upper-alpha">
+                    <?php 
+                    // projde pole pres moznosti
+                    foreach ($que_value as $opt_id => $opt_value) { 
+                        if ($opt_id == NULL) { // Otevrena odpoved
+                            echo '<textarea disabled>'.$opt_value['slovni_odpoved'].'</textarea>';
+                        } else { // ABCD otazka
+                            $opt = My_Model::get('Options')->getById($opt_id);?>
+                            <li>
+                            <input type="checkbox" <?php if ($opt_value['vyplneno']) { echo 'checked="checked"'; } ?> disabled>
+                           <?php
+                            if ($language === null) {
+                                ?><span class="option-text"><?php echo $this->escape($opt->getobsah());?></span> <?php
+                            } else {
+                                ?><code class="language-<?php echo $language->getkod(); ?>"><?php echo $this->escape($opt->getobsah()); ?></code> <?php
                             }
-                        } else {
-                            if ($opt_value['spravne']) 
-                            // kandidat nevyplnil a ani nemel vyplnit
-                            {
-                            echo '<span class="negative-positive">';
-                            } else 
-                            // kandidat nevyplnil ale mel vyplnit
-                            {
-                            echo '<span class="negative-negative">';
+                            //spravnost moznosti
+                            echo '<span id="correct-q'.$que_id.'" style="display: none">'; 
+                            if ($opt_value['spravne'])  {
+                               echo '<span id="subcorrect-q'.$que_id.'" class="positive-positive">';
+                            } else {
+                                echo '<span id="subcorrect-q'.$que_id.'" class="positive-negative">';
                             }
-                        }
-                        if ($language === null) {
-                            ?><span class="option-text"><?php echo $this->escape($opt->getobsah());?></span> <?php
-                        } else {
-                            ?><code class="language-<?php echo $language->getkod(); ?>"><?php echo $this->escape($opt->getobsah()); ?></code> <?php
-                        }
-                        echo '</span>'; ?>
-                        <br>
-                        <?php echo $opt->getkomentar(); ?>
-                        </li>
-                        <?php }
-                } ?>  
-              </ul>
+                            echo '</span></span>'; ?>
+                            
+                            <br>
+                            <?php echo $opt->getkomentar(); ?>
+                            </li>
+                            <?php }
+                    } ?>  
+                </ul>
+              </div>
+              <div class="flleft question_buttons">
+                    <button id="evaluation-q<?php echo $que_id?>" class="btn btn-sm btn-block btn-info" onclick='$.showAnswers("<?php echo $que_id?>")'>Evaluation</button> 
+                    <button id="correct-q<?php echo $que_id?>" class="btn btn-sm btn-block btn-success" onclick='$.evaluateQuestion("<?php echo $que_id?>",true)' style="display: none">Correct</button>
+                    <button id="wrong-q<?php echo $que_id?>" class="btn btn-sm btn-block btn-warning" onclick='$.evaluateQuestion("<?php echo $que_id?>",false)' style="display: none">Wrong</button> 
+              </div>
               </div>
               <?php } ?>
             </div>

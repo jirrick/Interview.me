@@ -129,7 +129,7 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, tak jak je vyplnil kandidat 
               <div class="flleft question_buttons">
                     <button id="evaluation-q<?php echo $que_id?>" class="btn btn-sm btn-block btn-info" onclick='$.showAnswers("<?php echo $que_id?>")'>Evaluation</button> 
                     <button id="correct-q<?php echo $que_id?>" class="btn btn-sm btn-block btn-success" onclick='$.evaluateQuestion("<?php echo $que_id?>",true)' style="display: none">Correct</button>
-                    <button id="wrong-q<?php echo $que_id?>" class="btn btn-sm btn-block btn-danger" onclick='$.evaluateQuestion("<?php echo $que_id?>",false)' style="display: none">Wrong</button> 
+                    <button id="wrong-q<?php echo $que_id?>" class="btn btn-sm btn-block btn-warning" onclick='$.evaluateQuestion("<?php echo $que_id?>",false)' style="display: none">Wrong</button> 
               </div>
               </div>
               <?php } ?>
