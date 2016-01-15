@@ -326,14 +326,41 @@ class AssignmentController extends My_Controller_Action {
                     $this->_response->setHttpResponseCode(403);
                 }
             } else {
-                //form request
+                //form request - Save deetails
                 if ($form->isValid($this->_request->getPost())) {
                     $formValues = $form->getValues();
                     // Updates test object in DB
                     $assignment->setkomentar($formValues["komentar"]);
-                    $assignment->save();
+                    
+                    // prepocitani spravnych odpovedi - pocita skore pro jednotlive odpovedi, potom se udela prumer
+                    // je to takova haluz, protoze odpovedi nejsou v db rozdelene po otazkach
+                    $last_question_id = 0;
+                    $question_options = 1; //zerodivision hack
+                    $question_options_correct = 0;
+                    $question_score = 0;
+                    $questions_count = 0;
+                    $total_score = 0;
+                    
+                    $responses = $assignment->getResponses(); 
+                    foreach($responses as $r){
+                        //reset count on new question
+                        if ($r->getid_otazka() != $last_question_id) {
+                            $questions_count++; 
+                            $question_score = (int) round(($question_options_correct / $question_options) * 100);
+                            $total_score += $question_score;
+                            $question_options = 0;
+                            $question_options_correct = 0;
+                        }
+                        // count correct answers
+                        $question_options++;
+                        $last_question_id = $r->getid_otazka();
+                        if (filter_var ($r->getspravne(), FILTER_VALIDATE_BOOLEAN)) $question_options_correct++;   
+                    }
+                    
+                    $result = (int) round($total_score/ $questions_count);
+                    $assignment->sethodnoceni($result);	
+                    $assignment->save();	
                                 
-                    //$this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'edit', 'id' => $test->id_test ), 'default', true);
                 }
             }
         }
