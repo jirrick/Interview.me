@@ -298,13 +298,43 @@ class AssignmentController extends My_Controller_Action {
         // ########################### POST ###########################
         // Handles form submission
         if ($this->_request->isPost()) {
-            if ($form->isValid($this->_request->getPost())) {
-                $formValues = $form->getValues();
-                // Updates test object in DB
-                $assignment->setkomentar($formValues["komentar"]);
-                $assignment->save();
-                            
-                //$this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'edit', 'id' => $test->id_test ), 'default', true);
+            if($this->_request->isXmlHttpRequest()){
+                //ajax call request
+                $this->_helper->layout->disableLayout();
+                $this->_helper->viewRenderer->setNoRender(TRUE);
+                
+                $postData = $this->getRequest()->getPost();
+                $question_id = 0;
+                $isCorrect = null;
+                if (array_key_exists('question_id', $postData)) $question_id = intval($postData['question_id']);
+                if (array_key_exists('isCorrect', $postData)) $isCorrect = filter_var ($postData['isCorrect'], FILTER_VALIDATE_BOOLEAN);
+                
+                //check request
+                if ($question_id> 0 & is_bool($isCorrect)) {
+                    // if valid reevaluate
+                    $responses = $assignment->getResponses(); 
+                    foreach($responses as $r){
+                        if ($r->getid_otazka() == $question_id ){
+                            $r->setspravne($isCorrect);
+                            $r->save();
+                        }
+                    }
+                } else {
+                    //deny response when invalid
+                    $this->_response->clearBody();
+                    $this->_response->clearHeaders();
+                    $this->_response->setHttpResponseCode(403);
+                }
+            } else {
+                //form request
+                if ($form->isValid($this->_request->getPost())) {
+                    $formValues = $form->getValues();
+                    // Updates test object in DB
+                    $assignment->setkomentar($formValues["komentar"]);
+                    $assignment->save();
+                                
+                    //$this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'edit', 'id' => $test->id_test ), 'default', true);
+                }
             }
         }
 	
