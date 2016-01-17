@@ -58,6 +58,17 @@ div.question_options{
   	display: block;
 }
 
+.own-qt-ex{
+	background-color: #f5f2f0;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	padding: 7px;
+   margin: 0;
+   margin-top: 6px;
+   margin-bottom: -10px;
+  	display: block;
+}
+
 li .user-header{
 	background-color: #3f637c !important;
 	height: 185px !important;
@@ -100,10 +111,10 @@ table.dataTable.no-footer{
 	border-bottom: 1px solid #073453;
 }
 
-.box-header.with-border form{
+.box-header.with-border form, .extspc{
 	border-top: 2px solid #ed1848;
 	padding: 5px 10px;
-	margin-bottom: 35px;
+	margin-bottom: 35px !important;;
 	background-color: #faf4f5;
 }
 /*
@@ -243,6 +254,11 @@ input.dd-test{
 .dd-chc{
 	margin-top:16px !important;
 }
+
+dd#Submit-element{
+	text-align: center;
+	margin-bottom: 40px;
+	}
 
 #addElement-element{
 	float: left; 
