@@ -66,6 +66,7 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, ktere by se nabidly kandidat
               <?php  // Questions 
               foreach ($this->test->getQuestions() as $q) { ?>
               <div class="col-xs-12">
+                <div class="eva-q">
                 <?php $language = $q->getLanguage();
                 if ($language === null) {
                     ?><span class="question-text"><?php echo $this->escape($q->getobsah());?></span> <?php
@@ -92,6 +93,7 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, ktere by se nabidly kandidat
                 <?php //pokud neni zadna moznost - tak se zobrazi textbox
                 if (count($q->getOptions()) == 0) echo '<input type="text" value="Open question" disabled>'; ?>    
               </ul>
+              </div>
               </div>
               <?php } ?>
             </div>

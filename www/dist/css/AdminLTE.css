@@ -2353,7 +2353,7 @@ a:focus {
   border-color: #c87f0a;
 }
 .callout.callout-info {
-  border-color: #0097bc;
+  border-color: #ed1848;
 }
 .callout.callout-success {
   border-color: #00733e;
@@ -2850,13 +2850,13 @@ table.text-center th {
   border-left-color: #3c8dbc;
 }
 .direct-chat-warning .right > .direct-chat-text {
-  background: #f39c12;
-  border-color: #f39c12;
+  background: #ed1848 ;
+  border-color: #ed1848 ;
   color: #ffffff;
 }
 .direct-chat-warning .right > .direct-chat-text:after,
 .direct-chat-warning .right > .direct-chat-text:before {
-  border-left-color: #f39c12;
+  border-left-color: #ed1848 ;
 }
 .direct-chat-info .right > .direct-chat-text {
   background: #00c0ef;
@@ -4221,7 +4221,7 @@ table.text-center th {
 .alert-info,
 .label-info,
 .modal-info .modal-body {
-  background-color: #00c0ef !important;
+  background-color: #fa426b !important;
 }
 .bg-blue {
   background-color: #0073b7 !important;

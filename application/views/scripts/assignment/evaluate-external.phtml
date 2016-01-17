@@ -83,7 +83,7 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, tak jak je vyplnil kandidat 
               foreach($questions as $que_id => $que_value){
                 $que = My_Model::get('Questions')->getById($que_id);
                 $language = $que->getLanguage(); ?>
-              <div class="col-xs-12">
+              <div class="col-xs-12 eva-q">
                  <?php if ($language === null) {
                     ?><div class="question-text"><?php echo $this->escape($que->getobsah());?></div> <?php
                   } else {

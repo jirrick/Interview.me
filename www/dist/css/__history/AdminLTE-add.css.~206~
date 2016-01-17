@@ -2,8 +2,82 @@ body{
 	color: #073453 !important;
 }
 
-.breadcrumb>.active{
-	color: #073453 !important;
+.btn-success .btn-success:active {
+	background-color: #ed1848 !important;
+   border-color: #b11035 !important;
+}
+
+.question_options ul textarea{
+	width: 105%;
+	height: 100px;
+	border-radius: 4px;
+	margin-left: -40px;
+}
+div.question_options{
+	float: none;
+}
+
+li .user-header{
+	background-color: #3f637c !important;
+	margin-bottom: 5px;
+}
+
+.eva-q ul{
+	margin-bottom: 0px !important;
+}
+
+.eva-q ul input[type="text"]{
+	margin-left: -40px;
+	height: 40px;
+	border-radius: 4px;
+	border: 1px solid rgb(169, 169, 169);
+	padding-left:7px;
+}
+
+.eva-q{
+	margin-bottom: 30px;
+	border-top: 2px solid #ed1848;
+	padding: 5px 10px 10px 10px;
+	background-color: #faf4f5;
+}
+
+.question_buttons{
+	float: none !important;
+	min-width: 100px;
+	width: 20%;
+}
+
+textarea.question-answer{
+	width: 100%;
+	height: 100px;
+	border-radius: 4px;
+	margin-top: 15px;
+}
+
+table.dataTable.no-footer{
+	border-bottom: 1px solid #073453;
+}
+
+.box-header.with-border form{
+	border-top: 2px solid #ed1848;
+	padding: 5px 10px;
+	margin-bottom: 35px;
+	background-color: #faf4f5;
+}
+/*
+.box-header.with-border form:nth-child(odd){
+	background-color: #fefbfc;
+}
+.box-header.with-border form:nth-child(even){
+	background-color: #f4e9eb;
+}
+*/
+.box-header.with-border form dl dt{
+	height: 8px;
+}
+
+.dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
+    color: #073453;
 }
 
 .own-logo{
@@ -116,7 +190,13 @@ input[type=checkbox]{
 	margin-top: 0px;
 }
 .dd-test{
-	margin:10px !important;
+	margin:10px 0px 10px 0px !important;
+}
+input.dd-test{
+	margin: 0 !important;
+}
+.box-header.with-border form dl .dd-chc{
+	margin-top:7px !important;
 }
 .dd-chc{
 	margin-top:16px !important;
@@ -124,26 +204,33 @@ input[type=checkbox]{
 textarea.dd-test {
 	height:150px !important;
 }
-#odpovedA-element,
-#checkA-label, 
-#odpovedB-element, 
-#checkB-label, 
-#odpovedC-element,
-#checkC-label, 
-#odpovedD-element,
-#checkD-label{
+#odpoved1-element,
+#check1-label, 
+#odpoved2-element, 
+#check2-label, 
+#odpoved3-element,
+#check3-label, 
+#odpoved4-element,
+#check4-label,
+#odpoved5-element,
+#check5-label,
+#odpoved6-element,
+#check6-label{
 	float:left;
 } 
 
-#odpovedA-element input,
-#odpovedB-element input, 
-#odpovedC-element input,
-#odpovedD-element input
+#odpoved1-element input,
+#odpoved2-element input, 
+#odpoved3-element input,
+#odpoved4-element input,
+#odpoved5-element input,
+#odpoved6-element input
 {
 	width: 450px;
 } 
 
 .mar10{ margin:10px }
+
 
 .positive-positive{
 	/* kandidat vyplnil spravne */
@@ -203,4 +290,13 @@ textarea.dd-test {
 	font-size: 14px;
 	font-weight: normal !important;
 	margin-top: 0px !important;
+}
+
+.list-group-item {
+	border: none;
+}
+
+.list-group-item {
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 0;
 }

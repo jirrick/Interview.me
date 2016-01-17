@@ -90,6 +90,7 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, tak jak je vyplnil kandidat 
                 $que = My_Model::get('Questions')->getById($que_id);
                 $language = $que->getLanguage(); ?>
               <div class="col-xs-12">
+                 <div class="eva-q">
                  <?php if ($language === null) {
                     ?><div class="question-text"><?php echo $this->escape($que->getobsah());?></div> <?php
                   } else {
@@ -138,6 +139,7 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, tak jak je vyplnil kandidat 
                     <button id="wrong-q<?php echo $que_id?>" class="btn btn-sm btn-block btn-warning" onclick='$.evaluateQuestion("<?php echo $que_id?>",false)' style="display: none">Wrong</button> 
               </div>
               </div>
+            </div>
               <?php } ?>
             </div>
 
