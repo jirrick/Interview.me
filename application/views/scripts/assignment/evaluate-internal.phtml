@@ -92,7 +92,7 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, tak jak je vyplnil kandidat 
               <div class="col-xs-12">
                  <div class="eva-q">
                  <?php if ($language === null) {
-                    ?><div class="question-text"><?php echo $this->escape($que->getobsah());?></div> <?php
+                    ?><div class="question-text own-qt"><?php echo $this->escape($que->getobsah());?></div> <?php
                   } else {
                     ?><pre><code class="language-<?php echo $language->getkod(); ?>"><?php echo $this->escape($que->getobsah()); ?></code></pre> <?php
                   } ?>
