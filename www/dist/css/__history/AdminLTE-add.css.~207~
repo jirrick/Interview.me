@@ -18,7 +18,8 @@ div.question_options{
 }
 
 li .user-header{
-	background-color: #b67e8a;
+	background-color: #3f637c !important;
+	height: 185px !important;
 }
 
 .eva-q ul{

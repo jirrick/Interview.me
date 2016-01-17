@@ -18,7 +18,8 @@ div.question_options{
 }
 
 li .user-header{
-	background-color: #b67e8a !important;
+	background-color: #3f637c !important;
+	height: 185px !important;
 }
 
 .eva-q ul{
@@ -42,8 +43,8 @@ li .user-header{
 
 .question_buttons{
 	float: none !important;
-	min-width: 100px;
-	width: 20%;
+	max-width: 100px;
+	width: 10%;
 }
 
 textarea.question-answer{
