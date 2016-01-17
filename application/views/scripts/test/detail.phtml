@@ -67,7 +67,7 @@
                 <span class="question-number"><?php echo $q->order . ") "?></span>
                 <?php $language = $q->question->getLanguage();
                 if ($language === null) {
-                    ?><span class="question-text"><?php echo $this->escape($q->question->getobsah());?></span> <?php
+                    ?><br><span class="question-text own-qt"><?php echo $this->escape($q->question->getobsah());?></span> <?php
                 } else {
                     ?><pre><code class="language-<?php echo $language->getkod(); ?>"><?php echo $this->escape($q->question->getobsah()); ?></code></pre> <?php
                 } ?>

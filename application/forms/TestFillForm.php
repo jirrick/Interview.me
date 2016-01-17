@@ -46,7 +46,7 @@ class TestFillForm extends Zend_Form
         
         //submit button
         $button = $this->createElement('submit', 'Submit');
-    	$button->setAttrib('class', 'btn btn-success btn-md dd-test');
+    	$button->setAttrib('class', 'btn btn-success btn-lg dd-test');
     	$this->addElement($button);
     }
 

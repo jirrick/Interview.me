@@ -6,7 +6,7 @@
     $language = My_Model::get('Languages')->getById($options['languageId']);
 ?>
 
-<fieldset class="mar10">
+<fieldset class="extspc">
     <div class="question-separator">Question</div>
     <?php if ($language === null) { ?>
         <p class="question-text"><?php echo $this->escape($label);?></p><?php
