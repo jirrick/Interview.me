@@ -52,8 +52,10 @@ class Assignments extends My_Db_Table  {
      * Ziska z DB objekt podle odkazu
      *
      */
-    public function getFromLink($link){
-        $select = $this->select()->where('odkaz = ? OR kontrola = ?', $link);
+    public function getFromLink($link, $evaluation){
+        if ($evaluation) $select = $this->select()->where('kontrola = ?', $link);
+        else $select = $this->select()->where('odkaz = ?', $link);  
+        
         return $this->fetchRow($select);
     } 
 

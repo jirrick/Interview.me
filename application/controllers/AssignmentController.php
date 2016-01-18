@@ -98,11 +98,12 @@ class AssignmentController extends My_Controller_Action {
 	
 	
 	// Prevede link na interni objekt prirazenenho testu (pouze ve stavu k vyplneni)
-	// parametr checkSubmitted urcuje, zda se ma konrolovat predchozi odeslani testu 
-	private function verifyLink($link, $checkSubmitted){
+	// parametr checkSubmitted urcuje, zda se ma konrolovat predchozi odeslani testu
+    // parametr checkEvaluation urcuje, zda se ma konroluje link pro vyplneni nebo pro odevzdani 
+	private function verifyLink($link, $checkSubmitted, $checkEvaluation){
 		if (!empty($link)) {
 			$assignments = new Assignments();
-			$assignment = $assignments->getFromLink($link);
+			$assignment = $assignments->getFromLink($link, $checkEvaluation);
 			
 		}
 		if ($assignment === null) {
@@ -127,7 +128,7 @@ class AssignmentController extends My_Controller_Action {
 	public function testAction() {
 		// kontrola, zda existuje prirazeny test
 		$link = $this->getParam('link');
-		$assignment = $this->verifyLink($link, TRUE);	
+		$assignment = $this->verifyLink($link, TRUE, FALSE);	
 		$this->view->messages = $this->_helper->flashMessenger->getMessages();
 			
 		if ($this->_request->isPost()) {
@@ -188,7 +189,7 @@ class AssignmentController extends My_Controller_Action {
 		if ($this->_request->isPost()) {
 			// kontrola, zda existuje prirazeny test
 			$link = $this->getParam('link');
-			$assignment = $this->verifyLink($link, TRUE);
+			$assignment = $this->verifyLink($link, TRUE, FALSE);
 			
 			$test = My_Model::get('Tests')->getById($assignment->getid_test());
 			$form = new TestFillForm(array('testId' => $test->getid_test(),));	
@@ -271,7 +272,7 @@ class AssignmentController extends My_Controller_Action {
 	public function evaluateAction() {
 		// kontrola, zda existuje prirazeny test, netestuje se vyplneni (byl uz vyplnen)
 		$link = $this->getParam('link');
-		$assignment = $this->verifyLink($link, FALSE);
+		$assignment = $this->verifyLink($link, FALSE, TRUE);
         
         $form = new TestCommentForm();
 		$assignmentData = $assignment->get_data();
