@@ -52,15 +52,16 @@
 $script = <<<'JS'
 $(document).ready(function() {
 $('#users-list').DataTable( {
-responsive: false,
+responsive: true,
 columnDefs: [
 { responsivePriority: 1, targets: 0 },
-{ responsivePriority: 2, targets: 2 },
-{ responsivePriority: 1, targets: -1 },
+{ responsivePriority: 1, targets: 1 },
+{ responsivePriority: 2, targets: -1 },
 { bSortable: false, aTargets: -1 }
 ] });
 } );
 JS;
+
 $this->InlineScript()->appendScript($script, $type = 'text/javascript');
 
   } else { ?>

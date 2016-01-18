@@ -8,7 +8,6 @@
 ?>
 
 <fieldset class="extspc">
-    <div class="question-separator">Question</div>
     <?php if ($language === null) { ?>
         <span class="question-text own-qt-ex"><?php echo $this->escape($label);?></span> <?php
     } else {
@@ -17,7 +16,7 @@
     
     <br/>
 <?php foreach($elem->getMultiOptions() as $option=>$value){ ?>
-        <input type="checkbox" name="<?php echo $elemName; ?>[]" id="<?php echo $elemName; ?>-<?php echo $option; ?>" value="<?php echo $option; ?>" <?php if($values && in_array($option, $values)){ echo ' checked="checked"'; }?> />
+        <input type="checkbox" class="question-options" name="<?php echo $elemName; ?>[]" id="<?php echo $elemName; ?>-<?php echo $option; ?>" value="<?php echo $option; ?>" <?php if($values && in_array($option, $values)){ echo ' checked="checked"'; }?> />
            <?php if ($language === null) { ?>
                 <span class="option-text"><?php echo $this->escape($value);?></span> <?php
             } else {

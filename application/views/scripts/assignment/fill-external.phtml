@@ -43,15 +43,21 @@ $("#submit").attr('disabled', 'disabled');
 form.submit();
 },
 showErrors: function(errorMap, errorList) {
-$("#error-box").html("You must select at least one option for each question.");
+$("#error-box").html("You must select at least one option for each checkbox question or type at least three letters in textareas.");
 },
 onchange: true,         
 wrapper: "p"
 });
 
-jQuery.validator.addClassRules("question", {
-required: true,
-minlength: 1
+jQuery.validator.addClassRules({
+  "question-options": {
+    required: true,
+    minlength: 1
+  },
+  "question-answer": {
+    required: true,
+    minlength: 3
+  }
 });
 JS;
 $this->InlineScript()->appendScript($script, $type = 'text/javascript');   

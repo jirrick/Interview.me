@@ -28,7 +28,6 @@ class TestFillForm extends Zend_Form
                 $text->addFilter('StringTrim');
                 $text->setRequired(true);
                 $text->setLabel($q->getobsah());
-                $text->setAttrib('placeholder', 'Fill in your answer');
                 $text->setDecorators(array(array('ViewScript', array('viewScript'=>'TextArea.php', 'languageId'=>$q->getid_jazyk()))));
                 $this->addElement($text);  
             } else {
