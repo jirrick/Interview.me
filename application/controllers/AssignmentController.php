@@ -362,8 +362,31 @@ class AssignmentController extends My_Controller_Action {
                     
                     $result = (int) round($total_score/ $questions_count);
                     $assignment->sethodnoceni($result);	
+                    
+                    //changte status to evaluated
+                    $statuses = new Statuses();
+			        $statusID = $statuses->getStatusID('EVALUATED');
+                    $assignment->setid_status($statusID);
                     $assignment->save();	
-                                
+                    
+                    
+                    //dokonci evaluaci - zalezi na uzivatelske roli
+                    $this->_helper->flashMessenger->addMessage("Test has been successfully evaluated.");
+                    $auth = Zend_Auth::getInstance();
+                    if ($auth->hasIdentity()) {
+                        // prihlaseneho presmeruje na stranku kandidata
+				        $this->_helper->redirector->gotoRoute(array('controller' => 'candidate',
+                                                            'action' => 'detail',
+                                                            'id' => $assignment->getid_kandidat()),
+                                                            'default',
+                                                            true);
+                    } else {
+                        // bez prihlaseni skonci
+				        $this->_helper->redirector->gotoRoute(array('controller' => 'assignment',
+															'action' => 'index'),
+															'default',
+															true);
+                    }           
                 }
             }
         }
