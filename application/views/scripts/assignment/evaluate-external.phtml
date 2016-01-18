@@ -98,6 +98,14 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, tak jak je vyplnil kandidat 
                     foreach ($que_value as $opt_id => $opt_value) { 
                         if ($opt_id == NULL) { // Otevrena odpoved
                             echo '<textarea disabled>'.$opt_value['slovni_odpoved'].'</textarea>';
+                            echo '<span id="correct-q'.$que_id.'" style="display: none">'; 
+                                if ($opt_value['spravne'] !== NULL) 
+                                    if ($opt_value['spravne']){
+                                    echo '<span id="subcorrect-q'.$que_id.'" class="positive-positive">';
+                                    } else {
+                                        echo '<span id="subcorrect-q'.$que_id.'" class="positive-negative">';
+                                    }
+                            echo '</span></span>';
                         } else { // ABCD otazka
                             $opt = My_Model::get('Options')->getById($opt_id);?>
                             <li>
