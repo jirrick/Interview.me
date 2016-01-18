@@ -59,15 +59,13 @@
         <div class="box box-primary">
           <div class="box-header with-border">
             <div class="row">
-              <h4 class="test-h4">Questions:</h4>
               <?php  // Questions 
               foreach ($this->questions as $q) { ?>
               <div class="col-xs-12">
                 <div class="eva-q">
-                <span class="question-number"><?php echo $q->order . ") "?></span>
                 <?php $language = $q->question->getLanguage();
                 if ($language === null) {
-                    ?><br><span class="question-text own-qt"><?php echo $this->escape($q->question->getobsah());?></span> <?php
+                    ?><span class="question-text own-qt"><?php echo $this->escape($q->question->getobsah());?></span> <?php
                 } else {
                     ?><pre><code class="language-<?php echo $language->getkod(); ?>"><?php echo $this->escape($q->question->getobsah()); ?></code></pre> <?php
                 } ?>

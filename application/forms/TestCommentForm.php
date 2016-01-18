@@ -24,7 +24,7 @@ class TestCommentForm extends Zend_Form
     	$this->addElement($comment);
 
         $save = new Zend_Form_Element_Submit('saveButton');
-        $save->setLabel('Save');
+        $save->setLabel('Finish Evaluation');
         $save->setAttrib('class', 'btn btn-success');
         $this->addElement($save, 'saveButton');
     }

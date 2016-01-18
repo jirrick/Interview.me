@@ -1,9 +1,9 @@
 // Show answers and evaluation buttons
 jQuery.showAnswers = function showAnswers(question_id) {
-    $("button[id=evaluation-q" + question_id + "]").css("display", "none");
-    $("button[id=correct-q" + question_id + "]").css("display", "");
-    $("button[id=wrong-q" + question_id + "]").css("display", "");
-    $("span[id=correct-q" + question_id + "]").css("display", "");
+    $("button[id=evaluation-q" + question_id + "]").hide();
+    $("button[id=correct-q" + question_id + "]").show();
+    $("button[id=wrong-q" + question_id + "]").show();
+    $("span[id=correct-q" + question_id + "]").show();
 }
 
 // Evaluates question
@@ -15,10 +15,10 @@ jQuery.evaluateQuestion = function evaluateQuestion(question_id, isCorrect) {
         data: 'question_id='+question_id+'&isCorrect='+isCorrect,
         success: function() {
             //hide buttons
-            $("button[id=evaluation-q" + question_id + "]").css("display", "");
-            $("button[id=correct-q" + question_id + "]").css("display", "none");
-            $("button[id=wrong-q" + question_id + "]").css("display", "none");
-            $("span[id=correct-q" + question_id + "]").css("display", "none");
+            $("button[id=evaluation-q" + question_id + "]").show();
+            $("button[id=correct-q" + question_id + "]").hide();
+            $("button[id=wrong-q" + question_id + "]").hide();
+            $("span[id=correct-q" + question_id + "]").hide();
             
             //nastavi stav vlevo od moznosti
             var status = $("span[id=status-q" + question_id + "]");
@@ -79,7 +79,7 @@ jQuery.removeField = function removeField(par) {
     }
 }
 
-//Remove element from from
+//Delete question
 jQuery.deleteQuestion = function deleteQuestion(par, requrl) {
     var result = confirm("Want to delete question?");
     if (result) {
