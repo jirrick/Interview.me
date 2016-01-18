@@ -65,7 +65,7 @@ class AssignmentController extends My_Controller_Action {
 			$assignment = My_Model::get('Assignments')->createRow();
 			$assignment -> setid_test($testId);
 			$assignment -> setid_kandidat($candidateId);		
-			$assignment -> setodkaz(uniqid('', true));
+			$assignment -> setodkaz(bin2hex(openssl_random_pseudo_bytes(32)));
 			
 			$statuses = new Statuses();
 			$statusID = $statuses->getStatusID('ASSIGNED');
@@ -232,7 +232,7 @@ class AssignmentController extends My_Controller_Action {
 				date_default_timezone_set('Europe/Prague');
 				$now = date("Y-n-j H:i:s");
 				$assignment->setdatum_vyplneni($now);
-                $assignment->setkontrola(str_shuffle($assignment->getodkaz()));	
+                $assignment->setkontrola(bin2hex(openssl_random_pseudo_bytes(128)));	
 				
 				// zneplatnit odkaz a upravit status
 				$assignment->setotevren(false);		
