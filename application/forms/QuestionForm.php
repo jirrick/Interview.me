@@ -39,7 +39,7 @@ class QuestionForm extends Zend_Form
     	$name->setAttrib('class', 'form-control dd-test'); 
     	$name->removeDecorator('Label');
         if($this->_question === null){
-            $name->setAttrib('placeholder', 'Question');
+            $name->setAttrib('placeholder', 'New Question...');
         } else {
             $name->setValue($this->_question->getobsah());
         }
@@ -85,6 +85,11 @@ class QuestionForm extends Zend_Form
             'onclick' => '$.removeField("new")'
             ));
             
+            //dummy delete question button
+            $this->addElement('button', 'deleteQuestion', array(
+            'label' => 'Delete question'
+            ));
+            
             // hidden element pocet otazek
             $this->addElement('hidden', 'count', array(
             'value' => $count
@@ -124,6 +129,12 @@ class QuestionForm extends Zend_Form
             'label' => 'Remove option',
             'onclick' => '$.removeField("'.$name.'")'
             ));
+            
+            //delete question button
+            $this->addElement('button', 'deleteQuestion', array(
+            'label' => 'Delete question',
+            'onclick' => '$.deleteQuestion("'.$name.'", "'. Zend_Controller_Front::getInstance()->getRouter()->assemble(array('controller' => 'test', 'action' => 'deletequestion'), null, true) .'")'
+            ));
                     
             // hidden element pocet otazek
             $this->addElement('hidden', 'count', array(
@@ -132,7 +143,8 @@ class QuestionForm extends Zend_Form
         }
 
     //submit button
-    $button = $this->createElement('submit', 'Add');
+    $button = $this->createElement('submit', 'saveQuestion', array(
+            'label' => 'Save Question'));
     $button->setAttrib('class', 'btn btn-success btn-md dd-test');
     $this->addElement($button);
     }

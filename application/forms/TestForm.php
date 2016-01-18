@@ -59,7 +59,8 @@ class TestForm extends Zend_Form
     	$this->addElement($name);
         
         //submit button
-        $button = $this->createElement('submit', 'Save');
+        $button = $this->createElement('submit', 'saveTest', array(
+            'label' => 'Save General Information'));
     	$button->setAttrib('class', 'extra-button-own');
     	$this->addElement($button);
     }

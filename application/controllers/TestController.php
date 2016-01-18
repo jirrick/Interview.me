@@ -369,6 +369,33 @@ class TestController extends My_Controller_Action {
             $this->_response->setHttpResponseCode(403);
         }
     }
+    
+    public function deletequestionAction() {     
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(TRUE);
+        
+        $postData = $this->getRequest()->getPost();
+        $questionId = 0;
+        if (array_key_exists('par', $postData)) $questionId = intval(substr($postData['par'], 1));
+        $question = My_Model::get('Questions')->getById($questionId);
+        
+        if ($question !== NULL) {
+            if ($question->isAnswered()) {
+                //archive question
+                $question->id_test = NULL;
+                $question->save();
+            } else {
+                //delete options and question
+                foreach ($question->getOptions() as $option)
+                    $option->delete();
+                $question->delete();
+            }  
+        } else {
+            $this->_response->clearBody();
+            $this->_response->clearHeaders();
+            $this->_response->setHttpResponseCode(403);
+        }
+    }
 
 
     private function loadOptionsFromFormValues($formValues, $questionId)

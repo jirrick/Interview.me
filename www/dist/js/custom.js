@@ -13,7 +13,7 @@ jQuery.evaluateQuestion = function evaluateQuestion(question_id, isCorrect) {
         type: "POST",
         url: this.href,
         data: 'question_id='+question_id+'&isCorrect='+isCorrect,
-        success: function(newElement) {
+        success: function() {
             //hide buttons
             $("button[id=evaluation-q" + question_id + "]").css("display", "");
             $("button[id=correct-q" + question_id + "]").css("display", "none");
@@ -55,7 +55,7 @@ jQuery.ajaxAddField = function ajaxAddField(par, requrl) {
         data: "count=" + count,
         success: function(newElement) {
             // Insert new element before the Add button
-            parent.find("#addElement-label").before(newElement);      
+            $(newElement).hide().insertBefore(parent.find("#addElement-label")).slideDown();    
             // Store new id
             count = count + 1;
             parent.find("#count").val(count);
@@ -72,11 +72,28 @@ jQuery.removeField = function removeField(par) {
     
     if (id > 0) {
         // Remove old shit
-        parent.find("[id|=odpoved" + id.toString() + "]").remove();
-        parent.find("[id|=check" + id.toString() + "]").remove();
+        parent.find("[id|=odpoved" + id.toString() + "]").slideUp("normal", function() { $(this).remove(); } );
+        parent.find("[id|=check" + id.toString() + "]").slideUp("normal", function() { $(this).remove(); } );
         // Decrement and store id
         parent.find("#count").val(--id);
     }
+}
+
+//Remove element from from
+jQuery.deleteQuestion = function deleteQuestion(par, requrl) {
+    var result = confirm("Want to delete question?");
+    if (result) {
+        $.ajax(
+        {
+            type: "POST",
+            url: requrl,
+            data: 'par='+par,
+            success: function() {
+                $("form[name=" + par + "]").slideUp("normal", function() { $(this).remove(); } );
+            }
+        }
+    );
+    }   
 }
 
 $(function() {

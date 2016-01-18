@@ -18,6 +18,14 @@ body{
 	
 }
 
+#deleteQuestion-element button{
+	color:#fff;
+	background-color: #b11035;
+	border-color: #000;
+	border-radius: 4px;
+	padding: 3px 8px;
+}
+
 dl{
 	margin-bottom: 10px;
 }
@@ -260,11 +268,14 @@ dd#Submit-element{
 	margin-bottom: 40px;
 	}
 
-#addElement-element{
+#addElement-element,
+#removeElement-element{
 	float: left; 
 	margin-right: 5px;
 }
-#removeElement-label{
+
+#removeElement-label,
+#deleteQuestion-label{
 	display: none;
 }
 

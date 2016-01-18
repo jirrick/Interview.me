@@ -26,14 +26,14 @@
       <div class="col-md-5">
         <div class="box box-primary min-420">
           <div class="box-header with-border">
-            <h3 class="box-title">General Informations</h3>
+            <h3 class="box-title">General Information</h3>
           </div><!-- /.box-header -->
           <div class="box-body box-profile">
             <div id="test-form">
              <?php echo $this->testForm ?>
            </div>
            <?php if ($this->questionForms !== NULL && !empty($this->questionForms)) { ?>
-           <a href="<?php echo $this->url(array('controller' => 'test', 'action' => 'detail', 'id' => $this->testId), 'default', true); ?>"><button type="submit" class="btn btn-success">Done</button></a>
+           <a href="<?php echo $this->url(array('controller' => 'test', 'action' => 'detail', 'id' => $this->testId), 'default', true); ?>"><button type="submit" class="btn btn-success">Done Editing</button></a>
            <?php } ?>
          </div>
        </div>
