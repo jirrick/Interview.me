@@ -27,7 +27,7 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, ktere by se nabidly kandidat
       </div>
     <?php } }; ?>
 
-    <div class="col-md-6">
+    <div class="col-md-5">
         <div class="box box-primary min-420">
           <div class="box-body box-profile">
             <ul class="list-group list-group-unbordered">
@@ -58,26 +58,41 @@ Pro prihlasene uzivatele je zobrazen seznam otazek, ktere by se nabidly kandidat
         </div>
       </div>
      
-      <div class="col-md-6">
+      <div class="col-md-7">
         <div class="box box-primary">
           <div class="box-header with-border">
             <div class="row">
-              <h4 class="test-h4">Questions:</h4>
-              <?php foreach ($this->test->getQuestions() as $q) { ?>
+              <?php  // Questions 
+              foreach ($this->test->getQuestions() as $q) { ?>
               <div class="col-xs-12">
-                <h4><?php echo $q->getobsah(); ?></h4>
+                <div class="eva-q">
+                <?php $language = $q->getLanguage();
+                if ($language === null) {
+                    ?><span class="question-text own-qt"><?php echo $this->escape($q->getobsah());?></span> <?php
+                } else {
+                    ?><pre><code class="language-<?php echo $language->getkod(); ?>"><?php echo $this->escape($q->getobsah()); ?></code></pre> <?php
+                } ?>
                 <?php echo $q->getkomentar(); ?>
               <ul style="list-style-type: upper-alpha">
-                <?php foreach ($q->getOptions() as $o) { ?>
+                <?php //Options
+                foreach ($q->getOptions() as $o) { ?>
                 <li>
-                  <?php if ($o->getspravnost())  { echo '<b style="color:green;">'; } ?>
-                  <?php echo $o->getobsah(); ?>
-                  <?php if ($o->getspravnost())  { echo "</b>"; } ?>
+                  <?php if ($o->getspravnost())  { echo '<span class="positive-positive">'; } ?>
+                  <?php 
+                    if ($language === null) {
+                        ?><span class="option-text"><?php echo $this->escape($o->getobsah());?></span> <?php
+                    } else {
+                        ?><code class="language-<?php echo $language->getkod(); ?>"><?php echo $this->escape($o->getobsah()); ?></code> <?php
+                    } ?>
+                  <?php if ($o->getspravnost())  { echo "</span>"; } ?>
                   <br>
                   <?php echo $o->getkomentar(); ?>
                 </li>
-                <?php } ?>  
+                <?php } ?>
+                <?php //pokud neni zadna moznost - tak se zobrazi textbox
+                if (count($q->getOptions()) == 0) echo '<input type="text" value="Open question" disabled>'; ?>    
               </ul>
+              </div>
               </div>
               <?php } ?>
             </div>

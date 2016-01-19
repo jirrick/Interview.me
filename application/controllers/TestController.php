@@ -9,7 +9,15 @@ class QuestionContent {
 class TestController extends My_Controller_Action {
 
     public function init() {
-        $this->view->user = $this->getUser();
+        $user = $this->getUser();
+        if ($user !== NULL) {
+            $this->view->user = $user;
+            $avatar = $user->getFoto();
+            if ($avatar !== NULL) {
+                $base64 = base64_encode($avatar->getfoto());
+                $this->view->avatarBase64 = $base64;
+            }
+        }
     }
 
     public function indexAction() {
@@ -107,23 +115,14 @@ class TestController extends My_Controller_Action {
 
             $questionForms = array();
             foreach ($questions as $q) {
-                $questionForm = new QuestionForm();
+                $questionForm = new QuestionForm(array('questionId' => $q->getid_otazka(),));
+                $questionForm->setName('q' . strval($q->getid_otazka()));
                 $questionForm->setAction($this->view->url(array('controller' => 'test', 'action' => 'save-question', 'testId' => $testId, 'questionId' => $q->getid_otazka()), 'default', true));
-
-                $questionForm->getElement('otazka')->setValue($q->getobsah());
-
-                $options = $q->getOptions();
-
-                $optionsNames = array('A', 'B', 'C', 'D');
-                for ($i = 0 ; $i < count($options) ; $i++) {
-                    $questionForm->getElement('odpoved' . $optionsNames[$i])->setValue($options[$i]->getobsah());
-                    $questionForm->getElement('check' . $optionsNames[$i])->setValue($options[$i]->getspravnost());
-                }
-
                 $questionForms[] = $questionForm;
             }
 
-            $newQuestionForm = new QuestionForm();
+            $newQuestionForm = new QuestionForm(array('count' => 3,));;
+            $newQuestionForm->setName('new');
             $newQuestionForm->setAction($this->view->url(array('controller' => 'test', 'action' => 'save-question', 'testId' => $testId), 'default', true));
 
             $questionForms[] = $newQuestionForm;
@@ -177,19 +176,23 @@ class TestController extends My_Controller_Action {
             // load params
             $testId = $this->getParam('testId');
             $questionId = $this->getParam('questionId');
-
             $test = My_Model::get('Tests')->getById($testId);
-            $form = new QuestionForm(array('testId' => $testId));  
+            
+            $rawcount = intval($this->getParam('count'));
+            $count = (($rawcount > -1 && $rawcount  <=6) ? $rawcount : 3);
+            $form = new QuestionForm(array('count' => $count));  
 
             if ($form->isValid($this->_request->getPost())) {
 
                 $formValues = $form->getValues();
+                Zend_Debug::dump($formValues);
 
                 //check if at least one option is checked
-                if($formValues['checkA'] == false && $formValues['checkB'] == false && $formValues['checkC'] == false && $formValues['checkD'] == false) {
+                if($this->checkAllFalse($formValues)) {
                     $flash = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
                     $flash->clearMessages();
                     $flash->addMessage('At least one option have to be right.');
+                    Zend_Debug::dump('at least one has to be right');
 
                     // redirect to test edit page
                     $this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'edit', 'id' => $testId ), 'default', true);
@@ -211,7 +214,11 @@ class TestController extends My_Controller_Action {
                 else {
                     // load existing
                     $oldQuestion = My_Model::get('Questions')->getById($questionId);
-                    if ($oldQuestion === NULL || ($oldQuestion->isAnswered() && strcmp($formValues['otazka'], $oldQuestion->getobsah()) !== 0)) {
+                                       
+                    if ($oldQuestion === NULL ||
+                             ($oldQuestion->isAnswered()
+                              && (strcmp($formValues['otazka'], $oldQuestion->getobsah()) !== 0
+                                    || strcmp($formValues['language'], strval($oldQuestion->getid_jazyk())) !== 0 ))) {
                         Zend_Debug::dump('no old question || (is anwered && changed question)');
                         Zend_Debug::dump('Create question');
                         $question = My_Model::get('Questions')->createRow();
@@ -226,7 +233,8 @@ class TestController extends My_Controller_Action {
                 // update question with new data
                 $questionValues = array(
                     "id_test"  => $testId,
-                    "obsah" =>  $formValues['otazka']
+                    "obsah" =>  $formValues['otazka'],
+                    "id_jazyk" => (strcmp($formValues['language'], '0') != 0 ? $formValues['language'] : null)
                 );
                 $question->updateFromArray($questionValues);
 
@@ -258,41 +266,61 @@ class TestController extends My_Controller_Action {
                     }
                 }
                 else {
-                    Zend_Debug::dump('!(is new question || no existing options)');
-
+                    Zend_Debug::dump('!(is new question || no existing options)');                 
+                    
+                    $newcount = count($optionContents);
+                    $oldcount = count($existingOptions);
+                    
                     // update existing options with given content
-                    for ($i = 0 ; $i < count($existingOptions) ; $i++) {
-
-                        $oldOption = $existingOptions[$i];
-                        $option;
-                        $isNewOption = true;
+                    for ($i = 0 ; $i < $newcount ; $i++) {
                         
-                        // pokud nebyla moznost zmenena, jde se na dalsi
-                        if (strcmp($optionContents[$i]["obsah"], $existingOptions[$i]->obsah) == 0 && $optionContents[$i]["spravnost"] === $existingOptions[$i]->spravnost){
-                            Zend_Debug::dump('no change');
-                            continue; 
-                        }
+                        if ($i < $oldcount) {
+                            // pokud je novy pocet otazek mensi nez puvodni, tak se porovnavaji se starymi moznostmi                        
+                            // pokud nebyla moznost zmenena, jde se na dalsi
+                            if (strcmp($optionContents[$i]["obsah"], $existingOptions[$i]->obsah) == 0
+                                    && $optionContents[$i]["spravnost"] === $existingOptions[$i]->spravnost){
+                                Zend_Debug::dump('no change');
+                                continue; 
+                            }
+                            
+                            $oldOption = $existingOptions[$i];
+                            $option;
+                            $isNewOption = true;
 
-                        if ($oldOption === NULL || $oldOption->isAnswered()) {
-                            Zend_Debug::dump('no old option || (is answered && changed)');
-                            Zend_Debug::dump('create new option');
+                            if ($oldOption === NULL || $oldOption->isAnswered()) {
+                                Zend_Debug::dump('no old option || (is answered && changed)');
+                                Zend_Debug::dump('create new option');
+                                $option = My_Model::get('Options')->createRow();
+                            }
+                            else {
+                                Zend_Debug::dump('not answered, use old option');
+                                $option = $oldOption;
+                                $isNewOption = false;
+                            }
+
+                            $option->updateFromArray($optionContents[$i]);
+
+                            // archive old if exist
+                            if ($oldOption !== NULL && $isNewOption) {
+                                Zend_Debug::dump('archive old option');
+                                $oldOption->id_otazka = NULL;
+                                $oldOption->revize = $option->getid_moznost();
+                                $oldOption->save();
+                            }
+                        } else {
+                            // pokud je moznosti vic, tak se pridavaji rovnou dalsi
+                            Zend_Debug::dump('add new option');
                             $option = My_Model::get('Options')->createRow();
+                            $option->updateFromArray($optionContents[$i]);
                         }
-                        else {
-                            Zend_Debug::dump('not answered, use old option');
-                            $option = $oldOption;
-                            $isNewOption = false;
-                        }
-
-                        $option->updateFromArray($optionContents[$i]);
-
-                        // archive old if exist
-                        if ($oldOption !== NULL && $isNewOption) {
-                            Zend_Debug::dump('archive old option');
-                            $oldOption->id_otazka = NULL;
-                            $oldOption->revize = $option->getid_moznost();
-                            $oldOption->save();
-                        }
+                    }
+                    
+                    // archive removed options
+                    for ($i = $newcount ; $i < $oldcount ; $i++) {
+                        Zend_Debug::dump('archive unused options');
+                        $oldOption = $existingOptions[$i];
+                        $oldOption->id_otazka = NULL;
+                        $oldOption->save();  
                     }
                 }             
             }
@@ -309,37 +337,106 @@ class TestController extends My_Controller_Action {
         // redirect to test edit page
         $this->_helper->redirector->gotoRoute(array('controller' => 'test', 'action' => 'edit', 'id' => $testId ), 'default', true);
     }
+    
+    public function addfieldAction() {     
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(TRUE);
+        
+        $postData = $this->getRequest()->getPost();
+        $id = 0;
+        if (array_key_exists('count', $postData)) $id = intval($postData['count']) + 1;
+        
+        if ($id > 0 && $id <=6) {
+            $optionsNames = array('', 'A', 'B', 'C', 'D', 'E', 'F');
+            $form = new QuestionForm(); 
+            $odpoved = $form->createElement('text', 'odpoved' . strval($id), array(
+                            'placeholder' => $optionsNames[$id],
+                            'class' => 'input dd-test',
+                            'required' => true,
+                            'label' => false,
+                            'filters' => array('StringTrim')
+                            ));
+                        
+            $check = $form->createElement('checkbox', 'check' . strval($id), array(
+                            'class' => 'dd-chc',
+                            'disableHidden' => true
+                            ));
+            echo $odpoved->__toString();
+            echo $check->__toString();
+        } else {
+            $this->_response->clearBody();
+            $this->_response->clearHeaders();
+            $this->_response->setHttpResponseCode(403);
+        }
+    }
+    
+    public function deletequestionAction() {     
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(TRUE);
+        
+        $postData = $this->getRequest()->getPost();
+        $questionId = 0;
+        if (array_key_exists('par', $postData)) $questionId = intval(substr($postData['par'], 1));
+        $question = My_Model::get('Questions')->getById($questionId);
+        
+        if ($question !== NULL) {
+            if ($question->isAnswered()) {
+                //archive question
+                $question->id_test = NULL;
+                $question->save();
+            } else {
+                //delete options and question
+                foreach ($question->getOptions() as $option)
+                    $option->delete();
+                $question->delete();
+            }  
+        } else {
+            $this->_response->clearBody();
+            $this->_response->clearHeaders();
+            $this->_response->setHttpResponseCode(403);
+        }
+    }
+
 
     private function loadOptionsFromFormValues($formValues, $questionId)
-    {
+    {     
         $content = array();
-
-        $option = array();
-        $option["obsah"] = $formValues['odpovedA'];
-        $option["spravnost"] = $formValues['checkA'];
-        $option["id_otazka"] = $questionId;
-        $content[] = $option;
-
-        $option = array();
-        $option["obsah"] = $formValues['odpovedB'];
-        $option["spravnost"] = $formValues['checkB'];
-        $option["id_otazka"] = $questionId;
-        $content[] = $option;
-
-        $option = array();
-        $option["obsah"] = $formValues['odpovedC'];
-        $option["spravnost"] = $formValues['checkC'];
-        $option["id_otazka"] = $questionId;
-        $content[] = $option;
-
-        $option = array();
-        $option["obsah"] = $formValues['odpovedD'];
-        $option["spravnost"] = $formValues['checkD'];
-        $option["id_otazka"] = $questionId;
-        $content[] = $option;
-
+        
+        $question = array();
+        foreach($formValues as $key => $val){
+            //musi byt v poradi jako ve formulari (hlavne posledni akce, ktera uzavira element)!!!
+            //odpoved
+            if (stripos($key, 'odpoved') !== FALSE){
+                $option['obsah'] = $val;
+                $option['id_otazka'] = $questionId;
+            }
+            //check
+            if (stripos($key, 'check') !== FALSE){
+                $option['spravnost'] = $val;
+                $content[] = $option;
+                $option = array();
+            }
+        }
         return $content;
     }
+    
+    private function checkAllFalse($formValues)
+    {
+       $allfalse = TRUE;
+       foreach($formValues as $key => $val){   
+            //check
+            if (stripos($key, 'check') !== FALSE){
+                if ($val == TRUE) {
+                    $allfalse = FALSE;
+                };
+            }
+       }
+       // povoli otazku bez monosti
+       if (count($formValues) < 4) $allfalse = FALSE;
+       return $allfalse;
+    }
+    
+    
 
     private function transformTechnologies($arr)
     {

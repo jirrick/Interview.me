@@ -1,0 +1,17 @@
+<?php if ($this->user->isAdmin()) { ?>
+    <div class="col-md-3" id="base-advanced-informations">
+      <div class="box box-primary min-420">
+        <div class="box-body box-profile">
+          <div id="base-advanced-informations-ajax-place">
+            <?= $this->render('candidate/base-advanced-informations.ajax.phtml'); ?>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12 text-center">
+                <a class="show-ai" href="<?php echo $this->url(array('controller' => 'candidate', 'id' => $this->candidate->getid_kandidat(), 'action' => 'detail-advanced-informations')); ?>"><button type="button" class="btn btn-default">Show Advanced Informations</button></a>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+<?php } ?>

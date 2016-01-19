@@ -147,6 +147,29 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         );
 
         $router->addRoute(
+                'userEdit',
+                new Zend_Controller_Router_Route('user/:id/edit',
+                        array('controller' => 'user',
+                            'action' => 'edit'),
+                        array('id' => '\d+'))
+        );
+
+        $router->addRoute(
+                'userCreate',
+                new Zend_Controller_Router_Route('user/create',
+                        array('controller' => 'user',
+                            'action' => 'edit'))
+        );
+        
+        $router->addRoute(
+                'userDetail',
+                new Zend_Controller_Router_Route('user/:id/',
+                        array('controller' => 'user',
+                            'action' => 'detail'),
+                        array('id' => '\d+'))
+        );
+
+        $router->addRoute(
                 'attachment',
                 new Zend_Controller_Router_Route('file/:id/:name',
                         array('controller' => 'attachments',

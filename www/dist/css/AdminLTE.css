@@ -96,7 +96,7 @@ body {
 .content-wrapper,
 .right-side {
   min-height: 100%;
-  background-color: #fbf8e8;
+  background-color: #f3fbfc;
   z-index: 800;
 }
 .main-footer {
@@ -167,14 +167,14 @@ h6,
 }
 /* General Links */
 a {
-  color: #e5637c;
+  color: #ed1848;
 }
 a:hover,
 a:active,
 a:focus {
   outline: none;
   text-decoration: none;
-  color: #f0494c;
+  color: #ed1848;
 }
 /* Page Header */
 .page-header {
@@ -336,7 +336,7 @@ a:focus {
   border-radius: 2px;
 }
 .content-header > .breadcrumb > li > a {
-  color: #444;
+  color: #073453;
   text-decoration: none;
   display: inline-block;
 }
@@ -1526,7 +1526,7 @@ a:focus {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 .box.box-primary {
-  border-top-color: #ed8181;
+  border-top-color: #ed1848;
 }
 .box.box-info {
   border-top-color: #00c0ef;
@@ -2226,13 +2226,14 @@ a:focus {
   background-color: #367fa9;
 }
 .btn-success {
-  background-color: #00a65a;
-  border-color: #008d4c;
+  background-color: #ed1848;
+  border-color: #b11035;
 }
 .btn-success:hover,
 .btn-success:active,
 .btn-success.hover {
-  background-color: #008d4c;
+  background-color: #b11035;
+  border-color: #b11035;
 }
 .btn-info {
   background-color: #00c0ef;
@@ -2349,10 +2350,10 @@ a:focus {
   border-color: #c23321;
 }
 .callout.callout-warning {
-  border-color: #c87f0a;
+  border-color: #061624;
 }
 .callout.callout-info {
-  border-color: #0097bc;
+  border-color: #ed1848;
 }
 .callout.callout-success {
   border-color: #00733e;
@@ -2849,13 +2850,13 @@ table.text-center th {
   border-left-color: #3c8dbc;
 }
 .direct-chat-warning .right > .direct-chat-text {
-  background: #f39c12;
-  border-color: #f39c12;
+  background: #ed1848 ;
+  border-color: #ed1848 ;
   color: #ffffff;
 }
 .direct-chat-warning .right > .direct-chat-text:after,
 .direct-chat-warning .right > .direct-chat-text:before {
-  border-left-color: #f39c12;
+  border-left-color: #ed1848 ;
 }
 .direct-chat-info .right > .direct-chat-text {
   background: #00c0ef;
@@ -4213,14 +4214,14 @@ table.text-center th {
 .alert-warning,
 .label-warning,
 .modal-warning .modal-body {
-  background-color: #f39c12 !important;
+  background-color: #075389 !important;
 }
 .bg-aqua,
 .callout.callout-info,
 .alert-info,
 .label-info,
 .modal-info .modal-body {
-  background-color: #00c0ef !important;
+  background-color: #fa426b !important;
 }
 .bg-blue {
   background-color: #0073b7 !important;

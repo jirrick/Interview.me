@@ -4,8 +4,8 @@ Kandidatovi umozni vyplnit a odeslat test.
 */?>
 
 <!-- Content Header (Page header) -->
-  <section class="content-header">  
-    <img class="own-logo" src="<?php echo $this->baseUrl() . "/dist/img/logo-black.png"; ?>" alt="logo" />
+  <section class="content-header-ext">  
+    <img class="ext-own-logo" src="<?php echo $this->baseUrl() . "/dist/img/logo-black.png"; ?>" alt="logo" />
   </section>
 
   <!-- Main content -->
@@ -20,18 +20,18 @@ Kandidatovi umozni vyplnit a odeslat test.
       </div>
     <?php } }; ?>
 
-    <div class="col-md-6">
+    <div class="col-md-6 col-md-offset-3">
       <h1 class="main-h1"><?php echo $this->escape($this->title); ?></h1>
       <div class="callout callout-info">
         <h4><?php echo $this->test->nazev;?></h4>
         <p><?php echo $this->test->popis;?></p>
       </div>  
-      <div class="box box-primary box-clearbord">  
-        <div class="box-body box-profile">
+
+        
       <!-- Test fill form -->
     <?php echo $this->form; ?>
-        </div>
-      </div>
+       
+  
       <div class="callout callout-warning" id="error-box"></div>
       
 <?php      
@@ -43,15 +43,21 @@ $("#submit").attr('disabled', 'disabled');
 form.submit();
 },
 showErrors: function(errorMap, errorList) {
-$("#error-box").html("You must select at least one option for each question.");
+$("#error-box").html("You must select at least one option for each checkbox question or type at least three letters in textareas.");
 },
 onchange: true,         
 wrapper: "p"
 });
 
-jQuery.validator.addClassRules("question", {
-required: true,
-minlength: 1
+jQuery.validator.addClassRules({
+  "question-options": {
+    required: true,
+    minlength: 1
+  },
+  "question-answer": {
+    required: true,
+    minlength: 3
+  }
 });
 JS;
 $this->InlineScript()->appendScript($script, $type = 'text/javascript');   

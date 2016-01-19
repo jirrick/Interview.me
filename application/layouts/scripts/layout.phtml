@@ -4,11 +4,12 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="favicon.ico" type="<?php echo $this->baseUrl() . "/dist/img/favicon.ico"; ?>"/>
     <title>Interview.me | <?php echo $this->escape($this->title);?></title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="<?php echo $this->baseUrl() . "/bootstrap/css/bootstrap.min.css"; ?>">
+    <link rel="stylesheet" href="<?php echo $this->baseUrl() . "/bootstrap/css/bootstrap.css"; ?>">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!-- Ionicons -->
@@ -16,11 +17,16 @@
     <!-- DataTables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/s/dt/dt-1.10.10,fh-3.1.0,r-2.0.0,sc-1.4.0/datatables.min.css"/>
     <!--<link rel="stylesheet" href="<?php echo $this->baseUrl() . "/plugins/datatables/dataTables.bootstrap.css"; ?>">-->
+    <!-- Select 2 form element -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" rel="stylesheet" />
     <!-- Theme style -->
     <link rel="stylesheet" href="<?php echo $this->baseUrl() . "/dist/css/AdminLTE.css"; ?>">
 
     <link rel="stylesheet" href="<?php echo $this->baseUrl() . "/dist/css/AdminLTE-add.css"; ?>">
-
+    <!-- Prism CSS-->
+    <link rel="stylesheet" href="<?php echo $this->baseUrl() . "/dist/css/prism.css"; ?>">
+    <!-- jQuery-UI -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="<?php echo $this->baseUrl() . "/dist/css/skins/_all-skins.min.css"; ?>">
@@ -98,9 +104,14 @@
     <script src="<?php echo $this->baseUrl() . "/plugins/fastclick/fastclick.min.js"; ?>"></script>
     <!-- AdminLTE App -->
     <script src="<?php echo $this->baseUrl() . "/dist/js/app.min.js"; ?>"></script>
+    <!-- Prism JS -->
+    <script src="<?php echo $this->baseUrl() . "/dist/js/prism.js"; ?>"></script>
+    <!-- Select 2 form element -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
 
     <!-- Custom Scripts -->
     <script src="<?php echo $this->baseUrl() . "/dist/js/custom.js"; ?>"></script>
+
 
     <?php echo $this->InlineScript(); ?>
 

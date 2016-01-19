@@ -26,7 +26,7 @@ class MessageForm extends Zend_Form
     	// Send button
         $send = new Zend_Form_Element_Submit('sendButton');
         $send->setLabel('Send');
-        $send->setAttrib('class', 'btn btn-warning btn-flat');
+        $send->setAttrib('class', 'btn btn-success btn-flat');
         $send->setDecorators(array('ViewHelper'));
         $this->addElement($send, 'sendButton');
     }

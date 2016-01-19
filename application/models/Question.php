@@ -6,6 +6,15 @@
  */
 class Question extends My_Db_Table_Row {
 	
+    /**
+     * Vrati jazyk otazky
+     *
+     */
+    public function getLanguage() {
+        return $this->findParentRow('Languages');
+    }
+    
+    
 	/**
      * Vrati rowset s moznostmi k otazce
      *

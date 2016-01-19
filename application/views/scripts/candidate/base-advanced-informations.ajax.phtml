@@ -1,0 +1,28 @@
+<?php if ($this->advancedInformations !== NULL) { ?>
+<ul class="list-group list-group-unbordered">
+  <li class="list-group-item min-42">
+    <b>Date of interview: </b>
+    <a class="pull-right"><?php $date = new Zend_Date($this->advancedInformations->getdatum_pohovoru()); echo $date->get(Zend_Date::DATE_MEDIUM); ?></a>
+    <div class="clearfix"></div>
+  </li>
+
+  <li class="list-group-item min-42">
+    <div class="flleft min-100"><b>Interviewed by: </b></div>
+    <?php foreach ($this->advancedInformations->getInterviewers() as $u) {  ?>    
+      <div class="flright"><a><?php echo $u->getFullName(); ?></a>,&nbsp;</div>
+    <?php }  ?> 
+    <div class="clearfix"></div>
+  </li>
+
+  <li class="list-group-item min-42">
+    <b>Education: </b>
+    <a class="pull-right"><?php echo $this->advancedInformations->getvzdelani() ?></a>
+    <div class="clearfix"></div>
+  </li>
+  <li class="list-group-item min-42">
+    <b>Next contact date: </b>
+    <a class="pull-right"><?php $date = new Zend_Date($this->advancedInformations->getdatum_pristiho_kontaktu()); echo $date->get(Zend_Date::DATE_MEDIUM); ?></a>
+    <div class="clearfix"></div>
+  </li>
+</ul>
+<?php } ?>

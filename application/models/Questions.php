@@ -30,7 +30,12 @@ class Questions extends My_Db_Table  {
            'columns' => array ('id_test'), 
            'refTableClass' => 'Tests', 
            'refColumns' => array ('id_test')
-        ), 
+        ),
+        'Language' => array(
+           'columns' => array ('id_jazyk'), 
+           'refTableClass' => 'Languages', 
+           'refColumns' => array ('id_jazyk')
+        ),
     );
 
 
